@@ -58,6 +58,10 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.coil)
     implementation(libs.coil.okhttp)
+    implementation(libs.lottie)
+    implementation(libs.camera2)
+    implementation(libs.camera2.lifecycle)
+    implementation("com.google.guava:guava:27.1-android")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

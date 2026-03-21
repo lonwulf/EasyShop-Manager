@@ -6,14 +6,15 @@ junit = "4.13.2"
 junitVersion = "1.1.5" #dont change
 espressoCore = "3.7.0"
 lifecycleRuntimeKtx = "2.10.0"
-activityCompose = "1.12.4"
-composeBom = "2026.02.01"
+activityCompose = "1.13.0"
+composeBom = "2026.03.00"
 barcodeScanner = "17.3.0"
 materialIcons = "1.7.8"
 navigation = "2.9.7"
 koin = "4.1.1"
-coil = "3.3.0"
-
+coil = "3.4.0"
+lottie = "6.7.1"
+camerax= "1.5.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -36,6 +37,9 @@ navigation-compose = { group = "androidx.navigation", name = "navigation-compose
 koin-android = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil-okhttp = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
+lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
+camera2 = {module = "androidx.camera:camera-camera2", version.ref="camerax"}
+camera2-lifecycle = {module = "androidx.camera:camera-lifecycle", version.ref="camerax"}
 
 
 [plugins]
