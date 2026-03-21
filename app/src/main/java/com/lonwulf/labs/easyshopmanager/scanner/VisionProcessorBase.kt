@@ -19,6 +19,7 @@ import com.google.android.odml.image.MlImage
 import com.google.mlkit.common.MlKitException
 import com.google.mlkit.vision.common.InputImage
 import com.lonwulf.labs.easyshopmanager.prefs.PreferenceUtils
+import com.lonwulf.labs.easyshopmanager.scanner.camera.CameraImageGraphic
 import java.nio.ByteBuffer
 import java.util.Timer
 import java.util.TimerTask

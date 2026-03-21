@@ -1,12 +1,11 @@
-package com.lonwulf.labs.easyshopmanager.scanner
+package com.lonwulf.labs.easyshopmanager.scanner.camera
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import com.lonwulf.labs.easyshopmanager.scanner.GraphicOverlay.Graphic
-
+import com.lonwulf.labs.easyshopmanager.scanner.GraphicOverlay
 
 /** Draw camera image to background.  */
-class CameraImageGraphic(overlay: GraphicOverlay, private val bitmap: Bitmap?) : Graphic(overlay) {
+class CameraImageGraphic(overlay: GraphicOverlay, private val bitmap: Bitmap?) : GraphicOverlay.Graphic(overlay) {
 
     override fun draw(canvas: Canvas?) {
         bitmap?.let {
