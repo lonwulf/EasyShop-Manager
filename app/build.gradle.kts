@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.material.icons)
     implementation(libs.ml.kit.barcode.scanner)
+    implementation(libs.ml.kit.obj.detection)
     implementation(libs.navigation.compose)
     implementation(libs.koin.android)
     implementation(libs.coil)

@@ -1,7 +1,7 @@
 package com.lonwulf.labs.easyshopmanager.scanner.camera
 
-import android.hardware.Camera
-import com.google.android.gms.common.images.Size
+import android.util.Size
+
 
 /**
  * Stores a preview size and a corresponding same-aspect-ratio picture size. To avoid distorted

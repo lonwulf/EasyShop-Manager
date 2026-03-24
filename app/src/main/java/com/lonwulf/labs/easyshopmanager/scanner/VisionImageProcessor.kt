@@ -1,9 +1,8 @@
 package com.lonwulf.labs.easyshopmanager.scanner
 
-import android.graphics.Bitmap
 import androidx.camera.core.ImageProxy
 import com.google.mlkit.common.MlKitException
-import java.nio.ByteBuffer
+import com.lonwulf.labs.easyshopmanager.scanner.camera.GraphicOverlay
 
 
 interface VisionImageProcessor {

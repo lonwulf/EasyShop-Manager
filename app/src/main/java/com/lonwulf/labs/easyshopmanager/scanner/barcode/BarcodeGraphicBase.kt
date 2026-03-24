@@ -9,11 +9,11 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.RectF
 import androidx.core.content.ContextCompat
+import com.lonwulf.labs.easyshopmanager.R
 import com.lonwulf.labs.easyshopmanager.prefs.PreferenceUtils
-import com.lonwulf.labs.easyshopmanager.scanner.GraphicOverlay
+import com.lonwulf.labs.easyshopmanager.scanner.camera.GraphicOverlay
 
-
-internal abstract class BarcodeGraphicBase(overlay: GraphicOverlay) : Graphic(overlay) {
+internal abstract class BarcodeGraphicBase(overlay: GraphicOverlay) : GraphicOverlay.Graphic(overlay) {
 
     private val boxPaint: Paint = Paint().apply {
         color = ContextCompat.getColor(context, R.color.barcode_reticle_stroke)

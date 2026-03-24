@@ -9,6 +9,7 @@ lifecycleRuntimeKtx = "2.10.0"
 activityCompose = "1.13.0"
 composeBom = "2026.03.00"
 barcodeScanner = "17.3.0"
+objectDetection = "17.0.2"
 materialIcons = "1.7.8"
 navigation = "2.9.7"
 koin = "4.1.1"
@@ -32,6 +33,7 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 ml-kit-barcode-scanner = { module = "com.google.mlkit:barcode-scanning", version.ref = "barcodeScanner" }
+ml-kit-obj-detection = { module = "com.google.mlkit:object-detection", version.ref = "objectDetection" }
 material-icons = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIcons" }
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 koin-android = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }

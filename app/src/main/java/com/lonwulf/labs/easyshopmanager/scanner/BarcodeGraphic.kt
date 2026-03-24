@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import com.google.mlkit.vision.barcode.common.Barcode
+import com.lonwulf.labs.easyshopmanager.scanner.camera.GraphicOverlay
 import kotlin.math.max
 import kotlin.math.min
 

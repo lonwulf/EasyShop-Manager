@@ -4,10 +4,10 @@ import android.graphics.Canvas
 import android.graphics.Path
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.lonwulf.labs.easyshopmanager.prefs.PreferenceUtils
-import com.lonwulf.labs.easyshopmanager.scanner.GraphicOverlay
+import com.lonwulf.labs.easyshopmanager.scanner.camera.GraphicOverlay
 
 /** Guides user to move camera closer to confirm the detected barcode.  */
-internal class BarcodeConfirmingGraphic(overlay: GraphicOverlay, private val barcode: Barcode) :
+internal class BarcodeConfirmingGraphic(private val overlay: GraphicOverlay, private val barcode: Barcode) :
     BarcodeGraphicBase(overlay) {
 
     override fun draw(canvas: Canvas) {

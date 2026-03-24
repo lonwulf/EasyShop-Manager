@@ -20,10 +20,9 @@ import com.google.mlkit.common.MlKitException
 import com.google.mlkit.vision.common.InputImage
 import com.lonwulf.labs.easyshopmanager.prefs.PreferenceUtils
 import com.lonwulf.labs.easyshopmanager.scanner.camera.CameraImageGraphic
-import java.nio.ByteBuffer
+import com.lonwulf.labs.easyshopmanager.scanner.camera.GraphicOverlay
 import java.util.Timer
 import java.util.TimerTask
-import javax.annotation.concurrent.GuardedBy
 import kotlin.math.max
 import kotlin.math.min
 
@@ -49,23 +48,9 @@ abstract class VisionProcessorBase<T>(context: Context) : VisionImageProcessor {
     private var maxDetectorMs = 0L
     private var minDetectorMs = Long.MAX_VALUE
 
-    // Frame count that have been processed so far in an one second interval to calculate FPS.
+    // Frame count that have been processed so far in a one-second interval to calculate FPS.
     private var frameProcessedInOneSecondInterval = 0
     private var framesPerSecond = 0
-
-    // To keep the latest images and its metadata.
-    @GuardedBy("this")
-    private var latestImage: ByteBuffer? = null
-
-    @GuardedBy("this")
-    private var latestImageMetaData: FrameMetadata? = null
-
-    // To keep the images and metadata in process.
-    @GuardedBy("this")
-    private var processingImage: ByteBuffer? = null
-
-    @GuardedBy("this")
-    private var processingMetaData: FrameMetadata? = null
 
     init {
         fpsTimer.schedule(
