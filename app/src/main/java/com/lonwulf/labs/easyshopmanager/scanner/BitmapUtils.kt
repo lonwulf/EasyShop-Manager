@@ -1,21 +1,15 @@
 package com.lonwulf.labs.easyshopmanager.scanner
 
 import android.content.ContentResolver
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.ImageFormat
-import android.graphics.Matrix
-import android.graphics.Rect
-import android.graphics.YuvImage
+import android.graphics.*
 import android.media.Image.Plane
 import android.net.Uri
-import android.os.Build.VERSION_CODES
 import android.provider.MediaStore
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageProxy
 import androidx.exifinterface.media.ExifInterface
+import com.lonwulf.labs.easyshopmanager.scanner.camera.FrameMetadata
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.nio.ByteBuffer
@@ -52,14 +46,10 @@ object BitmapUtils {
     @ExperimentalGetImage
     fun getBitmap(image: ImageProxy): Bitmap? {
         val frameMetadata =
-            FrameMetadata.Builder()
-                .setWidth(image.getWidth())
-                .setHeight(image.getHeight())
-                .setRotation(image.getImageInfo().getRotationDegrees())
-                .build()
+            FrameMetadata(width = image.width, height = image.height, rotation = image.imageInfo.rotationDegrees)
 
         val nv21Buffer =
-            yuv420ThreePlanesToNV21(image.getImage()!!.getPlanes(), image.getWidth(), image.getHeight())
+            yuv420ThreePlanesToNV21(image.image!!.planes, image.width, image.height)
         return getBitmap(nv21Buffer, frameMetadata)
     }
 
@@ -124,7 +114,7 @@ object BitmapUtils {
         // We only support parsing EXIF orientation tag from local file on the device.
         // See also:
         // https://android-developers.googleblog.com/2016/12/introducing-the-exifinterface-support-library.html
-        if (ContentResolver.SCHEME_CONTENT != imageUri.getScheme() && ContentResolver.SCHEME_FILE != imageUri.getScheme()) {
+        if (ContentResolver.SCHEME_CONTENT != imageUri.scheme && ContentResolver.SCHEME_FILE != imageUri.scheme) {
             return 0
         }
 
@@ -171,10 +161,10 @@ object BitmapUtils {
 
         if (areUVPlanesNV21(yuv420888planes, width, height)) {
             // Copy the Y values.
-            yuv420888planes[0]!!.getBuffer().get(out, 0, imageSize)
+            yuv420888planes[0]!!.buffer.get(out, 0, imageSize)
 
-            val uBuffer = yuv420888planes[1]!!.getBuffer()
-            val vBuffer = yuv420888planes[2]!!.getBuffer()
+            val uBuffer = yuv420888planes[1]!!.buffer
+            val vBuffer = yuv420888planes[2]!!.buffer
             // Get the first V value from the V buffer, since the U buffer does not contain it.
             vBuffer.get(out, imageSize, 1)
             // Copy the first U value and the remaining VU values from the U buffer.
@@ -182,11 +172,11 @@ object BitmapUtils {
         } else {
             // Fallback to copying the UV values one by one, which is slower but also works.
             // Unpack Y.
-            BitmapUtils.unpackPlane(yuv420888planes[0]!!, width, height, out, 0, 1)
+            unpackPlane(yuv420888planes[0]!!, width, height, out, 0, 1)
             // Unpack U.
-            BitmapUtils.unpackPlane(yuv420888planes[1]!!, width, height, out, imageSize + 1, 2)
+            unpackPlane(yuv420888planes[1]!!, width, height, out, imageSize + 1, 2)
             // Unpack V.
-            BitmapUtils.unpackPlane(yuv420888planes[2]!!, width, height, out, imageSize, 2)
+            unpackPlane(yuv420888planes[2]!!, width, height, out, imageSize, 2)
         }
 
         return ByteBuffer.wrap(out)
@@ -196,8 +186,8 @@ object BitmapUtils {
     private fun areUVPlanesNV21(planes: Array<Plane?>, width: Int, height: Int): Boolean {
         val imageSize = width * height
 
-        val uBuffer = planes[1]!!.getBuffer()
-        val vBuffer = planes[2]!!.getBuffer()
+        val uBuffer = planes[1]!!.buffer
+        val vBuffer = planes[2]!!.buffer
 
         // Backup buffer properties.
         val vBufferPosition = vBuffer.position()
@@ -229,12 +219,12 @@ object BitmapUtils {
     private fun unpackPlane(
         plane: Plane, width: Int, height: Int, out: ByteArray, offset: Int, pixelStride: Int
     ) {
-        val buffer = plane.getBuffer()
+        val buffer = plane.buffer
         buffer.rewind()
 
         // Compute the size of the current plane.
         // We assume that it has the aspect ratio as the original image.
-        val numRow = (buffer.limit() + plane.getRowStride() - 1) / plane.getRowStride()
+        val numRow = (buffer.limit() + plane.rowStride - 1) / plane.rowStride
         if (numRow == 0) {
             return
         }
@@ -249,9 +239,9 @@ object BitmapUtils {
             for (col in 0..<numCol) {
                 out[outputPos] = buffer.get(inputPos)
                 outputPos += pixelStride
-                inputPos += plane.getPixelStride()
+                inputPos += plane.pixelStride
             }
-            rowStart += plane.getRowStride()
+            rowStart += plane.rowStride
         }
     }
 }

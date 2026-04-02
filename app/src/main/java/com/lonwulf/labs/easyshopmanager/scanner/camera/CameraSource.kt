@@ -3,11 +3,8 @@ package com.lonwulf.labs.easyshopmanager.scanner.camera
 import android.Manifest
 import android.content.Context
 import android.graphics.ImageFormat
-import android.hardware.camera2.CameraCaptureSession
-import android.hardware.camera2.CameraCharacteristics
-import android.hardware.camera2.CameraDevice
-import android.hardware.camera2.CameraManager
-import android.hardware.camera2.CaptureRequest
+import android.graphics.Matrix
+import android.hardware.camera2.*
 import android.media.Image
 import android.media.ImageReader
 import android.os.Handler
@@ -17,8 +14,6 @@ import android.util.Size
 import android.view.Surface
 import android.view.WindowManager
 import androidx.annotation.RequiresPermission
-import com.lonwulf.labs.easyshopmanager.scanner.camera.GraphicOverlay
-import com.lonwulf.labs.easyshopmanager.scanner.util.Utils
 import kotlin.math.abs
 
 class CameraSource(
@@ -36,9 +31,10 @@ class CameraSource(
     private var captureSession: CameraCaptureSession? = null
     private var imageReader: ImageReader? = null
 
-    private var rotationDegrees: Int = 0
     var previewSize: Size? = null
         private set
+
+    private var rotationDegrees: Int = 0
 
     private val processorLock = Any()
     private var frameProcessor: FrameProcessor? = null
@@ -46,22 +42,21 @@ class CameraSource(
     private val processingRunnable = FrameProcessingRunnable()
     private var processingThread: Thread? = null
 
-    // Camera thread (REQUIRED for Camera2 public APIs)
-    private val cameraThread = HandlerThread("Camera2Thread").apply { start() }
+    private val cameraThread = HandlerThread("CameraThread").apply { start() }
     private val cameraHandler = Handler(cameraThread.looper)
 
-    // ------------------------------------
-    // Public API
-    // ------------------------------------
+    fun setFrameProcessor(processor: FrameProcessor) {
+        synchronized(processorLock) {
+            frameProcessor?.stop()
+            frameProcessor = processor
+        }
+    }
 
     @RequiresPermission(Manifest.permission.CAMERA)
-    fun start() {
+    fun start(previewSurface: Surface) {
         val characteristics = cameraManager.getCameraCharacteristics(cameraId)
 
-        val sizePair = selectSizePair(characteristics)
-            ?: throw IllegalStateException("No suitable preview size found")
-
-        previewSize = sizePair.preview
+        previewSize = selectSize(characteristics)
 
         imageReader = ImageReader.newInstance(
             previewSize!!.width,
@@ -80,7 +75,11 @@ class CameraSource(
 
         setRotation(characteristics)
 
-        cameraManager.openCamera(cameraId, stateCallback, cameraHandler)
+        cameraManager.openCamera(
+            cameraId,
+            stateCallback(previewSurface),
+            cameraHandler
+        )
 
         processingThread = Thread(processingRunnable).apply {
             processingRunnable.setActive(true)
@@ -111,40 +110,31 @@ class CameraSource(
         cameraThread.quitSafely()
     }
 
-    fun setFrameProcessor(processor: FrameProcessor) {
-        synchronized(processorLock) {
-            frameProcessor?.stop()
-            frameProcessor = processor
-        }
-    }
+    private fun stateCallback(previewSurface: Surface) =
+        object : CameraDevice.StateCallback() {
 
-    // ------------------------------------
-    // Camera lifecycle
-    // ------------------------------------
+            override fun onOpened(camera: CameraDevice) {
+                cameraDevice = camera
+                createSession(previewSurface)
+            }
 
-    private val stateCallback = object : CameraDevice.StateCallback() {
-        override fun onOpened(camera: CameraDevice) {
-            cameraDevice = camera
-            createCaptureSession()
-        }
+            override fun onDisconnected(camera: CameraDevice) {
+                camera.close()
+                cameraDevice = null
+            }
 
-        override fun onDisconnected(camera: CameraDevice) {
-            camera.close()
-            cameraDevice = null
+            override fun onError(camera: CameraDevice, error: Int) {
+                Log.e(TAG, "Camera error: $error")
+                camera.close()
+                cameraDevice = null
+            }
         }
 
-        override fun onError(camera: CameraDevice, error: Int) {
-            Log.e(TAG, "Camera error: $error")
-            camera.close()
-            cameraDevice = null
-        }
-    }
-
-    private fun createCaptureSession() {
-        val surface = imageReader!!.surface
+    private fun createSession(previewSurface: Surface) {
+        val imageSurface = imageReader!!.surface
 
         cameraDevice?.createCaptureSession(
-            listOf(surface),
+            listOf(previewSurface, imageSurface),
             object : CameraCaptureSession.StateCallback() {
 
                 override fun onConfigured(session: CameraCaptureSession) {
@@ -153,7 +143,8 @@ class CameraSource(
                     val request = cameraDevice!!.createCaptureRequest(
                         CameraDevice.TEMPLATE_PREVIEW
                     ).apply {
-                        addTarget(surface)
+                        addTarget(previewSurface)
+                        addTarget(imageSurface)
 
                         set(
                             CaptureRequest.CONTROL_AF_MODE,
@@ -169,7 +160,7 @@ class CameraSource(
                 }
 
                 override fun onConfigureFailed(session: CameraCaptureSession) {
-                    Log.e(TAG, "Capture session configuration failed")
+                    Log.e(TAG, "Session config failed")
                 }
             },
             cameraHandler
@@ -180,9 +171,9 @@ class CameraSource(
         val windowManager =
             context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
-        val deviceRotation = windowManager.defaultDisplay.rotation
+        val rotation = windowManager.defaultDisplay.rotation
 
-        val deviceDegrees = when (deviceRotation) {
+        val deviceDegrees = when (rotation) {
             Surface.ROTATION_0 -> 0
             Surface.ROTATION_90 -> 90
             Surface.ROTATION_180 -> 180
@@ -195,10 +186,6 @@ class CameraSource(
 
         rotationDegrees = (sensorOrientation - deviceDegrees + 360) % 360
     }
-
-    // ------------------------------------
-    // Frame Processing
-    // ------------------------------------
 
     private inner class FrameProcessingRunnable : Runnable {
 
@@ -236,7 +223,7 @@ class CameraSource(
                 }
 
                 try {
-                    val buffer = image.planes[0].buffer
+                    val nv21 = image.toNV21()
 
                     val metadata = FrameMetadata(
                         previewSize!!.width,
@@ -245,11 +232,11 @@ class CameraSource(
                     )
 
                     synchronized(processorLock) {
-                        frameProcessor?.process(buffer, metadata, graphicOverlay)
+                        frameProcessor?.process(nv21, metadata)
                     }
 
                 } catch (e: Exception) {
-                    Log.e(TAG, "Frame processing error", e)
+                    Log.e(TAG, "Processing error", e)
                 } finally {
                     image.close()
                 }
@@ -257,29 +244,38 @@ class CameraSource(
         }
     }
 
-    // ------------------------------------
-    // Size selection (Camera2)
-    // ------------------------------------
+    private fun selectSize(characteristics: CameraCharacteristics): Size {
+        val map = characteristics.get(
+            CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP
+        )!!
 
-    private fun selectSizePair(
-        characteristics: CameraCharacteristics
-    ): CameraSizePair? {
+        val sizes = map.getOutputSizes(ImageFormat.YUV_420_888)
 
-        val validSizes = Utils.generateValidPreviewSizeList(characteristics)
+        return sizes.minByOrNull {
+            abs((it.width.toFloat() / it.height) - 1.77f)
+        }!!
+    }
 
-        var selected: CameraSizePair? = null
-        var minDiff = Float.MAX_VALUE
+    fun Image.toNV21(): ByteArray {
+        val y = planes[0].buffer
+        val u = planes[1].buffer
+        val v = planes[2].buffer
 
-        for (pair in validSizes) {
-            val ratio = pair.preview.width.toFloat() / pair.preview.height
-            val diff = abs(1.77f - ratio) // ~16:9
+        val ySize = y.remaining()
+        val uSize = u.remaining()
+        val vSize = v.remaining()
 
-            if (diff < minDiff) {
-                minDiff = diff
-                selected = pair
-            }
+        val nv21 = ByteArray(ySize + uSize + vSize)
+
+        y.get(nv21, 0, ySize)
+
+        var offset = ySize
+
+        for (i in 0 until uSize step 2) {
+            nv21[offset++] = v.get(i)
+            nv21[offset++] = u.get(i)
         }
 
-        return selected
+        return nv21
     }
 }

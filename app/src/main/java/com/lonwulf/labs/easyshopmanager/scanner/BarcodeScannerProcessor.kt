@@ -15,6 +15,7 @@ import com.lonwulf.labs.easyshopmanager.scanner.barcode.BarcodeConfirmingGraphic
 import com.lonwulf.labs.easyshopmanager.scanner.barcode.BarcodeLoadingGraphic
 import com.lonwulf.labs.easyshopmanager.scanner.barcode.BarcodeReticleGraphic
 import com.lonwulf.labs.easyshopmanager.scanner.camera.CameraReticleAnimator
+import com.lonwulf.labs.easyshopmanager.scanner.camera.FrameMetadata
 import com.lonwulf.labs.easyshopmanager.scanner.camera.FrameProcessorBase
 import com.lonwulf.labs.easyshopmanager.scanner.camera.GraphicOverlay
 import java.io.IOException
@@ -26,28 +27,28 @@ class BarcodeScannerProcessor(
 ) :
     FrameProcessorBase<List<Barcode>>() {
     private val cameraReticleAnimator: CameraReticleAnimator = CameraReticleAnimator(graphicOverlay)
-    private val barcodeScanner = BarcodeScanning.getClient()
+//    private val barcodeScanner = BarcodeScanning.getClient()
 
     // Note that if you know which format of barcode your app is dealing with, detection will be
     // faster to specify the supported barcode formats one by one, e.g.
     // BarcodeScannerOptions.Builder()
     //     .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
     //     .build();
-//    private var barcodeScanner: BarcodeScanner = if (zoomCallback != null) {
-//        val options =
-//            BarcodeScannerOptions.Builder()
-//                .setBarcodeFormats(
-//                    Barcode.FORMAT_EAN_8,
-//                    Barcode.FORMAT_EAN_13,
-//                    Barcode.FORMAT_UPC_E,
-//                    Barcode.FORMAT_UPC_A,
-//                )
-//                .setZoomSuggestionOptions(ZoomSuggestionOptions.Builder(zoomCallback).build())
-//                .build()
-//        BarcodeScanning.getClient(options)
-//    } else {
-//        BarcodeScanning.getClient()
-//    }
+    private var barcodeScanner: BarcodeScanner = if (zoomCallback != null) {
+        val options =
+            BarcodeScannerOptions.Builder()
+                .setBarcodeFormats(
+                    Barcode.FORMAT_EAN_8,
+                    Barcode.FORMAT_EAN_13,
+                    Barcode.FORMAT_UPC_E,
+                    Barcode.FORMAT_UPC_A,
+                )
+                .setZoomSuggestionOptions(ZoomSuggestionOptions.Builder(zoomCallback).build())
+                .build()
+        BarcodeScanning.getClient(options)
+    } else {
+        BarcodeScanning.getClient()
+    }
 
     override fun stop() {
         super.stop()

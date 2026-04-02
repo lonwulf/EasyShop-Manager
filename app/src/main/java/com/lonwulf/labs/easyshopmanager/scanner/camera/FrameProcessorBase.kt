@@ -30,18 +30,23 @@ abstract class FrameProcessorBase<T> : FrameProcessor {
     private var processingFrameMetaData: FrameMetadata? = null
     private val executor = ScopedExecutor(TaskExecutors.MAIN_THREAD)
 
-    @Synchronized
+
     override fun process(
-        data: ByteBuffer,
-        frameMetadata: FrameMetadata,
+        data: ByteArray,
+        metadata: FrameMetadata,
         graphicOverlay: GraphicOverlay
     ) {
-        latestFrame = data
-        latestFrameMetaData = frameMetadata
-        if (processingFrame == null && processingFrameMetaData == null) {
+        synchronized(this) {
+            latestFrame = ByteBuffer.wrap(data)
+            latestFrameMetaData = metadata
+
+            // If already processing, drop frame (backpressure control)
+            if (processingFrame != null) return
+
             processLatestFrame(graphicOverlay)
         }
     }
+
 
     @Synchronized
     private fun processLatestFrame(graphicOverlay: GraphicOverlay) {
