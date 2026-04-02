@@ -7,16 +7,26 @@ import androidx.lifecycle.viewModelScope
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.lonwulf.labs.easyshopmanager.prefs.PreferenceUtils
 import com.lonwulf.labs.easyshopmanager.scanner.objectDetection.DetectedObjectInfo
+import com.lonwulf.labs.easyshopmanager.domain.model.Product
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /** View model for handling application workflow based on camera preview.  */
 class WorkflowViewModel(application: Context) : AndroidViewModel(application as Application) {
 
-    val workflowState = MutableLiveData<WorkflowState>()
-    val objectToSearch = MutableLiveData<DetectedObjectInfo>()
-    val searchedObject = MutableLiveData<SearchedObject>()
-    val detectedBarcode = MutableLiveData<Barcode>()
+    private val _workflowState = MutableStateFlow(WorkflowState.NOT_STARTED)
+    val workflowState: StateFlow<WorkflowState> = _workflowState
+
+    private val _objectToSearch = MutableStateFlow<DetectedObjectInfo?>(null)
+    val objectToSearch: StateFlow<DetectedObjectInfo?> = _objectToSearch
+
+    private val _searchedObject = MutableStateFlow<SearchedObject?>(null)
+    val searchedObject: StateFlow<SearchedObject?> = _searchedObject
+
+    private val _detectedBarcode = MutableStateFlow<Barcode?>(null)
+    val detectedBarcode: StateFlow<Barcode?> = _detectedBarcode
 
     private val objectIdsToSearch = HashSet<Int>()
 
@@ -48,7 +58,7 @@ class WorkflowViewModel(application: Context) : AndroidViewModel(application as 
         ) {
             confirmedObject = null
         }
-        this.workflowState.value = workflowState
+        _workflowState.value = workflowState
     }
 
     fun confirmingObject(confirmingObject: DetectedObjectInfo, progress: Float)= viewModelScope.launch(Dispatchers.Main) {
@@ -81,7 +91,7 @@ class WorkflowViewModel(application: Context) : AndroidViewModel(application as 
         }
 
         objectIdsToSearch.add(objectId)
-        objectToSearch.value = detectedObject
+        _objectToSearch.value = detectedObject
     }
 
     fun markCameraLive() {
@@ -103,6 +113,6 @@ class WorkflowViewModel(application: Context) : AndroidViewModel(application as 
         objectIdsToSearch.remove(detectedObject.objectId)
         setWorkflowState(WorkflowState.SEARCHED)
 
-        searchedObject.value = SearchedObject(context.resources, lConfirmedObject, products)
+        _searchedObject.value = SearchedObject(context.resources, lConfirmedObject, products)
     }
 }

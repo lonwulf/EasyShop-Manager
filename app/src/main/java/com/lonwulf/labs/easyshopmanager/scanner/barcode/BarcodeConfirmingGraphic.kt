@@ -6,15 +6,18 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.lonwulf.labs.easyshopmanager.prefs.PreferenceUtils
 import com.lonwulf.labs.easyshopmanager.scanner.camera.GraphicOverlay
 
-/** Guides user to move camera closer to confirm the detected barcode.  */
-internal class BarcodeConfirmingGraphic(private val overlay: GraphicOverlay, private val barcode: Barcode) :
-    BarcodeGraphicBase(overlay) {
+/** Guides the user to move the camera closer to confirm the detected barcode.  */
+internal class BarcodeConfirmingGraphic(
+    private val graphicOverlay: GraphicOverlay,
+    private val barcode: Barcode,
+) : BarcodeGraphicBase(graphicOverlay) {
 
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
 
         // Draws a highlighted path to indicate the current progress to meet size requirement.
-        val sizeProgress = PreferenceUtils.getProgressToMeetBarcodeSizeRequirement(overlay, barcode)
+        val sizeProgress =
+            PreferenceUtils.getProgressToMeetBarcodeSizeRequirement(graphicOverlay, barcode)
         val path = Path()
         if (sizeProgress > 0.95f) {
             // To have a completed path with all corners rounded.

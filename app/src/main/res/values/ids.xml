@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="camera_preview_graphic_overlay" />
+    <item type="id" name="static_overlay_container" />
+</resources>
+

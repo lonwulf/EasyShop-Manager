@@ -10,7 +10,9 @@ import com.google.mlkit.vision.barcode.ZoomSuggestionOptions
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 import com.lonwulf.labs.easyshopmanager.prefs.PreferenceUtils
-import com.lonwulf.labs.easyshopmanager.presentation.viewmodel.WorkflowViewModel
+import com.lonwulf.labs.easyshopmanager.scanner.dto.BarcodeScannerCallback
+import com.lonwulf.labs.easyshopmanager.scanner.dto.LiveScanWorkflowState
+import com.lonwulf.labs.easyshopmanager.scanner.dto.toScannedBarcodeUi
 import com.lonwulf.labs.easyshopmanager.scanner.barcode.BarcodeConfirmingGraphic
 import com.lonwulf.labs.easyshopmanager.scanner.barcode.BarcodeLoadingGraphic
 import com.lonwulf.labs.easyshopmanager.scanner.barcode.BarcodeReticleGraphic
@@ -23,7 +25,7 @@ import java.io.IOException
 class BarcodeScannerProcessor(
     graphicOverlay: GraphicOverlay,
     zoomCallback: ZoomSuggestionOptions.ZoomCallback?,
-    private val workflowViewModel: WorkflowViewModel
+    private val callback: BarcodeScannerCallback,
 ) :
     FrameProcessorBase<List<Barcode>>() {
     private val cameraReticleAnimator: CameraReticleAnimator = CameraReticleAnimator(graphicOverlay)
@@ -68,7 +70,7 @@ class BarcodeScannerProcessor(
         graphicOverlay: GraphicOverlay
     ) {
 
-        if (!workflowViewModel.isCameraLive) return
+        if (!callback.isCameraLive()) return
 
         Log.d("Barcode scanner: ", "Barcode result size: ${results.size}")
 
@@ -84,24 +86,24 @@ class BarcodeScannerProcessor(
         if (barcodeInCenter == null) {
             cameraReticleAnimator.start()
             graphicOverlay.add(BarcodeReticleGraphic(graphicOverlay, cameraReticleAnimator))
-            workflowViewModel.setWorkflowState(WorkflowViewModel.WorkflowState.DETECTING)
+            callback.onWorkflowStateChanged(LiveScanWorkflowState.DETECTING)
         } else {
             cameraReticleAnimator.cancel()
             val sizeProgress = PreferenceUtils.getProgressToMeetBarcodeSizeRequirement(graphicOverlay, barcodeInCenter)
             if (sizeProgress < 1) {
                 // Barcode in the camera view is too small, so prompt user to move camera closer.
                 graphicOverlay.add(BarcodeConfirmingGraphic(graphicOverlay, barcodeInCenter))
-                workflowViewModel.setWorkflowState(WorkflowViewModel.WorkflowState.CONFIRMING)
+                callback.onWorkflowStateChanged(LiveScanWorkflowState.CONFIRMING)
             } else {
                 // Barcode size in the camera view is sufficient.
                 if (PreferenceUtils.shouldDelayLoadingBarcodeResult(graphicOverlay.context)) {
                     val loadingAnimator = createLoadingAnimator(graphicOverlay, barcodeInCenter)
                     loadingAnimator.start()
                     graphicOverlay.add(BarcodeLoadingGraphic(graphicOverlay, loadingAnimator))
-                    workflowViewModel.setWorkflowState(WorkflowViewModel.WorkflowState.SEARCHING)
+                    callback.onWorkflowStateChanged(LiveScanWorkflowState.SEARCHING)
                 } else {
-                    workflowViewModel.setWorkflowState(WorkflowViewModel.WorkflowState.DETECTED)
-                    workflowViewModel.detectedBarcode.setValue(barcodeInCenter)
+                    callback.onWorkflowStateChanged(LiveScanWorkflowState.DETECTED)
+                    callback.onBarcodeDetected(barcodeInCenter.toScannedBarcodeUi())
                 }
             }
         }
@@ -115,8 +117,8 @@ class BarcodeScannerProcessor(
             addUpdateListener {
                 if ((animatedValue as Float).compareTo(endProgress) >= 0) {
                     graphicOverlay.clear()
-                    workflowViewModel.setWorkflowState(WorkflowViewModel.WorkflowState.SEARCHED)
-                    workflowViewModel.detectedBarcode.setValue(barcode)
+                    callback.onWorkflowStateChanged(LiveScanWorkflowState.SEARCHED)
+                    callback.onBarcodeDetected(barcode.toScannedBarcodeUi())
                 } else {
                     graphicOverlay.invalidate()
                 }

@@ -1,15 +1,17 @@
 package com.lonwulf.labs.easyshopmanager.prefs
 
 
-import android.R
 import android.content.Context
+import android.graphics.Rect
 import android.graphics.RectF
 import android.preference.PreferenceManager
 import android.util.Size
 import androidx.annotation.StringRes
 import com.google.mlkit.vision.barcode.common.Barcode
-import com.lonwulf.labs.easyshopmanager.scanner.camera.GraphicOverlay
+import com.lonwulf.labs.easyshopmanager.R
+import com.lonwulf.labs.easyshopmanager.prefs.PreferenceUtils.getProgressToMeetBarcodeSizeRequirement
 import com.lonwulf.labs.easyshopmanager.scanner.camera.CameraSizePair
+import com.lonwulf.labs.easyshopmanager.scanner.camera.GraphicOverlay
 
 
 /** Utility class to retrieve shared preferences.  */
@@ -46,6 +48,26 @@ object PreferenceUtils {
             val requiredWidth =
                 reticleBoxWidth * getIntPref(context, R.string.pref_key_minimum_barcode_width, 50) / 100
             (barcodeWidth / requiredWidth).coerceAtMost(1f)
+        } else {
+            1f
+        }
+    }
+
+    /**
+     * Same idea as [getProgressToMeetBarcodeSizeRequirement], but uses an object bounding box.
+     * This drives the center-confirm UI for object detection.
+     */
+    fun getProgressToMeetObjectSizeRequirement(
+        overlay: GraphicOverlay,
+        objectBoundingBox: Rect
+    ): Float {
+        val context = overlay.context
+        return if (getBooleanPref(context, R.string.pref_key_enable_barcode_size_check, false)) {
+            val reticleBoxWidth = getBarcodeReticleBox(overlay).width()
+            val objectWidth = overlay.translateX(objectBoundingBox.width().toFloat())
+            val requiredWidth =
+                reticleBoxWidth * getIntPref(context, R.string.pref_key_minimum_barcode_width, 50) / 100
+            if (requiredWidth == 0f) 0f else (objectWidth / requiredWidth).coerceAtMost(1f)
         } else {
             1f
         }

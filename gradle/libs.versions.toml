@@ -42,6 +42,7 @@ coil-okhttp = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", versio
 lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
 camera2 = { module = "androidx.camera:camera-camera2", version.ref = "camerax" }
 camera2-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "camerax" }
+cameraView = { module = "androidx.camera:camera-view", version.ref = "camerax" }
 
 
 [plugins]

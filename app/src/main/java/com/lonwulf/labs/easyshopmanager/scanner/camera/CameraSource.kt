@@ -3,8 +3,11 @@ package com.lonwulf.labs.easyshopmanager.scanner.camera
 import android.Manifest
 import android.content.Context
 import android.graphics.ImageFormat
-import android.graphics.Matrix
-import android.hardware.camera2.*
+import android.hardware.camera2.CameraCaptureSession
+import android.hardware.camera2.CameraCharacteristics
+import android.hardware.camera2.CameraDevice
+import android.hardware.camera2.CameraManager
+import android.hardware.camera2.CaptureRequest
 import android.media.Image
 import android.media.ImageReader
 import android.os.Handler
@@ -232,7 +235,7 @@ class CameraSource(
                     )
 
                     synchronized(processorLock) {
-                        frameProcessor?.process(nv21, metadata)
+                        frameProcessor?.process(nv21, metadata, graphicOverlay)
                     }
 
                 } catch (e: Exception) {

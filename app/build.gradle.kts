@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.lottie)
     implementation(libs.camera2)
     implementation(libs.camera2.lifecycle)
+    implementation(libs.cameraView)
     implementation("com.google.guava:guava:27.1-android")
 
     testImplementation(libs.junit)

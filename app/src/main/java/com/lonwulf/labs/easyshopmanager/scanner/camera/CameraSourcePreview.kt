@@ -1,14 +1,16 @@
 package com.lonwulf.labs.easyshopmanager.scanner.camera
 
+import android.Manifest
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
+import android.util.Size
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.FrameLayout
-import com.google.android.gms.common.images.Size
+import androidx.annotation.RequiresPermission
 import com.lonwulf.labs.easyshopmanager.R
-
+import com.lonwulf.labs.easyshopmanager.scanner.util.Utils
 import java.io.IOException
 
 /** Preview the camera image in the screen.  */
@@ -29,6 +31,7 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet) : FrameLayout(c
         graphicOverlay = findViewById(R.id.camera_preview_graphic_overlay)
     }
 
+    @RequiresPermission(Manifest.permission.CAMERA)
     @Throws(IOException::class)
     fun start(cameraSource: CameraSource) {
         this.cameraSource = cameraSource
@@ -44,10 +47,11 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet) : FrameLayout(c
         }
     }
 
+    @RequiresPermission(Manifest.permission.CAMERA)
     @Throws(IOException::class)
     private fun startIfReady() {
         if (startRequested && surfaceAvailable) {
-            cameraSource?.start(surfaceView.holder)
+            cameraSource?.start(surfaceView.holder.surface)
             requestLayout()
             graphicOverlay?.let { overlay ->
                 cameraSource?.let {
@@ -59,6 +63,7 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet) : FrameLayout(c
         }
     }
 
+    @RequiresPermission(Manifest.permission.CAMERA)
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         val layoutWidth = right - left
         val layoutHeight = bottom - top
@@ -92,6 +97,7 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet) : FrameLayout(c
                     R.id.static_overlay_container -> {
                         childView.layout(0, 0, layoutWidth, layoutHeight)
                     }
+
                     else -> {
                         childView.layout(
                             0, -excessLenInHalf, layoutWidth, layoutHeight + excessLenInHalf
@@ -109,6 +115,7 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet) : FrameLayout(c
     }
 
     private inner class SurfaceCallback : SurfaceHolder.Callback {
+        @RequiresPermission(Manifest.permission.CAMERA)
         override fun surfaceCreated(surface: SurfaceHolder) {
             surfaceAvailable = true
             try {

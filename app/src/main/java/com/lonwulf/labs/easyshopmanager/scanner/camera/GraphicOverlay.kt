@@ -21,7 +21,7 @@ import com.lonwulf.labs.easyshopmanager.scanner.util.Utils
  *
  * Associated [Graphic] items should use [.translateX] and [ ][.translateY] to convert to view coordinate from the preview's coordinate.
  */
-class GraphicOverlay(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class GraphicOverlay(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
     private val lock = Any()
 
     private var previewWidth: Int = 0
@@ -63,13 +63,21 @@ class GraphicOverlay(context: Context, attrs: AttributeSet) : View(context, attr
      */
     fun setCameraInfo(cameraSource: CameraSource) {
         val previewSize = cameraSource.previewSize ?: return
+        setCameraInfo(previewWidth = previewSize.width, previewHeight = previewSize.height)
+    }
+
+    /**
+     * CameraX-friendly overload: set preview frame dimensions without depending on the legacy
+     * [CameraSource] type.
+     */
+    fun setCameraInfo(previewWidth: Int, previewHeight: Int) {
         if (Utils.isPortraitMode(context)) {
             // Swap width and height when in portrait, since camera's natural orientation is landscape.
-            previewWidth = previewSize.height
-            previewHeight = previewSize.width
+            this.previewWidth = previewHeight
+            this.previewHeight = previewWidth
         } else {
-            previewWidth = previewSize.width
-            previewHeight = previewSize.height
+            this.previewWidth = previewWidth
+            this.previewHeight = previewHeight
         }
     }
 
