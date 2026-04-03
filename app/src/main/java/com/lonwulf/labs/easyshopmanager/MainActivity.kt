@@ -24,10 +24,11 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,9 +37,12 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.lonwulf.labs.easyshopmanager.navigation.Destinations
 import com.lonwulf.labs.easyshopmanager.navigation.NavigationGraph
 import com.lonwulf.labs.easyshopmanager.navigation.TopLevelDestinations
+import com.lonwulf.labs.easyshopmanager.presentation.components.CustomFabComponent
 import com.lonwulf.labs.easyshopmanager.presentation.screens.HomeScreenComposable
+import com.lonwulf.labs.easyshopmanager.presentation.screens.LiveBarcodeScreenComposable
 import com.lonwulf.labs.easyshopmanager.presentation.screens.ProductsScreenComposable
 import com.lonwulf.labs.easyshopmanager.presentation.screens.SettingsScreenComposable
 import com.lonwulf.labs.easyshopmanager.presentation.viewmodel.MainViewModel
@@ -57,10 +61,26 @@ class MainActivity : ComponentActivity() {
                 val snackbarHostState = remember { SnackbarHostState() }
                 val mainViewModel: MainViewModel =
                     koinViewModel(viewModelStoreOwner = LocalActivity.current as ComponentActivity)
+                var fabActionState by remember { mutableStateOf(false) }
+
+                val hideAppbarsInScreens = listOf(Destinations.ScannerScreen.route)
+                val showAppbars = currentDestination?.route !in hideAppbarsInScreens
+                val screensToShowFAB = listOf(
+                    Destinations.ScannerScreen.route,
+                    TopLevelDestinations.ProductsScreen.route,
+                    TopLevelDestinations.HomeScreen.route
+                )
+                val showFAB = currentDestination?.route in screensToShowFAB
                 Scaffold(
-                    topBar = { AppToolBar(title = "Easy Shop") },
-                    bottomBar = { AppBottomBar(navHostController, currentDestination) },
+                    topBar = { if (showAppbars) AppToolBar(title = currentDestination?.route ?: "") },
+                    bottomBar = { if (showAppbars) AppBottomBar(navHostController, currentDestination) },
                     snackbarHost = { SnackbarHost(snackbarHostState) },
+                    floatingActionButton = {
+                        if (showFAB) {
+                            CustomFabComponent(onclick = { fabActionState = true })
+                            fabActionState = false
+                        }
+                    },
                     modifier = Modifier.fillMaxSize()
                 ) { innerPadding ->
                     Surface(
@@ -77,7 +97,8 @@ class MainActivity : ComponentActivity() {
                             ),
                             TopLevelDestinations.SettingsScreen.route to SettingsScreenComposable(
                                 mainViewModel
-                            )
+                            ),
+                            Destinations.ScannerScreen.route to LiveBarcodeScreenComposable()
                         )
                         NavigationGraph(
                             navHostController = navHostController,

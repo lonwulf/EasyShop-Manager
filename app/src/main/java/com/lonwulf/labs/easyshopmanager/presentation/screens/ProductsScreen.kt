@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.lonwulf.labs.easyshopmanager.navigation.Destinations
 import com.lonwulf.labs.easyshopmanager.navigation.NavComposable
 import com.lonwulf.labs.easyshopmanager.presentation.components.EmptyViewComponent
 import com.lonwulf.labs.easyshopmanager.presentation.components.ProgressLoader
@@ -42,7 +43,9 @@ fun ProductsScreen(modifier: Modifier = Modifier, navHostController: NavHostCont
         state.error != null -> {}
         else -> {
             if (state.products.isEmpty()) {
-                EmptyViewComponent(onclick = {})
+                EmptyViewComponent(onclick = {
+                    navHostController.navigate(Destinations.ScannerScreen.route)
+                })
             } else {
                 Column(
                     modifier = modifier

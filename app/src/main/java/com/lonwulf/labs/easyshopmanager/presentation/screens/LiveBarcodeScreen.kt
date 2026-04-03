@@ -44,8 +44,7 @@ class LiveBarcodeScreenComposable : NavComposable {
         navHostController: NavHostController,
         snackbarHostState: SnackbarHostState
     ) {
-        val viewModel: LiveBarcodeViewModel = koinViewModel()
-        LiveBarcodeScreen(viewModel = viewModel)
+        LiveBarcodeScreen()
     }
 
 }
@@ -55,7 +54,7 @@ class LiveBarcodeScreenComposable : NavComposable {
 fun LiveBarcodeScreen(
     modifier: Modifier = Modifier,
     onClose: () -> Unit = {},
-    viewModel: LiveBarcodeViewModel,
+    viewModel: LiveBarcodeViewModel = koinViewModel(),
 ) {
     val ctx = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current

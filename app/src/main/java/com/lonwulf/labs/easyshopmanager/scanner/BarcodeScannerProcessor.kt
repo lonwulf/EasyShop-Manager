@@ -10,16 +10,15 @@ import com.google.mlkit.vision.barcode.ZoomSuggestionOptions
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 import com.lonwulf.labs.easyshopmanager.prefs.PreferenceUtils
-import com.lonwulf.labs.easyshopmanager.scanner.dto.BarcodeScannerCallback
-import com.lonwulf.labs.easyshopmanager.scanner.dto.LiveScanWorkflowState
-import com.lonwulf.labs.easyshopmanager.scanner.dto.toScannedBarcodeUi
 import com.lonwulf.labs.easyshopmanager.scanner.barcode.BarcodeConfirmingGraphic
 import com.lonwulf.labs.easyshopmanager.scanner.barcode.BarcodeLoadingGraphic
 import com.lonwulf.labs.easyshopmanager.scanner.barcode.BarcodeReticleGraphic
 import com.lonwulf.labs.easyshopmanager.scanner.camera.CameraReticleAnimator
-import com.lonwulf.labs.easyshopmanager.scanner.camera.FrameMetadata
 import com.lonwulf.labs.easyshopmanager.scanner.camera.FrameProcessorBase
 import com.lonwulf.labs.easyshopmanager.scanner.camera.GraphicOverlay
+import com.lonwulf.labs.easyshopmanager.scanner.dto.BarcodeScannerCallback
+import com.lonwulf.labs.easyshopmanager.scanner.dto.LiveScanWorkflowState
+import com.lonwulf.labs.easyshopmanager.scanner.dto.toScannedBarcodeUi
 import java.io.IOException
 
 class BarcodeScannerProcessor(
