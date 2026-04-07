@@ -7,7 +7,7 @@ junitVersion = "1.1.5" #dont change
 espressoCore = "3.7.0"
 lifecycleRuntimeKtx = "2.10.0"
 activityCompose = "1.13.0"
-composeBom = "2026.03.00"
+composeBom = "2026.03.01"
 barcodeScanner = "17.3.0"
 objectDetection = "17.0.2"
 materialIcons = "1.7.8"
@@ -15,7 +15,8 @@ navigation = "2.9.7"
 koin = "4.1.1"
 coil = "3.4.0"
 lottie = "6.7.1"
-camerax = "1.5.3"
+camerax = "1.6.0"
+permissions = "0.37.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -43,7 +44,7 @@ lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = 
 camera2 = { module = "androidx.camera:camera-camera2", version.ref = "camerax" }
 camera2-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "camerax" }
 cameraView = { module = "androidx.camera:camera-view", version.ref = "camerax" }
-
+permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "permissions" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

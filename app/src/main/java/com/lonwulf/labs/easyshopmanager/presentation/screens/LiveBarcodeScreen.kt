@@ -29,6 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.lonwulf.labs.easyshopmanager.navigation.NavComposable
 import com.lonwulf.labs.easyshopmanager.presentation.viewmodel.LiveBarcodeViewModel
 import com.lonwulf.labs.easyshopmanager.scanner.BarcodeScannerProcessor
@@ -49,13 +52,14 @@ class LiveBarcodeScreenComposable : NavComposable {
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun LiveBarcodeScreen(
     modifier: Modifier = Modifier,
     onClose: () -> Unit = {},
     viewModel: LiveBarcodeViewModel = koinViewModel(),
 ) {
+    val cameraPermissionState = rememberPermissionState(android.Manifest.permission.CAMERA)
     val ctx = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val coroutineScope = rememberCoroutineScope()
@@ -92,6 +96,12 @@ fun LiveBarcodeScreen(
         onDispose {
             viewModel.setCameraLive(false)
             controller.stop()
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        if (cameraPermissionState.status.isGranted.not()){
+            cameraPermissionState.launchPermissionRequest()
         }
     }
 
