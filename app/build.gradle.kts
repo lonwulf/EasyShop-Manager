@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -54,10 +55,17 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.material.icons)
     implementation(libs.ml.kit.barcode.scanner)
+    implementation(libs.ml.kit.obj.detection)
     implementation(libs.navigation.compose)
     implementation(libs.koin.android)
     implementation(libs.coil)
     implementation(libs.coil.okhttp)
+    implementation(libs.lottie)
+    implementation(libs.camera2)
+    implementation(libs.camera2.lifecycle)
+    implementation(libs.cameraView)
+    implementation(libs.permissions)
+    implementation("com.google.guava:guava:27.1-android")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
