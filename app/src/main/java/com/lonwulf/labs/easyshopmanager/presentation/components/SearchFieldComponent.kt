@@ -22,7 +22,7 @@ fun SearchFieldComponent(
 ) {
     OutlinedTextField(
         shape = RoundedCornerShape(10.dp),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         value = value,
         onValueChange = onValueChange,
         placeholder = { Text("Search products") },
