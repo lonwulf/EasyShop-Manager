@@ -1,4 +1,4 @@
-package com.lonwulf.labs.easyshopmanager.presentation.viewmodel
+package com.lonwulf.labs.easyshopmanager.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.lonwulf.labs.easyshopmanager.domain.uiState.ProductState

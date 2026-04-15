@@ -1,4 +1,4 @@
-package com.lonwulf.labs.easyshopmanager.presentation.components
+package com.lonwulf.labs.easyshopmanager.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

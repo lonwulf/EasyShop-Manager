@@ -40,12 +40,12 @@ import androidx.navigation.compose.rememberNavController
 import com.lonwulf.labs.easyshopmanager.navigation.Destinations
 import com.lonwulf.labs.easyshopmanager.navigation.NavigationGraph
 import com.lonwulf.labs.easyshopmanager.navigation.TopLevelDestinations
-import com.lonwulf.labs.easyshopmanager.presentation.components.CustomFabComponent
-import com.lonwulf.labs.easyshopmanager.presentation.screens.HomeScreenComposable
-import com.lonwulf.labs.easyshopmanager.presentation.screens.LiveBarcodeScreenComposable
-import com.lonwulf.labs.easyshopmanager.presentation.screens.ProductsScreenComposable
-import com.lonwulf.labs.easyshopmanager.presentation.screens.SettingsScreenComposable
-import com.lonwulf.labs.easyshopmanager.presentation.viewmodel.MainViewModel
+import com.lonwulf.labs.easyshopmanager.ui.components.CustomFabComponent
+import com.lonwulf.labs.easyshopmanager.ui.screens.HomeScreenComposable
+import com.lonwulf.labs.easyshopmanager.ui.screens.LiveBarcodeScreenComposable
+import com.lonwulf.labs.easyshopmanager.ui.screens.ProductsScreenComposable
+import com.lonwulf.labs.easyshopmanager.ui.screens.SettingsScreenComposable
+import com.lonwulf.labs.easyshopmanager.ui.viewmodel.MainViewModel
 import com.lonwulf.labs.easyshopmanager.ui.theme.EasyShopManagerTheme
 import org.koin.androidx.compose.koinViewModel
 

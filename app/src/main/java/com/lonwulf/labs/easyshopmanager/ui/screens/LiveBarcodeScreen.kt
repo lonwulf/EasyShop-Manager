@@ -1,5 +1,6 @@
-package com.lonwulf.labs.easyshopmanager.presentation.screens
+package com.lonwulf.labs.easyshopmanager.ui.screens
 
+import android.Manifest
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -60,7 +61,7 @@ fun LiveBarcodeScreen(
     onClose: () -> Unit = {},
     viewModel: LiveBarcodeViewModel = koinViewModel(),
 ) {
-    val cameraPermissionState = rememberPermissionState(android.Manifest.permission.CAMERA)
+    val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
     val ctx = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val coroutineScope = rememberCoroutineScope()

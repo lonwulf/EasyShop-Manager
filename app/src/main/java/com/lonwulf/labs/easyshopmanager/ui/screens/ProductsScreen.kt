@@ -1,4 +1,4 @@
-package com.lonwulf.labs.easyshopmanager.presentation.screens
+package com.lonwulf.labs.easyshopmanager.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,10 +18,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.lonwulf.labs.easyshopmanager.navigation.Destinations
 import com.lonwulf.labs.easyshopmanager.navigation.NavComposable
-import com.lonwulf.labs.easyshopmanager.presentation.components.EmptyViewComponent
-import com.lonwulf.labs.easyshopmanager.presentation.components.ProgressLoader
-import com.lonwulf.labs.easyshopmanager.presentation.components.SearchFieldComponent
-import com.lonwulf.labs.easyshopmanager.presentation.viewmodel.MainViewModel
+import com.lonwulf.labs.easyshopmanager.ui.components.EmptyViewComponent
+import com.lonwulf.labs.easyshopmanager.ui.components.ProgressLoader
+import com.lonwulf.labs.easyshopmanager.ui.components.SearchFieldComponent
+import com.lonwulf.labs.easyshopmanager.ui.viewmodel.MainViewModel
 import org.koin.androidx.compose.koinViewModel
 
 class ProductsScreenComposable(private val mainViewModel: MainViewModel) : NavComposable {
