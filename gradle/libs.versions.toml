@@ -1,5 +1,5 @@
 [versions]
-agp = "8.12.0"
+agp = "8.13.2"
 kotlin = "2.2.21"
 coreKtx = "1.17.0"
 junit = "4.13.2"
@@ -36,6 +36,7 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 ml-kit-barcode-scanner = { module = "com.google.mlkit:barcode-scanning", version.ref = "barcodeScanner" }
 ml-kit-obj-detection = { module = "com.google.mlkit:object-detection", version.ref = "objectDetection" }
+ml-kit-obj-detection-custom = { module = "com.google.mlkit:object-detection-custom", version.ref = "objectDetection" }
 material-icons = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIcons" }
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 koin-android = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
@@ -51,7 +52,9 @@ permissions = { module = "com.google.accompanist:accompanist-permissions", versi
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
 

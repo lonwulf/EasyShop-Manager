@@ -13,6 +13,7 @@ object DestinationsConstants {
 
     const val FORGOT_PASS_REQUEST_SCREEN = "_FORGOT_PASS_REQUEST_SCREEN"
     const val SCANNER_SCREEN = "_SCANNER_SCREEN"
+    const val OBJECT_DETECTION_SCREEN = "_OBJECT_DETECTION_SCREEN"
 
 }
 
@@ -21,6 +22,8 @@ sealed class Destinations(val title: String, val route:String) {
         Destinations(DestinationsConstants.FORGOT_PASS_REQUEST_SCREEN, "Forgot Password")
     object ScannerScreen :
         Destinations(DestinationsConstants.SCANNER_SCREEN, "Scanner Screen")
+    object ObjectDetectionScreen :
+        Destinations(DestinationsConstants.OBJECT_DETECTION_SCREEN, "Object detection Screen")
 }
 
 sealed class TopLevelDestinations(val route: String, val icon: ImageVector, val title: String) {

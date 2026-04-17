@@ -1,0 +1,34 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.lonwulf.labs.camera_lib.camera-lib-release-57:/values-h720dp-v13/values-h720dp-v13.xml",
+            "map": [
+                {
+                    "source": "/Users/lonwulf/.gradle/caches/8.13/transforms/4bb8ec5a4eaf64f06a32202f5c950c86/transformed/appcompat-1.7.1/res/values-h720dp-v13/values-h720dp-v13.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "66",
+                        "endOffsets": "117"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "com.lonwulf.labs.camera_lib.camera-lib-mergeReleaseResources-55:/values-h720dp-v13/values-h720dp-v13.xml",
+            "map": [
+                {
+                    "source": "/Users/lonwulf/.gradle/caches/8.13/transforms/4bb8ec5a4eaf64f06a32202f5c950c86/transformed/appcompat-1.7.1/res/values-h720dp-v13/values-h720dp-v13.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "66",
+                        "endOffsets": "117"
+                    }
+                }
+            ]
+        }
+    ]
+}

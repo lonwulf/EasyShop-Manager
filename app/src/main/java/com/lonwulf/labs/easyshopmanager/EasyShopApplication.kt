@@ -1,6 +1,7 @@
 package com.lonwulf.labs.easyshopmanager
 
 import android.app.Application
+import com.lonwulf.labs.camera.di.cameraDependencies
 import com.lonwulf.labs.easyshopmanager.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -13,7 +14,7 @@ class EasyShopApplication: Application() {
         startKoin {
             androidContext(this@EasyShopApplication)
             androidLogger(Level.DEBUG)
-            modules(appModule)
+            modules(appModule,cameraDependencies)
         }
     }
 }

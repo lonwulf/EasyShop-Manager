@@ -44,28 +44,19 @@ android {
 }
 
 dependencies {
+    implementation(project(":camera-lib"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    implementation(libs.material.icons)
-    implementation(libs.ml.kit.barcode.scanner)
-    implementation(libs.ml.kit.obj.detection)
+
     implementation(libs.navigation.compose)
-    implementation(libs.koin.android)
+
     implementation(libs.coil)
     implementation(libs.coil.okhttp)
     implementation(libs.lottie)
-    implementation(libs.camera2)
-    implementation(libs.camera2.lifecycle)
-    implementation(libs.cameraView)
     implementation(libs.permissions)
-    implementation("com.google.guava:guava:27.1-android")
+    implementation(libs.cameraView)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

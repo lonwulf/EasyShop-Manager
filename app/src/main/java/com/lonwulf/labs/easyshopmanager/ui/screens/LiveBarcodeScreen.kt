@@ -1,46 +1,59 @@
 package com.lonwulf.labs.easyshopmanager.ui.screens
 
-import android.Manifest
 import androidx.camera.view.PreviewView
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.FlashOff
+import androidx.compose.material.icons.filled.FlashOn
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+import com.lonwulf.labs.camera.domain.model.BarcodeField
+import com.lonwulf.labs.camera.ui.barcodeDetection.BarcodeProcessor
+import com.lonwulf.labs.camera.ui.barcodeDetection.BarcodeResultContent
+import com.lonwulf.labs.camera.ui.camera.CameraSource
+import com.lonwulf.labs.camera.ui.camera.GraphicOverlay
+import com.lonwulf.labs.camera.ui.viewModel.CameraXViewModel
 import com.lonwulf.labs.easyshopmanager.navigation.NavComposable
-import com.lonwulf.labs.easyshopmanager.presentation.viewmodel.LiveBarcodeViewModel
-import com.lonwulf.labs.easyshopmanager.scanner.BarcodeScannerProcessor
-import com.lonwulf.labs.easyshopmanager.scanner.camera.CameraXScannerController
-import com.lonwulf.labs.easyshopmanager.scanner.camera.GraphicOverlayCanvas
-import com.lonwulf.labs.easyshopmanager.scanner.camera.GraphicOverlayState
-import com.lonwulf.labs.easyshopmanager.scanner.objectDetection.ObjectDetectionProcessor
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 class LiveBarcodeScreenComposable : NavComposable {
@@ -49,7 +62,9 @@ class LiveBarcodeScreenComposable : NavComposable {
         navHostController: NavHostController,
         snackbarHostState: SnackbarHostState
     ) {
-        LiveBarcodeScreen()
+        LiveBarcodeScreen(
+            onClose = { navHostController.popBackStack() }
+        )
     }
 
 }
@@ -59,147 +74,196 @@ class LiveBarcodeScreenComposable : NavComposable {
 fun LiveBarcodeScreen(
     modifier: Modifier = Modifier,
     onClose: () -> Unit = {},
-    viewModel: LiveBarcodeViewModel = koinViewModel(),
+    onNavigateToSettings: () -> Unit = {},
+    viewModel: CameraXViewModel = koinViewModel(),
 ) {
-    val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
-    val ctx = LocalContext.current
+    val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val coroutineScope = rememberCoroutineScope()
+    val cameraPermissionState = rememberPermissionState(android.Manifest.permission.CAMERA)
 
-    val detectedBarcode by viewModel.detectedBarcode.collectAsStateWithLifecycle()
-    val objectCandidate by viewModel.objectCandidate.collectAsStateWithLifecycle()
-    val objectConfirmationProgress by viewModel.objectConfirmationProgress.collectAsStateWithLifecycle()
+    val workflowState by viewModel.workflowState.collectAsState()
+    val detectedBarcode by viewModel.detectedBarcode.collectAsState()
 
-    val previewView = remember {
-        PreviewView(ctx).apply { scaleType = PreviewView.ScaleType.FILL_CENTER }
-    }
-    val barcodeOverlay = remember { GraphicOverlayState() }
-    val objectOverlay = remember { GraphicOverlayState() }
-    val controller = remember { CameraXScannerController(ctx) }
+    val graphicOverlay = remember { GraphicOverlay(context, null) }
+    val previewView = remember { PreviewView(context) }
+    val cameraSource = remember { CameraSource(graphicOverlay) }
 
-    val barcodeProcessor = remember(barcodeOverlay) {
-        BarcodeScannerProcessor(
-            graphicOverlay = barcodeOverlay,
-            zoomCallback = null,
-            callback = viewModel,
-            ctx
-        )
-    }
-    val objectProcessor = remember(objectOverlay) {
-        ObjectDetectionProcessor(
-            graphicOverlay = objectOverlay,
-            callback = viewModel,
-            ctx
-        )
-    }
-
-    var overlaysReady by remember { mutableStateOf(false) }
-    var cameraStarted by remember { mutableStateOf(false) }
-
-    DisposableEffect(lifecycleOwner) {
-        onDispose {
-            viewModel.setCameraLive(false)
-            controller.stop()
-        }
-    }
+    var isFlashOn by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        if (cameraPermissionState.status.isGranted.not()) {
+        viewModel.markCameraLive()
+        cameraSource.setFrameProcessor(BarcodeProcessor(graphicOverlay, viewModel))
+    }
+
+    LaunchedEffect(cameraPermissionState.status.isGranted) {
+        if (cameraPermissionState.status.isGranted) {
+            if (viewModel.workflowState.value == CameraXViewModel.WorkflowState.NOT_STARTED) {
+                viewModel.setWorkflowState(CameraXViewModel.WorkflowState.DETECTING)
+            }
+        } else {
             cameraPermissionState.launchPermissionRequest()
         }
     }
 
-    // Start CameraX once the overlay views are measured.
-    LaunchedEffect(overlaysReady, cameraPermissionState.status.isGranted) {
-        if (overlaysReady && cameraPermissionState.status.isGranted && !cameraStarted) {
-            cameraStarted = true
-            viewModel.setCameraLive(true)
-            controller.start(
-                lifecycleOwner = lifecycleOwner,
-                previewView = previewView,
-                barcodeProcessor = barcodeProcessor,
-                barcodeOverlay = barcodeOverlay,
-                objectProcessor = objectProcessor,
-                objectOverlay = objectOverlay,
-                onAnalysisSize = { width, height ->
-                    barcodeOverlay.setCameraInfo(width, height, isPortrait = true)
-                    objectOverlay.setCameraInfo(width, height, isPortrait = true)
-                }
-            )
+    LaunchedEffect(workflowState, cameraPermissionState.status.isGranted) {
+        if (!cameraPermissionState.status.isGranted) return@LaunchedEffect
+
+        when (workflowState) {
+            CameraXViewModel.WorkflowState.DETECTING,
+            CameraXViewModel.WorkflowState.CONFIRMING -> {
+                cameraSource.start(lifecycleOwner, previewView.surfaceProvider)
+            }
+
+            CameraXViewModel.WorkflowState.SEARCHING -> {
+                isFlashOn = false
+                cameraSource.updateFlashMode("off")
+            }
+
+            else -> Unit
         }
     }
-
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     LaunchedEffect(detectedBarcode) {
         if (detectedBarcode != null) {
-            coroutineScope.launch { sheetState.show() }
+            viewModel.markCameraFrozen()
         } else {
-            coroutineScope.launch { sheetState.hide() }
+            viewModel.markCameraLive()
         }
     }
 
-    ModalBottomSheet(
-        onDismissRequest = {
-            coroutineScope.launch { sheetState.hide() }
-            onClose()
-        },
-        sheetState = sheetState,
-    ) {
-        if (detectedBarcode != null) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(text = detectedBarcode!!.rawValue)
-                Text(
-                    text = buildString {
-                        append(detectedBarcode!!.format)
-                        detectedBarcode!!.valueType?.takeIf { it.isNotBlank() }?.let { value ->
-                            append(" (")
-                            append(value)
-                            append(")")
-                        }
-                    }
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Text(text = "Selected object")
-                if (objectCandidate != null) {
-                    Text(text = objectCandidate!!.label ?: "Unknown")
-                    Spacer(modifier = Modifier.height(8.dp))
-                    LinearProgressIndicator(
-                        progress = { objectConfirmationProgress.coerceIn(0f, 1f) },
-                    )
-                    Text(text = "${(objectConfirmationProgress * 100).toInt()}%")
-                } else {
-                    Text(text = "No candidate in center reticle")
-                }
-            }
-        } else {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(text = "Point the camera at a barcode.")
-                Text(text = "Then align an item with the center reticle.")
-            }
+    DisposableEffect(Unit) {
+        onDispose {
+            cameraSource.release()
+            viewModel.markCameraFrozen()
         }
     }
 
     Box(modifier = modifier.fillMaxSize()) {
-        AndroidView(
-            modifier = Modifier.fillMaxSize(),
-            factory = { previewView },
+        if (cameraPermissionState.status.isGranted) {
+//            CameraSourcePreview(
+//                cameraSource = cameraSource,
+//                modifier = Modifier.fillMaxSize()
+//            ) {
+//                GraphicOverlayView(
+//                    graphicOverlay = graphicOverlayView,
+//                    modifier = Modifier.fillMaxSize()
+//                )
+//            }
+            AndroidView(
+                factory = { previewView },
+                modifier = Modifier.fillMaxSize()
+            )
+
+            AndroidView(
+                factory = { graphicOverlay },
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+
+        // LAYER 3: Prompt Chip
+        PromptChip(
+            workflowState = workflowState,
+            modifier = Modifier.align(Alignment.BottomCenter)
         )
 
-        GraphicOverlayCanvas(
-            overlayState = barcodeOverlay,
-            modifier = Modifier
-                .fillMaxSize()
-                .onSizeChanged { size ->
-                    overlaysReady = size.width > 0 && size.height > 0
+        AnimatedVisibility(
+            visible = detectedBarcode != null,
+            enter = slideInVertically(initialOffsetY = { it }),
+            exit = slideOutVertically(targetOffsetY = { it }),
+            modifier = Modifier.align(Alignment.BottomCenter)
+        ) {
+            Surface(
+                tonalElevation = 8.dp,
+                shadowElevation = 8.dp,
+                shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    val barcodeFieldList = remember(detectedBarcode) {
+                        listOf(
+                            BarcodeField("Raw Value", detectedBarcode?.rawValue ?: "")
+                        )
+                    }
+
+                    BarcodeResultContent(
+                        barcodeFieldList = barcodeFieldList,
+                        onDismiss = {
+                            viewModel.setDetectedBarcode(null)
+                        }
+                    )
+
+                    IconButton(
+                        onClick = { viewModel.setDetectedBarcode(null) },
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(8.dp)
+                    ) {
+                        Icon(Icons.Default.Close, contentDescription = "Dismiss result")
+                    }
                 }
-        )
+            }
+        }
 
-        GraphicOverlayCanvas(
-            overlayState = objectOverlay,
-            modifier = Modifier.fillMaxSize()
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            IconButton(onClick = onClose) {
+                Icon(Icons.Default.Close, contentDescription = "Close", tint = Color.White)
+            }
+            Row {
+                IconButton(onClick = {
+                    isFlashOn = !isFlashOn
+                    cameraSource.updateFlashMode(if (isFlashOn) "torch" else "off")
+                }) {
+                    Icon(
+                        imageVector = if (isFlashOn) Icons.Default.FlashOn else Icons.Default.FlashOff,
+                        contentDescription = "Flash",
+                        tint = Color.White
+                    )
+                }
+                IconButton(onClick = onNavigateToSettings) {
+                    Icon(Icons.Default.Settings, contentDescription = "Settings", tint = Color.White)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun PromptChip(
+    workflowState: CameraXViewModel.WorkflowState,
+    modifier: Modifier = Modifier
+) {
+    val promptText = when (workflowState) {
+        CameraXViewModel.WorkflowState.DETECTING -> "Point at a barcode"
+        CameraXViewModel.WorkflowState.CONFIRMING -> "Move camera closer"
+        CameraXViewModel.WorkflowState.SEARCHING -> "Searching..."
+        else -> null
+    }
+
+    AnimatedVisibility(
+        visible = promptText != null,
+        modifier = modifier.padding(bottom = 64.dp),
+        enter = slideInVertically(initialOffsetY = { it / 2 }) + fadeIn(),
+        exit = fadeOut()
+    ) {
+        AssistChip(
+            onClick = {},
+            label = {
+                Text(
+                    text = promptText ?: "",
+                    style = MaterialTheme.typography.labelLarge
+                )
+            },
+            colors = AssistChipDefaults.assistChipColors(
+                containerColor = Color.Black.copy(alpha = 0.7f),
+                labelColor = Color.White
+            ),
+            shape = CircleShape,
+            border = null
         )
     }
 }

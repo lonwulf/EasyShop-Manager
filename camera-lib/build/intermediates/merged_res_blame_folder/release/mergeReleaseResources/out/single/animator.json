@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "com.lonwulf.labs.camera_lib.camera-lib-release-57:/animator/fragment_open_exit.xml",
+        "source": "com.lonwulf.labs.camera_lib.camera-lib-fragment-1.8.9-15:/animator/fragment_open_exit.xml"
+    },
+    {
+        "merged": "com.lonwulf.labs.camera_lib.camera-lib-release-57:/animator/fragment_close_enter.xml",
+        "source": "com.lonwulf.labs.camera_lib.camera-lib-fragment-1.8.9-15:/animator/fragment_close_enter.xml"
+    },
+    {
+        "merged": "com.lonwulf.labs.camera_lib.camera-lib-release-57:/animator/fragment_fade_enter.xml",
+        "source": "com.lonwulf.labs.camera_lib.camera-lib-fragment-1.8.9-15:/animator/fragment_fade_enter.xml"
+    },
+    {
+        "merged": "com.lonwulf.labs.camera_lib.camera-lib-release-57:/animator/fragment_fade_exit.xml",
+        "source": "com.lonwulf.labs.camera_lib.camera-lib-fragment-1.8.9-15:/animator/fragment_fade_exit.xml"
+    },
+    {
+        "merged": "com.lonwulf.labs.camera_lib.camera-lib-release-57:/animator/fragment_close_exit.xml",
+        "source": "com.lonwulf.labs.camera_lib.camera-lib-fragment-1.8.9-15:/animator/fragment_close_exit.xml"
+    },
+    {
+        "merged": "com.lonwulf.labs.camera_lib.camera-lib-release-57:/animator/fragment_open_enter.xml",
+        "source": "com.lonwulf.labs.camera_lib.camera-lib-fragment-1.8.9-15:/animator/fragment_open_enter.xml"
+    }
+]
