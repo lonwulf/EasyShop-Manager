@@ -3,6 +3,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.sql.delight)
+    alias(libs.plugins.kotlin.serialization)
+
 }
 
 android {
@@ -57,6 +60,13 @@ dependencies {
     implementation(libs.lottie)
     implementation(libs.permissions)
     implementation(libs.cameraView)
+    implementation(libs.sql.delight)
+    implementation(libs.sql.delight.coroutines)
+    implementation(libs.sql.delight.paging)
+    implementation(libs.dataStore)
+    implementation(libs.kotlin.collections)
+    implementation(libs.kotlin.serialization)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -65,4 +75,12 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+sqldelight {
+    databases {
+        register("catalogue") {
+            packageName.set("com.lonwulf.labs.easyshopmanager")
+        }
+    }
 }

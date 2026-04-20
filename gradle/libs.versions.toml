@@ -18,6 +18,11 @@ lottie = "6.7.1"
 camerax = "1.6.0"
 permissions = "0.37.3"
 ksp = "2.3.4"
+sqlDelight = "2.3.2"
+dataStore = "1.2.1"
+kotlinCollections = "0.4.0"
+kotlinSerialization = "1.11.0"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -48,6 +53,12 @@ camera2 = { module = "androidx.camera:camera-camera2", version.ref = "camerax" }
 camera2-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "camerax" }
 cameraView = { module = "androidx.camera:camera-view", version.ref = "camerax" }
 permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "permissions" }
+sql-delight = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight"}
+sql-delight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight"}
+sql-delight-paging = { module = "app.cash.sqldelight:androidx-paging3-extensions", version.ref = "sqlDelight"}
+dataStore = { group = "androidx.datastore", name = "datastore", version.ref = "dataStore" }
+kotlin-collections = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinCollections" }
+kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 
 
 [plugins]
@@ -57,4 +68,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
+sql-delight = { id = "app.cash.sqldelight", version.ref = "sqlDelight"}
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
 
