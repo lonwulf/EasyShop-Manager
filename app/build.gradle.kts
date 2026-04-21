@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.permissions)
     implementation(libs.cameraView)
     implementation(libs.sql.delight)
+//    implementation(libs.sql.delight.dialect)
     implementation(libs.sql.delight.coroutines)
     implementation(libs.sql.delight.paging)
     implementation(libs.dataStore)
@@ -79,8 +80,9 @@ dependencies {
 
 sqldelight {
     databases {
-        register("catalogue") {
-            packageName.set("com.lonwulf.labs.easyshopmanager")
+        create("catalogue") {
+            packageName.set("com.lonwulf.labs.easyshopmanager.db")
+            dialect("app.cash.sqldelight:sqlite-3-38-dialect:2.3.2")
         }
     }
 }

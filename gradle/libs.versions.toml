@@ -54,6 +54,7 @@ camera2-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref =
 cameraView = { module = "androidx.camera:camera-view", version.ref = "camerax" }
 permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "permissions" }
 sql-delight = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight"}
+sql-delight-dialect = { module = "app.cash.sqldelight:sqlite-3-38-dialect", version.ref = "sqlDelight"}
 sql-delight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight"}
 sql-delight-paging = { module = "app.cash.sqldelight:androidx-paging3-extensions", version.ref = "sqlDelight"}
 dataStore = { group = "androidx.datastore", name = "datastore", version.ref = "dataStore" }
