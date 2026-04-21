@@ -6,7 +6,7 @@
     debuggable="true"
     mergedManifest="build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml"
     partialResultsDir="build/intermediates/android_test_lint_partial_results/debug/lintAnalyzeDebugAndroidTest/out"
-    desugaredMethodsFiles="/Users/lonwulf/.gradle/caches/8.13/transforms/135bb14b961b6cfea426ed26ef4c3622/transformed/D8BackportedDesugaredMethods.txt">
+    desugaredMethodsFiles="/Users/lonwulf/.gradle/caches/8.13/transforms/6556b3953bebf1c4c2be40ee3c2bdd82/transformed/D8BackportedDesugaredMethods.txt">
   <buildFeatures
       namespacing="REQUIRED"/>
   <sourceProviders>
@@ -25,6 +25,6 @@
       type="INSTRUMENTATION_TEST"
       applicationId="com.lonwulf.labs.camera_lib.test"
       generatedResourceFolders="build/generated/res/resValues/androidTest/debug"
-      desugaredMethodsFiles="/Users/lonwulf/.gradle/caches/8.13/transforms/135bb14b961b6cfea426ed26ef4c3622/transformed/D8BackportedDesugaredMethods.txt">
+      desugaredMethodsFiles="/Users/lonwulf/.gradle/caches/8.13/transforms/6556b3953bebf1c4c2be40ee3c2bdd82/transformed/D8BackportedDesugaredMethods.txt">
   </artifact>
 </variant>

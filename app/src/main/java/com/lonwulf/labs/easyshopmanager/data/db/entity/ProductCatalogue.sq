@@ -1,0 +1,60 @@
+CREATE TABLE product_catalogue (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    desc TEXT,
+    category_id TEXT NOT NULL,
+    sub_category_id TEXT NOT NULL,
+    price REAL NOT NULL,
+    is_bundled INTEGER,
+    quantity INTEGER,
+
+    FOREIGN KEY(sub_category_id) REFERENCES sub_category(id)
+);
+
+insertProduct:
+    INSERT INTO product_catalogue(id, name, desc, category_id,sub_category_id, price, is_bundled, quantity)
+    VALUES (?,?,?,?,?,?,?,?);
+
+selectProductsWithCategory:
+    SELECT
+        p.id AS product_id,
+        p.name AS product_name,
+        p.price AS product_price,
+
+        s.id AS subcategory_id,
+        s.name AS subcategory_name,
+
+        c.id AS category_id,
+        c.name AS category_name
+
+    FROM product_catalogue p
+    JOIN sub_category s ON p.sub_category_id = s.id
+    JOIN category c ON s.category_id = c.id;
+
+updateProduct:
+    UPDATE product_catalogue
+    SET
+        name = :name,
+        price = :price,
+        sub_category_id = :sub_category_id,
+        is_bundled = :is_bundled,
+        quantity = :quantity
+    WHERE
+        id = :id;
+
+upsertProduct:
+    INSERT INTO product_catalogue(id,name, desc, category_id, sub_category_id, price, is_bundled, quantity)
+    VALUES (:id, :name, :desc, :category_id, :sub_category_id, :price, :is_bundled, :quantity)
+    ON CONFLICT(id) DO UPDATE SET
+        name = :name,
+        desc = :desc,
+        category_id = :category_id,
+        sub_category_id = :sub_category_id,
+        price = :price,
+        is_bundled = :is_bundled,
+        quantity = :quantity;
+
+deleteProduct:
+    DELETE FROM product_catalogue
+    WHERE
+        id = :id;

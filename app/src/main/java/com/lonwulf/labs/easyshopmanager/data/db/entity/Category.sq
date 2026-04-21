@@ -1,0 +1,11 @@
+CREATE TABLE category (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL
+);
+
+CREATE TABLE sub_category (
+    name TEXT NOT NULL,
+    id TEXT NOT NULL PRIMARY KEY,
+    category_id TEXT NOT NULL,
+    FOREIGN KEY(category_id) REFERENCES category(id)
+);

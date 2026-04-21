@@ -1,16 +1,16 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/lonwulf/IdeaProjects/EasyShop-Manager/camera-lib/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest3059524593438390801.xml:2:13-83
-INJECTED from /Users/lonwulf/IdeaProjects/EasyShop-Manager/camera-lib/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest3059524593438390801.xml:2:13-83
+ADDED from /Users/lonwulf/IdeaProjects/EasyShop-Manager/camera-lib/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest14538312379319660938.xml:2:13-83
+INJECTED from /Users/lonwulf/IdeaProjects/EasyShop-Manager/camera-lib/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest14538312379319660938.xml:2:13-83
 	package
-		INJECTED from /Users/lonwulf/IdeaProjects/EasyShop-Manager/camera-lib/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest3059524593438390801.xml
+		INJECTED from /Users/lonwulf/IdeaProjects/EasyShop-Manager/camera-lib/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest14538312379319660938.xml
 	xmlns:android
-		ADDED from /Users/lonwulf/IdeaProjects/EasyShop-Manager/camera-lib/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest3059524593438390801.xml:2:23-81
+		ADDED from /Users/lonwulf/IdeaProjects/EasyShop-Manager/camera-lib/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest14538312379319660938.xml:2:23-81
 uses-sdk
-INJECTED from /Users/lonwulf/IdeaProjects/EasyShop-Manager/camera-lib/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest3059524593438390801.xml reason: use-sdk injection requested
-INJECTED from /Users/lonwulf/IdeaProjects/EasyShop-Manager/camera-lib/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest3059524593438390801.xml
-INJECTED from /Users/lonwulf/IdeaProjects/EasyShop-Manager/camera-lib/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest3059524593438390801.xml
+INJECTED from /Users/lonwulf/IdeaProjects/EasyShop-Manager/camera-lib/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest14538312379319660938.xml reason: use-sdk injection requested
+INJECTED from /Users/lonwulf/IdeaProjects/EasyShop-Manager/camera-lib/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest14538312379319660938.xml
+INJECTED from /Users/lonwulf/IdeaProjects/EasyShop-Manager/camera-lib/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest14538312379319660938.xml
 	android:targetSdkVersion
-		INJECTED from /Users/lonwulf/IdeaProjects/EasyShop-Manager/camera-lib/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest3059524593438390801.xml
+		INJECTED from /Users/lonwulf/IdeaProjects/EasyShop-Manager/camera-lib/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest14538312379319660938.xml
 	android:minSdkVersion
-		INJECTED from /Users/lonwulf/IdeaProjects/EasyShop-Manager/camera-lib/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest3059524593438390801.xml
+		INJECTED from /Users/lonwulf/IdeaProjects/EasyShop-Manager/camera-lib/build/intermediates/tmp/ProcessLibraryManifest/release/tempAndroidManifest14538312379319660938.xml

@@ -4,7 +4,7 @@
             "outputFile": "com.lonwulf.labs.camera_lib.camera-lib-release-57:/values-v30/values-v30.xml",
             "map": [
                 {
-                    "source": "/Users/lonwulf/.gradle/caches/8.13/transforms/4991851f29d26907aa121dbc526293fd/transformed/material3/res/values-v30/values-v30.xml",
+                    "source": "/Users/lonwulf/.gradle/caches/8.13/transforms/da3e2973fb6b7f6afc2935a3d609d87e/transformed/material3/res/values-v30/values-v30.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -19,7 +19,7 @@
             "outputFile": "com.lonwulf.labs.camera_lib.camera-lib-mergeReleaseResources-55:/values-v30/values-v30.xml",
             "map": [
                 {
-                    "source": "/Users/lonwulf/.gradle/caches/8.13/transforms/4991851f29d26907aa121dbc526293fd/transformed/material3/res/values-v30/values-v30.xml",
+                    "source": "/Users/lonwulf/.gradle/caches/8.13/transforms/da3e2973fb6b7f6afc2935a3d609d87e/transformed/material3/res/values-v30/values-v30.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

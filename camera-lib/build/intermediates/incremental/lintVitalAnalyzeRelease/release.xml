@@ -6,7 +6,7 @@
     mergedManifest="build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml"
     proguardFiles="build/intermediates/default_proguard_files/global/proguard-android.txt-8.13.2"
     partialResultsDir="build/intermediates/lint_vital_partial_results/release/lintVitalAnalyzeRelease/out"
-    desugaredMethodsFiles="/Users/lonwulf/.gradle/caches/8.13/transforms/135bb14b961b6cfea426ed26ef4c3622/transformed/D8BackportedDesugaredMethods.txt">
+    desugaredMethodsFiles="/Users/lonwulf/.gradle/caches/8.13/transforms/6556b3953bebf1c4c2be40ee3c2bdd82/transformed/D8BackportedDesugaredMethods.txt">
   <buildFeatures
       namespacing="REQUIRED"/>
   <sourceProviders>
@@ -26,6 +26,6 @@
       applicationId="com.lonwulf.labs.camera_lib"
       generatedSourceFolders="build/generated/ap_generated_sources/release/out:build/generated/source/buildConfig/release"
       generatedResourceFolders="build/generated/res/resValues/release"
-      desugaredMethodsFiles="/Users/lonwulf/.gradle/caches/8.13/transforms/135bb14b961b6cfea426ed26ef4c3622/transformed/D8BackportedDesugaredMethods.txt">
+      desugaredMethodsFiles="/Users/lonwulf/.gradle/caches/8.13/transforms/6556b3953bebf1c4c2be40ee3c2bdd82/transformed/D8BackportedDesugaredMethods.txt">
   </artifact>
 </variant>
