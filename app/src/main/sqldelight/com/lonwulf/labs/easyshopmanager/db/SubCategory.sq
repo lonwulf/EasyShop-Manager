@@ -1,0 +1,23 @@
+CREATE TABLE sub_category (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    category_id TEXT NOT NULL,
+    FOREIGN KEY(category_id) REFERENCES category(id) ON DELETE CASCADE
+);
+
+
+upsertSubCategory:
+    INSERT INTO sub_category(id, name, category_id)
+    VALUES (:id, :name, :category_id)
+    ON CONFLICT(id) DO UPDATE SET
+        id = :id,
+        name = :name,
+        category_id = :category_id;
+
+getAllSubCategories:
+    SELECT * FROM sub_category;
+
+getSubCategoriesByCategoryId:
+    SELECT * FROM sub_category WHERE category_id = :category_id;
+
+

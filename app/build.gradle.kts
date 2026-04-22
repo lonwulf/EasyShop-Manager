@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.sql.delight)
     alias(libs.plugins.kotlin.serialization)
-
 }
 
 android {
@@ -61,7 +60,6 @@ dependencies {
     implementation(libs.permissions)
     implementation(libs.cameraView)
     implementation(libs.sql.delight)
-//    implementation(libs.sql.delight.dialect)
     implementation(libs.sql.delight.coroutines)
     implementation(libs.sql.delight.paging)
     implementation(libs.dataStore)
@@ -80,9 +78,9 @@ dependencies {
 
 sqldelight {
     databases {
-        create("catalogue") {
+        create("Catalogue") {
             packageName.set("com.lonwulf.labs.easyshopmanager.db")
-            dialect("app.cash.sqldelight:sqlite-3-38-dialect:2.3.2")
+            dialect(libs.sql.delight.dialect)
         }
     }
 }

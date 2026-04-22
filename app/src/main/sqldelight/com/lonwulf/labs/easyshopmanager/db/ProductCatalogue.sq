@@ -7,13 +7,14 @@ CREATE TABLE product_catalogue (
     price REAL NOT NULL,
     is_bundled INTEGER,
     quantity INTEGER,
+    image_url TEXT NOT NULL ,
 
     FOREIGN KEY(sub_category_id) REFERENCES sub_category(id)
 );
 
 insertProduct:
-    INSERT INTO product_catalogue(id, name, desc, category_id,sub_category_id, price, is_bundled, quantity)
-    VALUES (?,?,?,?,?,?,?,?);
+    INSERT INTO product_catalogue(id, name, desc, category_id,sub_category_id, price, is_bundled, quantity, image_url)
+    VALUES (?,?,?,?,?,?,?,?, ?);
 
 selectProductsWithCategory:
     SELECT
@@ -43,8 +44,8 @@ updateProduct:
         id = :id;
 
 upsertProduct:
-    INSERT INTO product_catalogue(id,name, desc, category_id, sub_category_id, price, is_bundled, quantity)
-    VALUES (:id, :name, :desc, :category_id, :sub_category_id, :price, :is_bundled, :quantity)
+    INSERT INTO product_catalogue(id,name, desc, category_id, sub_category_id, price, is_bundled, quantity, image_url)
+    VALUES (:id, :name, :desc, :category_id, :sub_category_id, :price, :is_bundled, :quantity, :image_url)
     ON CONFLICT(id) DO UPDATE SET
         name = :name,
         desc = :desc,
@@ -53,6 +54,13 @@ upsertProduct:
         price = :price,
         is_bundled = :is_bundled,
         quantity = :quantity;
+
+
+getAllProducts:
+    SELECT * FROM product_catalogue;
+
+getProductById:
+    SELECT * FROM product_catalogue WHERE id = :id;
 
 deleteProduct:
     DELETE FROM product_catalogue
