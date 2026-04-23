@@ -6,6 +6,7 @@ import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.lonwulf.labs.easyshopmanager.data.source.db.CacheResult
 import com.lonwulf.labs.easyshopmanager.data.util.LocalDataSource
 import com.lonwulf.labs.easyshopmanager.db.Catalogue
+import com.lonwulf.labs.easyshopmanager.db.SelectProductsWithCategory
 import com.lonwulf.labs.easyshopmanager.domain.model.Category
 import com.lonwulf.labs.easyshopmanager.domain.model.Product
 import com.lonwulf.labs.easyshopmanager.domain.model.SubCategory
@@ -74,7 +75,7 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
         productCatalogueQueries.upsertProduct(
             product.id,
             product.name,
-            product.desc,
+            product.description,
             product.categoryId,
             product.subCategoryId,
             product.price,
@@ -96,18 +97,19 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
             name,
             price,
             subCategoryId,
-            if (isBundled) 1L else 0L, quantity, productId).await()
+            if (isBundled) 1L else 0L, quantity, productId
+        ).await()
     }
 
     override suspend fun insertProduct(product: Product): CacheResult<Long> = safeCacheCall(Dispatchers.IO) {
         productCatalogueQueries.insertProduct(
             id = product.id,
             name = product.name,
-            desc = product.desc,
+            description = product.description,
             category_id = product.categoryId,
             sub_category_id = product.subCategoryId,
             price = product.price,
-            is_bundled = if(product.isBundled) 1L else 0L,
+            is_bundled = if (product.isBundled) 1L else 0L,
             quantity = product.quantity,
             image_url = product.imageUrl
         ).await()
@@ -131,5 +133,34 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
 
     override suspend fun deleteProduct(id: String): CacheResult<Long> = safeCacheCall(Dispatchers.IO) {
         productCatalogueQueries.deleteProduct(id).await()
+    }
+
+    override fun getProductsWithCategory(): Flow<CacheResult<List<Product>>> =
+        safeCacheFlow(
+            productCatalogueQueries.selectProductsWithCategory()
+                .asFlow()
+                .mapToList(Dispatchers.IO)
+                .map { it.map { product -> product.toDomain() } }
+        )
+
+    override suspend fun getProductsWithCategoryOnce(): CacheResult<List<Product>> =
+        safeCacheCall(Dispatchers.IO) {
+            productCatalogueQueries.selectProductsWithCategory()
+                .executeAsList()
+                .map { it.toDomain() }
+        }
+
+    private fun SelectProductsWithCategory.toDomain(): Product {
+        return Product(
+            id = product_id,
+            name = product_name,
+            price = product_price,
+            subCategoryId = subcategory_id,
+            categoryId = category_id,
+            description = product_description ?: "",
+            isBundled = product_is_bundled == 1L,
+            quantity = product_quantity ?: 0L,
+            imageUrl = product_image_url
+        )
     }
 }
