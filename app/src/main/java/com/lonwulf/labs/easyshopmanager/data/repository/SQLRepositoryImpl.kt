@@ -26,6 +26,18 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
         catalogue.subCategoryQueries
     }
 
+    override suspend fun insertAllCategories(categories: List<Category>): CacheResult<Pair<Int, Int>> =
+        safeCacheCall(Dispatchers.IO) {
+            var count = 0
+            categoryQueries.transactionWithResult {
+                categories.forEach { category ->
+                    categoryQueries.upsertCategory(category.id, category.name)
+                    count++
+                }
+                Pair(categories.size, count)
+            }
+        }
+
     override suspend fun upsertCategory(id: String, name: String): CacheResult<Long> = safeCacheCall(Dispatchers.IO) {
         categoryQueries.upsertCategory(id, name).await()
     }
@@ -45,6 +57,18 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
                 .mapToList(Dispatchers.IO)
                 .map { it.map { category -> category.toDomain() } }
         )
+
+    override suspend fun insertAllSubCategories(subCategories: List<SubCategory>): CacheResult<Pair<Int, Int>> =
+        safeCacheCall(Dispatchers.IO) {
+            var count = 0
+            subCategoryQueries.transactionWithResult {
+                subCategories.forEach { subCategory ->
+                    subCategoryQueries.upsertSubCategory(subCategory.id, subCategory.name, subCategory.categoryId)
+                    count++
+                }
+                Pair(subCategories.size, count)
+            }
+        }
 
     override suspend fun upsertSubCategory(id: String, name: String, categoryId: String): CacheResult<Long> =
         safeCacheCall(Dispatchers.IO) {
@@ -121,6 +145,28 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
             image_url = product.imageUrl
         ).await()
     }
+
+    override suspend fun insertAllProducts(products: List<Product>): CacheResult<Pair<Int, Int>> =
+        safeCacheCall(Dispatchers.IO) {
+            productCatalogueQueries.transactionWithResult {
+                var count = 0
+                products.forEach { product ->
+                    productCatalogueQueries.upsertProduct(
+                        id = product.id,
+                        name = product.name,
+                        description = product.description,
+                        category_id = product.categoryId,
+                        sub_category_id = product.subCategoryId,
+                        price = product.price,
+                        is_bundled = if (product.isBundled) 1L else 0L,
+                        quantity = product.quantity,
+                        image_url = product.imageUrl
+                    )
+                    count++
+                }
+                Pair(products.size, count)
+            }
+        }
 
     override fun getAllProducts(): Flow<CacheResult<List<Product>>> =
         safeCacheFlow(

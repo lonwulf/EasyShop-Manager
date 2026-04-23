@@ -7,10 +7,12 @@ import com.lonwulf.labs.easyshopmanager.domain.model.SubCategory
 import kotlinx.coroutines.flow.Flow
 
 interface ISQLRepository {
+    suspend fun insertAllCategories(categories: List<Category>): CacheResult<Pair<Int, Int>>
     suspend fun upsertCategory(id: String, name: String): CacheResult<Long>
     fun getCategoryById(id: String): Flow<CacheResult<Category?>>
     fun getAllCategories(): Flow<CacheResult<List<Category>>>
 
+    suspend fun insertAllSubCategories(subCategories: List<SubCategory>): CacheResult<Pair<Int, Int>>
     suspend fun upsertSubCategory(id: String, name: String, categoryId: String): CacheResult<Long>
     fun getAllSubCategories(): Flow<CacheResult<List<SubCategory>>>
     fun getSubCategoriesByCategoryId(categoryId: String): Flow<CacheResult<List<SubCategory>>>
@@ -27,6 +29,7 @@ interface ISQLRepository {
     ): CacheResult<Long>
 
     suspend fun insertProduct(product: Product): CacheResult<Long>
+    suspend fun insertAllProducts(products: List<Product>): CacheResult<Pair<Int, Int>>
     fun getAllProducts(): Flow<CacheResult<List<Product>>>
     fun getProductById(id: String): Flow<CacheResult<Product?>>
     suspend fun deleteProduct(id: String): CacheResult<Long>

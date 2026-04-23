@@ -54,7 +54,7 @@ open class LocalDataSource {
             }
     }
 
-    fun mapToSqliteError(throwable: Throwable): SqliteOperationResult {
+    private fun mapToSqliteError(throwable: Throwable): SqliteOperationResult {
         return when (throwable) {
             is SQLiteConstraintException -> SqliteOperationResult.CONSTRAINT
             is SQLiteFullException -> SqliteOperationResult.FULL
