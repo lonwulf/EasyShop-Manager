@@ -20,4 +20,7 @@ getAllSubCategories:
 getSubCategoriesByCategoryId:
     SELECT * FROM sub_category WHERE category_id = :category_id;
 
+getSubCategoryById:
+    SELECT * FROM sub_category WHERE id = :id;
+
 

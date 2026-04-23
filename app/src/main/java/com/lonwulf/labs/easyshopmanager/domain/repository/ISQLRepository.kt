@@ -14,6 +14,7 @@ interface ISQLRepository {
     suspend fun upsertSubCategory(id: String, name: String, categoryId: String): CacheResult<Long>
     fun getAllSubCategories(): Flow<CacheResult<List<SubCategory>>>
     fun getSubCategoriesByCategoryId(categoryId: String): Flow<CacheResult<List<SubCategory>>>
+    fun getSubCategoryById(id: String): Flow<CacheResult<SubCategory?>>
 
     suspend fun upsertProduct(product: Product): CacheResult<Long>
     suspend fun updateProduct(

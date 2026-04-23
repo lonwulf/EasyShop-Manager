@@ -1,6 +1,7 @@
 package com.lonwulf.labs.easyshopmanager.domain.model
 
 import com.lonwulf.labs.easyshopmanager.db.Product_catalogue
+import com.lonwulf.labs.easyshopmanager.db.SelectProductsWithCategory
 
 data class Product(
     val id: String,
@@ -21,4 +22,18 @@ fun List<Product_catalogue>.toDomainList(): List<Product> = mutableListOf<Produc
     this@toDomainList.forEach {
         add(it.toDomain())
     }
+}
+
+fun SelectProductsWithCategory.toDomain(): Product {
+    return Product(
+        id = product_id,
+        name = product_name,
+        price = product_price,
+        subCategoryId = subcategory_id,
+        categoryId = category_id,
+        description = product_description ?: "",
+        isBundled = product_is_bundled == 1L,
+        quantity = product_quantity ?: 0L,
+        imageUrl = product_image_url
+    )
 }

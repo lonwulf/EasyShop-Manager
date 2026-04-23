@@ -6,7 +6,6 @@ import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.lonwulf.labs.easyshopmanager.data.source.db.CacheResult
 import com.lonwulf.labs.easyshopmanager.data.util.LocalDataSource
 import com.lonwulf.labs.easyshopmanager.db.Catalogue
-import com.lonwulf.labs.easyshopmanager.db.SelectProductsWithCategory
 import com.lonwulf.labs.easyshopmanager.domain.model.Category
 import com.lonwulf.labs.easyshopmanager.domain.model.Product
 import com.lonwulf.labs.easyshopmanager.domain.model.SubCategory
@@ -68,6 +67,14 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
                 .asFlow()
                 .mapToList(Dispatchers.IO)
                 .map { it.map { subCategory -> subCategory.toDomain() } }
+        )
+
+    override fun getSubCategoryById(id: String): Flow<CacheResult<SubCategory?>> =
+        safeCacheFlow(
+            subCategoryQueries.getSubCategoryById(id)
+                .asFlow()
+                .mapToOneOrNull(Dispatchers.IO)
+                .map { it?.toDomain() }
         )
 
 
@@ -149,18 +156,4 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
                 .executeAsList()
                 .map { it.toDomain() }
         }
-
-    private fun SelectProductsWithCategory.toDomain(): Product {
-        return Product(
-            id = product_id,
-            name = product_name,
-            price = product_price,
-            subCategoryId = subcategory_id,
-            categoryId = category_id,
-            description = product_description ?: "",
-            isBundled = product_is_bundled == 1L,
-            quantity = product_quantity ?: 0L,
-            imageUrl = product_image_url
-        )
-    }
 }

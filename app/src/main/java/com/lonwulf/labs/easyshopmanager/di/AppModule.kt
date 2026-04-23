@@ -18,5 +18,4 @@ val appModule = module {
     single<IDatastoreRepository> { DatastoreRepositoryImpl(androidContext()) }
     single<ISQLRepository> { SQLRepositoryImpl(get()) }
     viewModel { MainViewModel() }
-
 }
