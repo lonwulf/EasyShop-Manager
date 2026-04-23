@@ -23,7 +23,8 @@ class DatastoreRepositoryImpl(private val context: Context) : IDatastoreReposito
                 fName = appSettings.fName,
                 lName = appSettings.lName,
                 email = appSettings.email,
-                userId = appSettings.userId
+                userId = appSettings.userId,
+                sessionToken = appSettings.sessionToken
             )
         }
     }
@@ -34,7 +35,8 @@ class DatastoreRepositoryImpl(private val context: Context) : IDatastoreReposito
                 fName = "",
                 lName = "",
                 email = "",
-                userId = ""
+                userId = "",
+                sessionToken = ""
             )
         }
     }

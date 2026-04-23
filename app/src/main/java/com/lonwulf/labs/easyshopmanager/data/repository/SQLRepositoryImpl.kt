@@ -112,7 +112,8 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
             product.price,
             if (product.isBundled) 1L else 0L,
             product.quantity,
-            product.imageUrl
+            product.imageUrl,
+            product.serialNo
         ).await()
     }
 
@@ -142,7 +143,8 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
             price = product.price,
             is_bundled = if (product.isBundled) 1L else 0L,
             quantity = product.quantity,
-            image_url = product.imageUrl
+            image_url = product.imageUrl,
+            serial_no = product.serialNo
         ).await()
     }
 
@@ -160,7 +162,8 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
                         price = product.price,
                         is_bundled = if (product.isBundled) 1L else 0L,
                         quantity = product.quantity,
-                        image_url = product.imageUrl
+                        image_url = product.imageUrl,
+                        seral_no = product.serialNo
                     )
                     count++
                 }

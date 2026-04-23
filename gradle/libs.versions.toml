@@ -22,6 +22,7 @@ sqlDelight = "2.3.2"
 dataStore = "1.2.1"
 kotlinCollections = "0.4.0"
 kotlinSerialization = "1.11.0"
+workManager = "2.11.2"
 
 
 [libraries]
@@ -60,7 +61,7 @@ sql-delight-paging = { module = "app.cash.sqldelight:androidx-paging3-extensions
 dataStore = { group = "androidx.datastore", name = "datastore", version.ref = "dataStore" }
 kotlin-collections = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinCollections" }
 kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization" }
-
+work-manager = {module = "androidx.work:work-runtime-ktx", version.ref = "workManager"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

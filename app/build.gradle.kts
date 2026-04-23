@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.dataStore)
     implementation(libs.kotlin.collections)
     implementation(libs.kotlin.serialization)
+    implementation(libs.work.manager)
 
 
     testImplementation(libs.junit)

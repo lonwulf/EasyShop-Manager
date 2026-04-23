@@ -8,13 +8,14 @@ CREATE TABLE product_catalogue (
     is_bundled INTEGER,
     quantity INTEGER,
     image_url TEXT NOT NULL ,
+    serial_no TEXT ,
 
     FOREIGN KEY(sub_category_id) REFERENCES sub_category(id)
 );
 
 insertProduct:
-    INSERT INTO product_catalogue(id, name, description, category_id,sub_category_id, price, is_bundled, quantity, image_url)
-    VALUES (?,?,?,?,?,?,?,?, ?);
+    INSERT INTO product_catalogue(id, name, description, category_id,sub_category_id, price, is_bundled, quantity, image_url, serial_no)
+    VALUES (?,?,?,?,?,?,?,?, ?, ?);
 
 selectProductsWithCategory:
     SELECT
@@ -25,6 +26,7 @@ selectProductsWithCategory:
         p.is_bundled AS product_is_bundled,
         p.quantity AS product_quantity,
         p.image_url AS product_image_url,
+        p.serial_no AS product_serial_no,
 
         s.id AS subcategory_id,
         s.name AS subcategory_name,
@@ -48,8 +50,10 @@ updateProduct:
         id = :id;
 
 upsertProduct:
-    INSERT INTO product_catalogue(id,name, description, category_id, sub_category_id, price, is_bundled, quantity, image_url)
-    VALUES (:id, :name, :description, :category_id, :sub_category_id, :price, :is_bundled, :quantity, :image_url)
+    INSERT INTO product_catalogue(id,name, description, category_id, sub_category_id, price, is_bundled, quantity,
+    image_url, serial_no)
+    VALUES (:id, :name, :description, :category_id, :sub_category_id,
+    :price, :is_bundled, :quantity, :image_url, :seral_no)
     ON CONFLICT(id) DO UPDATE SET
         name = :name,
         description = :description,
