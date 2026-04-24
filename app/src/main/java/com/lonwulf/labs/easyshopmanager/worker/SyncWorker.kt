@@ -10,8 +10,8 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 
 class SyncWorker(
-    private val context: Context,
-    private val params: WorkerParameters,
+    context: Context,
+    params: WorkerParameters,
     private val productsUseCase: ProductsUseCase,
     private val syncEvent: SyncEvent
 ) :

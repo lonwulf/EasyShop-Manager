@@ -11,8 +11,10 @@ import com.lonwulf.labs.easyshopmanager.domain.useCase.ProductsUseCase
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.MainViewModel
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.ProductViewModel
 import com.lonwulf.labs.easyshopmanager.util.SyncEvent
+import com.lonwulf.labs.easyshopmanager.worker.SyncWorker
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.workmanager.dsl.worker
 import org.koin.dsl.module
 
 val appModule = module {
@@ -22,6 +24,7 @@ val appModule = module {
     single<IDatastoreRepository> { DatastoreRepositoryImpl(androidContext()) }
     single<ISQLRepository> { SQLRepositoryImpl(get()) }
     single { ProductsUseCase(get()) }
+    worker { SyncWorker(androidContext(), get(), productsUseCase = get(), syncEvent = get()) }
     viewModel { ProductViewModel(get()) }
     viewModel { MainViewModel() }
 }

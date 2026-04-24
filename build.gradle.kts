@@ -7,5 +7,7 @@ plugins {
     alias (libs.plugins.ksp) apply false
     alias (libs.plugins.kotlin.parcelize) apply false
     alias (libs.plugins.sql.delight) apply false
+    alias (libs.plugins.koin.compiler) apply false
+    alias(libs.plugins.kotzilla) apply false
 
 }

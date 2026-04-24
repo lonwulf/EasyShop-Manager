@@ -40,7 +40,7 @@ dependencies{
     api(libs.androidx.material3)
     api(libs.material.icons)
     api(libs.navigation.compose)
-    api(libs.koin.android)
+    implementation(libs.koin.android)
 
     api(libs.ml.kit.barcode.scanner)
     implementation(libs.ml.kit.obj.detection)

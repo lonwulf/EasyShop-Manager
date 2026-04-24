@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.sql.delight)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.koin.compiler)
+    alias(libs.plugins.kotzilla)
 }
 
 android {
@@ -66,6 +68,11 @@ dependencies {
     implementation(libs.kotlin.collections)
     implementation(libs.kotlin.serialization)
     implementation(libs.work.manager)
+    implementation(libs.koin.android)
+    implementation(libs.koin.core)
+//    implementation(libs.koin.annotations)
+    implementation(libs.koin.workmanager)
+    implementation(libs.kotzilla.sdk.compose)
 
 
     testImplementation(libs.junit)
