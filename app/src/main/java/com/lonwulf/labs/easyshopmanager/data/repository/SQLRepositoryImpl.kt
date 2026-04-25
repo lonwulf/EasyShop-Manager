@@ -113,7 +113,8 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
             if (product.isBundled) 1L else 0L,
             product.quantity,
             product.imageUrl,
-            product.serialNo
+            product.serialNo,
+            product.brand
         ).await()
     }
 
@@ -144,7 +145,8 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
             is_bundled = if (product.isBundled) 1L else 0L,
             quantity = product.quantity,
             image_url = product.imageUrl,
-            serial_no = product.serialNo
+            serial_no = product.serialNo,
+            brand = product.brand,
         ).await()
     }
 
@@ -163,7 +165,8 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
                         is_bundled = if (product.isBundled) 1L else 0L,
                         quantity = product.quantity,
                         image_url = product.imageUrl,
-                        seral_no = product.serialNo
+                        seral_no = product.serialNo,
+                        brand = product.brand,
                     )
                     count++
                 }
@@ -205,4 +208,12 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
                 .executeAsList()
                 .map { it.toDomain() }
         }
+
+    override fun getProductsByBrand(brand: String): Flow<CacheResult<List<Product>>> =
+        safeCacheFlow(
+            productCatalogueQueries.selectProductsByBrand(brand)
+                .asFlow()
+                .mapToList(Dispatchers.IO)
+                .map { it.map { product -> product.toDomain() } }
+        )
 }

@@ -1,0 +1,11 @@
+CREATE TABLE brand (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    origin TEXT
+);
+
+selectAllBrands:
+    SELECT * FROM brand;
+
+selectBrandById:
+    SELECT * FROM brand WHERE id = :id;

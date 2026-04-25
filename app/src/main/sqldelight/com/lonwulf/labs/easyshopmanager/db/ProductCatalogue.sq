@@ -9,13 +9,14 @@ CREATE TABLE product_catalogue (
     quantity INTEGER,
     image_url TEXT NOT NULL ,
     serial_no TEXT ,
+    brand TEXT,
 
     FOREIGN KEY(sub_category_id) REFERENCES sub_category(id)
 );
 
 insertProduct:
-    INSERT INTO product_catalogue(id, name, description, category_id,sub_category_id, price, is_bundled, quantity, image_url, serial_no)
-    VALUES (?,?,?,?,?,?,?,?, ?, ?);
+    INSERT INTO product_catalogue(id, name, description, category_id,sub_category_id, price, is_bundled, quantity, image_url, serial_no, brand)
+    VALUES (?,?,?,?,?,?,?,?, ?, ?, ?);
 
 selectProductsWithCategory:
     SELECT
@@ -27,6 +28,9 @@ selectProductsWithCategory:
         p.quantity AS product_quantity,
         p.image_url AS product_image_url,
         p.serial_no AS product_serial_no,
+        p.brand AS product_brand,
+
+        b.id AS brand_id,
 
         s.id AS subcategory_id,
         s.name AS subcategory_name,
@@ -35,6 +39,7 @@ selectProductsWithCategory:
         c.name AS category_name
 
     FROM product_catalogue p
+    JOIN brand b ON p.brand = b.id
     JOIN sub_category s ON p.sub_category_id = s.id
     JOIN category c ON s.category_id = c.id;
 
@@ -51,9 +56,9 @@ updateProduct:
 
 upsertProduct:
     INSERT INTO product_catalogue(id,name, description, category_id, sub_category_id, price, is_bundled, quantity,
-    image_url, serial_no)
+    image_url, serial_no, brand)
     VALUES (:id, :name, :description, :category_id, :sub_category_id,
-    :price, :is_bundled, :quantity, :image_url, :seral_no)
+    :price, :is_bundled, :quantity, :image_url, :seral_no, :brand)
     ON CONFLICT(id) DO UPDATE SET
         name = :name,
         description = :description,
@@ -61,8 +66,11 @@ upsertProduct:
         sub_category_id = :sub_category_id,
         price = :price,
         is_bundled = :is_bundled,
-        quantity = :quantity;
+        quantity = :quantity,
+        brand = : brand;
 
+selectProductsByBrand:
+    SELECT * FROM product_catalogue WHERE brand = : brand;
 
 getAllProducts:
     SELECT * FROM product_catalogue;

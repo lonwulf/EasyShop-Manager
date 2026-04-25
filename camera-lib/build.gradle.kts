@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.koin.compiler)
 }
 
 android {
@@ -41,6 +42,7 @@ dependencies{
     api(libs.material.icons)
     api(libs.navigation.compose)
     implementation(libs.koin.android)
+//    implementation(libs.koin.viewmodel)
 
     api(libs.ml.kit.barcode.scanner)
     implementation(libs.ml.kit.obj.detection)
@@ -50,6 +52,5 @@ dependencies{
     implementation(libs.cameraView)
     implementation(libs.permissions)
     implementation("com.google.guava:guava:27.1-android")
-
 
 }

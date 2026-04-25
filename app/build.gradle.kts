@@ -69,8 +69,9 @@ dependencies {
     implementation(libs.kotlin.serialization)
     implementation(libs.work.manager)
     implementation(libs.koin.android)
-    implementation(libs.koin.core)
-//    implementation(libs.koin.annotations)
+//    implementation(libs.koin.core)
+    implementation(libs.koin.compose.navigation)
+//    implementation(libs.koin.viewmodel)
     implementation(libs.koin.workmanager)
     implementation(libs.kotzilla.sdk.compose)
 

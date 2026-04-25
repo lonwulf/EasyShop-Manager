@@ -35,5 +35,6 @@ interface ISQLRepository {
     suspend fun deleteProduct(id: String): CacheResult<Long>
     fun getProductsWithCategory(): Flow<CacheResult<List<Product>>>
     suspend fun getProductsWithCategoryOnce(): CacheResult<List<Product>>
+    fun getProductsByBrand(brand:String): Flow<CacheResult<List<Product>>>
 
 }

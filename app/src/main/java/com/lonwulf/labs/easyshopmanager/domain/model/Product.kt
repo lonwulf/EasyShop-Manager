@@ -6,28 +6,30 @@ import com.lonwulf.labs.easyshopmanager.db.SelectProductsWithCategory
 data class Product(
     val id: String,
     val name: String,
-    val description: String,
+    val description: String? = null,
     val categoryId: String,
     val subCategoryId: String,
     val price: Double,
     val isBundled: Boolean,
-    val quantity: Long,
+    val quantity: Long? = 0L,
     val imageUrl: String,
-    val serialNo: String,
+    val serialNo: String? = null,
+    val brand: String? = null
 )
 
 fun Product_catalogue.toDomain(): Product =
     Product(
         id,
         name,
-        description ?: "",
+        description,
         category_id,
         sub_category_id,
         price,
         is_bundled == 1L,
-        quantity ?: 0L,
+        quantity,
         image_url,
-        serial_no ?: ""
+        serial_no,
+        brand,
     )
 
 fun List<Product_catalogue>.toDomainList(): List<Product> = mutableListOf<Product>().apply {
@@ -43,10 +45,11 @@ fun SelectProductsWithCategory.toDomain(): Product {
         price = product_price,
         subCategoryId = subcategory_id,
         categoryId = category_id,
-        description = product_description ?: "",
+        description = product_description,
         isBundled = product_is_bundled == 1L,
-        quantity = product_quantity ?: 0L,
+        quantity = product_quantity,
         imageUrl = product_image_url,
-        serialNo = product_serial_no ?: ""
+        serialNo = product_serial_no,
+        brand = product_brand,
     )
 }
