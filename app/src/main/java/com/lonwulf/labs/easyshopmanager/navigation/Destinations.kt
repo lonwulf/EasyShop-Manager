@@ -14,16 +14,22 @@ object DestinationsConstants {
     const val FORGOT_PASS_REQUEST_SCREEN = "_FORGOT_PASS_REQUEST_SCREEN"
     const val SCANNER_SCREEN = "_SCANNER_SCREEN"
     const val OBJECT_DETECTION_SCREEN = "_OBJECT_DETECTION_SCREEN"
+    const val MANUAL_INPUT_SCREEN = "_MANUAL_INPUT_SCREEN"
 
 }
 
-sealed class Destinations(val title: String, val route:String) {
+sealed class Destinations(val route: String, val title: String) {
     object ForgotPasswordScreen :
         Destinations(DestinationsConstants.FORGOT_PASS_REQUEST_SCREEN, "Forgot Password")
+
     object ScannerScreen :
         Destinations(DestinationsConstants.SCANNER_SCREEN, "Scanner Screen")
+
     object ObjectDetectionScreen :
         Destinations(DestinationsConstants.OBJECT_DETECTION_SCREEN, "Object detection Screen")
+
+    object ManualInputScreen :
+        Destinations(DestinationsConstants.MANUAL_INPUT_SCREEN, "Create Product Entry")
 }
 
 sealed class TopLevelDestinations(val route: String, val icon: ImageVector, val title: String) {
@@ -35,6 +41,7 @@ sealed class TopLevelDestinations(val route: String, val icon: ImageVector, val 
         Icons.Outlined.Backpack,
         "Products"
     )
+
     object SettingsScreen : TopLevelDestinations(
         DestinationsConstants.SETTINGS_SCREEN,
         Icons.Outlined.Settings,
