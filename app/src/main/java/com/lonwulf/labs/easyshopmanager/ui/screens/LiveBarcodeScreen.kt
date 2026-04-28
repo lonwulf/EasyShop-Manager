@@ -160,7 +160,6 @@ fun LiveBarcodeScreen(
             )
         }
 
-        // LAYER 3: Prompt Chip
         PromptChip(
             workflowState = workflowState,
             modifier = Modifier.align(Alignment.BottomCenter)
