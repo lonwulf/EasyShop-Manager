@@ -5,6 +5,7 @@ CREATE TABLE product_catalogue (
     category_id TEXT NOT NULL,
     sub_category_id TEXT NOT NULL,
     price REAL NOT NULL,
+    buying_price REAL NOT NULL,
     is_bundled INTEGER,
     quantity INTEGER,
     image_url TEXT NOT NULL ,
@@ -15,14 +16,15 @@ CREATE TABLE product_catalogue (
 );
 
 insertProduct:
-    INSERT INTO product_catalogue(id, name, description, category_id,sub_category_id, price, is_bundled, quantity, image_url, serial_no, brand)
-    VALUES (?,?,?,?,?,?,?,?, ?, ?, ?);
+    INSERT OR REPLACE INTO product_catalogue(id, name, description, category_id,sub_category_id, price, buying_price, is_bundled, quantity, image_url, serial_no, brand)
+    VALUES (?,?,?,?,?,?,?,?, ?, ?, ?, ?);
 
 selectProductsWithCategory:
     SELECT
         p.id AS product_id,
         p.name AS product_name,
         p.price AS product_price,
+        p.buying_price AS product_buying_price,
         p.description AS product_description,
         p.is_bundled AS product_is_bundled,
         p.quantity AS product_quantity,
@@ -55,16 +57,17 @@ updateProduct:
         id = :id;
 
 upsertProduct:
-    INSERT INTO product_catalogue(id,name, description, category_id, sub_category_id, price, is_bundled, quantity,
+    INSERT INTO product_catalogue(id,name, description, category_id, sub_category_id, price, buying_price, is_bundled, quantity,
     image_url, serial_no, brand)
     VALUES (:id, :name, :description, :category_id, :sub_category_id,
-    :price, :is_bundled, :quantity, :image_url, :seral_no, :brand)
+    :price, :buying_price, :is_bundled, :quantity, :image_url, :seral_no, :brand)
     ON CONFLICT(id) DO UPDATE SET
         name = :name,
         description = :description,
         category_id = :category_id,
         sub_category_id = :sub_category_id,
         price = :price,
+        buying_price = :buying_price,
         is_bundled = :is_bundled,
         quantity = :quantity,
         brand = : brand;

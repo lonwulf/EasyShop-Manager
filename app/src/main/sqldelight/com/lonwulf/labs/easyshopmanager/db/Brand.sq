@@ -4,6 +4,10 @@ CREATE TABLE brand (
     origin TEXT
 );
 
+insertOrReplace:
+    INSERT OR REPLACE INTO brand(id, name, origin)
+    VALUES (?,?,?);
+
 selectAllBrands:
     SELECT * FROM brand;
 
