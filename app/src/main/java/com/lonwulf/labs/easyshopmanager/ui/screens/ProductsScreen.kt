@@ -19,6 +19,7 @@ import androidx.navigation.NavHostController
 import com.lonwulf.labs.easyshopmanager.navigation.Destinations
 import com.lonwulf.labs.easyshopmanager.navigation.NavComposable
 import com.lonwulf.labs.easyshopmanager.ui.components.EmptyViewComponent
+import com.lonwulf.labs.easyshopmanager.ui.components.ProductListComponent
 import com.lonwulf.labs.easyshopmanager.ui.components.ProgressLoader
 import com.lonwulf.labs.easyshopmanager.ui.components.SearchFieldComponent
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.MainViewModel
@@ -55,9 +56,11 @@ fun ProductsScreen(modifier: Modifier = Modifier, navHostController: NavHostCont
                 ) {
                     SearchFieldComponent(
                         value = searchString,
-                        onValueChange = {searchString = it},
+                        onValueChange = { searchString = it },
                         onSearchClick = {}
                     )
+
+                    ProductListComponent(productList = state.products)
                 }
             }
         }

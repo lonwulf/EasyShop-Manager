@@ -1,83 +1,99 @@
-/*
- * Copyright 2020 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.lonwulf.labs.easyshopmanager.ui.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Cloud
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.lonwulf.labs.camera.domain.model.Product
+import com.lonwulf.labs.easyshopmanager.R
+import com.lonwulf.labs.easyshopmanager.domain.model.Product
 
-/** Presents the list of product items from cloud product search.  */
 @Composable
-fun ProductList(productList: List<Product>) {
-    LazyColumn {
-        items(productList) { product ->
-            ProductItem(product)
-            HorizontalDivider()
+fun ProductListComponent(modifier: Modifier = Modifier, productList: List<Product> = emptyList()) {
+    LazyColumn(
+        contentPadding = PaddingValues(5.dp),
+        verticalArrangement = Arrangement.spacedBy(5.dp)
+    ) {
+        items(productList) {
+            ProductItemComponent(
+                name = it.name,
+                make = it.brand ?: "brand not found",
+                qty = it.quantity.toString(),
+                onDelete = {},
+            )
         }
     }
 }
 
 @Composable
-fun ProductItem(product: Product) {
-    Row(
-        modifier = Modifier
+fun ProductItemComponent(
+    modifier: Modifier = Modifier,
+    name: String,
+    make: String,
+    qty: String,
+    onDelete: () -> Unit,
+    onclick: (() -> Unit)? = null
+) {
+    ElevatedCard(
+        shape = RoundedCornerShape(8.dp),
+        elevation = CardDefaults.cardElevation(5.dp),
+        modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(5.dp),
+        colors = CardDefaults.cardColors(contentColor = Color.White),
+        onClick = { onclick?.invoke() }
     ) {
-        // Image loading should ideally be done with a library like Coil or Glide for Compose.
-        // For now, using a placeholder.
-        Image(
-            imageVector = Icons.Default.Cloud,
-            contentDescription = null,
-            modifier = Modifier.size(64.dp),
-            contentScale = ContentScale.Fit
-        )
-
-        Column(
-            modifier = Modifier
-                .padding(start = 16.dp)
-                .weight(1f)
+        Row(
+            horizontalArrangement = Arrangement.SpaceAround,
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = product.title,
-                style = MaterialTheme.typography.titleMedium
+            Text(text = name, style = MaterialTheme.typography.bodyMedium)
+            Text(text = make, style = MaterialTheme.typography.bodyMedium)
+            Text(text = "qty: $qty", style = MaterialTheme.typography.bodyMedium)
+            Image(
+                painter = painterResource(R.drawable.outline_delete_icn),
+                contentDescription = "delete icon",
+                modifier = Modifier
+                    .size(24.dp)
+                    .clickable { onDelete() }
             )
-            Text(
-                text = product.subtitle,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun showSingleComponent() {
+    ProductItemComponent(name = "Awei earpods", make = "Awei", qty = "3", onDelete = {}, onclick = {})
+}
+
+@Preview(showBackground = false)
+@Composable
+fun showListItemComponent() {
+    LazyColumn(
+        contentPadding = PaddingValues(5.dp),
+        verticalArrangement = Arrangement.spacedBy(5.dp)
+    ) {
+        items(5) {
+            ProductItemComponent(name = "Awei earpods", make = "Awei", qty = "3", onDelete = {}, onclick = {})
         }
     }
 }

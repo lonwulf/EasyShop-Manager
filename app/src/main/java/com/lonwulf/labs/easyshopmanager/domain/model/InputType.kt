@@ -9,6 +9,18 @@ sealed class InputType {
         val keyboardType: KeyboardType = KeyboardType.Text,
     ) : InputType()
 
+    data class Email(
+        val keyboardType: KeyboardType = KeyboardType.Text,
+    ) : InputType()
+
+    data class NumberInput(
+        val keyboardType: KeyboardType = KeyboardType.Text,
+    ) : InputType()
+
+    data class PhoneInput(
+        val keyboardType: KeyboardType = KeyboardType.Text,
+    ) : InputType()
+
     /** Password field with a show/hide toggle. */
     data class Password(
         val isVisible: Boolean = false,

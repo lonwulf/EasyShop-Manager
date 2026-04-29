@@ -12,11 +12,11 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -57,6 +57,9 @@ fun TextInputComponent(
     val keyboardOptions = when (inputType) {
         is InputType.Text -> KeyboardOptions(keyboardType = inputType.keyboardType)
         is InputType.Password -> KeyboardOptions(keyboardType = KeyboardType.Password)
+        is InputType.Email -> KeyboardOptions(keyboardType = KeyboardType.Email)
+        is InputType.NumberInput -> KeyboardOptions(keyboardType = KeyboardType.Number)
+        is InputType.PhoneInput -> KeyboardOptions(keyboardType = KeyboardType.Phone)
         is InputType.Dropdown -> KeyboardOptions.Default
     }
     val visualTransformation = when {
@@ -74,7 +77,7 @@ fun TextInputComponent(
 
     val baseFieldModifier = Modifier
         .fillMaxWidth()
-        .clip(RoundedCornerShape(5.dp))
+        .clip(RoundedCornerShape(8.dp))
 
 
     val textField: @Composable (modifier: Modifier) -> Unit = { finalModifier ->
@@ -104,7 +107,7 @@ fun TextInputComponent(
             modifier = modifier
         ) {
             textField(
-                baseFieldModifier.menuAnchor(MenuAnchorType.PrimaryNotEditable)
+                baseFieldModifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
             )
             if (inputType.options.isNotEmpty()) {
                 ExposedDropdownMenu(
@@ -130,7 +133,7 @@ fun TextInputComponent(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun EmailTextInputComponentPreview() {
     EasyShopManagerTheme {
@@ -145,7 +148,7 @@ fun EmailTextInputComponentPreview() {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun PlainTextInputComponentPreview() {
     EasyShopManagerTheme {
@@ -172,7 +175,7 @@ fun PhoneInputComponentPreview() {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun NumberInputComponentPreview() {
     EasyShopManagerTheme {
@@ -212,7 +215,7 @@ fun PasswordInputComponentPreview() {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun ConfirmPasswordInputComponentPreview() {
     EasyShopManagerTheme {
@@ -244,7 +247,7 @@ fun ConfirmPasswordInputComponentPreview() {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun DropdownInputComponentPreview() {
     EasyShopManagerTheme {
