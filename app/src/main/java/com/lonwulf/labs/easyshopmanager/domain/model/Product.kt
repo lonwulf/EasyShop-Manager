@@ -1,44 +1,43 @@
 package com.lonwulf.labs.easyshopmanager.domain.model
 
-import com.lonwulf.labs.easyshopmanager.db.Product_catalogue
+import com.lonwulf.labs.easyshopmanager.db.GetProductById
+import com.lonwulf.labs.easyshopmanager.db.ProductWithRelations
+import com.lonwulf.labs.easyshopmanager.db.SelectProductsByBrand
 import com.lonwulf.labs.easyshopmanager.db.SelectProductsWithCategory
 
 data class Product(
-    val id: String,
+    val id: Long? = null,
     val name: String,
     val description: String? = null,
-    val categoryId: String,
-    val subCategoryId: String,
+    val categoryId: Long,
+    val subCategoryId: Long,
     val price: Double,
-    val buyingPrice : Double,
-    val isBundled: Boolean,
+    val buyingPrice: Double,
+    val isBundled: Boolean? = false,
     val quantity: Long? = 0L,
-    val imageUrl: String,
+    val imageUrl: String? = null,
     val serialNo: String? = null,
-    val brand: String? = null
+    val brand: String? = null,
+    val vendor: String? = null
 )
 
-fun Product_catalogue.toDomain(): Product =
-    Product(
-        id,
-        name,
-        description,
-        category_id,
-        sub_category_id,
-        price,
-        buying_price,
-        is_bundled == 1L,
-        quantity,
-        image_url,
-        serial_no,
-        brand,
-    )
 
-fun List<Product_catalogue>.toDomainList(): List<Product> = mutableListOf<Product>().apply {
-    this@toDomainList.forEach {
-        add(it.toDomain())
-    }
-}
+fun ProductWithRelations.toDomain(): Product =
+    Product(
+        id = id,
+        name = name,
+        description = description,
+        categoryId = category_id,
+        subCategoryId = sub_category_id,
+        price = price,
+        buyingPrice = buying_price,
+        isBundled = is_bundled == 1L,
+        quantity = quantity,
+        imageUrl = image_url,
+        serialNo = serial_no,
+        brand = brand_name,
+        vendor = vendor
+    )
 
 fun SelectProductsWithCategory.toDomain(): Product {
     return Product(
@@ -53,6 +52,41 @@ fun SelectProductsWithCategory.toDomain(): Product {
         quantity = product_quantity,
         imageUrl = product_image_url,
         serialNo = product_serial_no,
-        brand = product_brand,
+        brand = brand_name,
+        vendor = product_vendor
     )
 }
+
+fun GetProductById.toDomain(): Product =
+    Product(
+        id = id,
+        name = name,
+        description = description,
+        categoryId = category_id,
+        subCategoryId = sub_category_id,
+        price = price,
+        buyingPrice = buying_price,
+        isBundled = is_bundled == 1L,
+        quantity = quantity,
+        imageUrl = image_url,
+        serialNo = serial_no,
+        brand = brand_name,
+        vendor = vendor
+    )
+
+fun SelectProductsByBrand.toDomain(): Product =
+    Product(
+        id = id,
+        name = name,
+        description = description,
+        categoryId = category_id,
+        subCategoryId = sub_category_id,
+        price = price,
+        buyingPrice = buying_price,
+        isBundled = is_bundled == 1L,
+        quantity = quantity,
+        imageUrl = image_url,
+        serialNo = serial_no,
+        brand = brand_name,
+        vendor = vendor
+    )

@@ -3,7 +3,7 @@ package com.lonwulf.labs.easyshopmanager.domain.model
 import com.lonwulf.labs.easyshopmanager.db.Category
 
 data class Category(
-    val id: String,
+    val id: Long,
     val name: String,
 //    val createdAt: Long = System.currentTimeMillis()
 )

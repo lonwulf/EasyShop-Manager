@@ -1,23 +1,26 @@
 CREATE TABLE product_catalogue (
-    id TEXT NOT NULL PRIMARY KEY,
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT,
-    category_id TEXT NOT NULL,
-    sub_category_id TEXT NOT NULL,
+    category_id INTEGER NOT NULL,
+    sub_category_id INTEGER NOT NULL,
     price REAL NOT NULL,
     buying_price REAL NOT NULL,
     is_bundled INTEGER,
     quantity INTEGER,
     image_url TEXT NOT NULL ,
     serial_no TEXT ,
-    brand TEXT,
+    brand_id INTEGER ,
+    vendor TEXT,
 
-    FOREIGN KEY(sub_category_id) REFERENCES sub_category(id)
+    FOREIGN KEY(sub_category_id) REFERENCES sub_category(id),
+    FOREIGN KEY(category_id) REFERENCES category(id),
+    FOREIGN KEY(brand_id) REFERENCES brand(id)
 );
 
 insertProduct:
-    INSERT OR REPLACE INTO product_catalogue(id, name, description, category_id,sub_category_id, price, buying_price, is_bundled, quantity, image_url, serial_no, brand)
-    VALUES (?,?,?,?,?,?,?,?, ?, ?, ?, ?);
+    INSERT INTO product_catalogue( name, description, category_id,sub_category_id, price, buying_price, is_bundled, quantity, image_url, serial_no, brand_id, vendor)
+    VALUES (?,?,?,?,?,?,?, ?, ?, ?, ?, ?);
 
 selectProductsWithCategory:
     SELECT
@@ -30,9 +33,10 @@ selectProductsWithCategory:
         p.quantity AS product_quantity,
         p.image_url AS product_image_url,
         p.serial_no AS product_serial_no,
-        p.brand AS product_brand,
+        p.vendor AS product_vendor,
 
         b.id AS brand_id,
+        b.name AS brand_name,
 
         s.id AS subcategory_id,
         s.name AS subcategory_name,
@@ -41,27 +45,13 @@ selectProductsWithCategory:
         c.name AS category_name
 
     FROM product_catalogue p
-    JOIN brand b ON p.brand = b.id
+    LEFT JOIN brand b ON p.brand_id = b.id
     JOIN sub_category s ON p.sub_category_id = s.id
     JOIN category c ON s.category_id = c.id;
 
 updateProduct:
     UPDATE product_catalogue
     SET
-        name = :name,
-        price = :price,
-        sub_category_id = :sub_category_id,
-        is_bundled = :is_bundled,
-        quantity = :quantity
-    WHERE
-        id = :id;
-
-upsertProduct:
-    INSERT INTO product_catalogue(id,name, description, category_id, sub_category_id, price, buying_price, is_bundled, quantity,
-    image_url, serial_no, brand)
-    VALUES (:id, :name, :description, :category_id, :sub_category_id,
-    :price, :buying_price, :is_bundled, :quantity, :image_url, :seral_no, :brand)
-    ON CONFLICT(id) DO UPDATE SET
         name = :name,
         description = :description,
         category_id = :category_id,
@@ -70,16 +60,69 @@ upsertProduct:
         buying_price = :buying_price,
         is_bundled = :is_bundled,
         quantity = :quantity,
-        brand = : brand;
+        image_url = :image_url,
+        serial_no = :serial_no,
+        brand_id = :brand_id,
+        vendor = :vendor
+    WHERE
+        id = :id;
+
+upsertProduct:
+    INSERT INTO product_catalogue(id, name, description, category_id, sub_category_id, price, buying_price, is_bundled, quantity,
+    image_url, serial_no, brand_id, vendor)
+    VALUES (:id, :name, :description, :category_id, :sub_category_id,
+    :price, :buying_price, :is_bundled, :quantity, :image_url, :serial_no, :brand_id, :vendor)
+    ON CONFLICT(id) DO UPDATE SET
+        name = excluded.name,
+        description = excluded.description,
+        category_id = excluded.category_id,
+        sub_category_id = excluded.sub_category_id,
+        price = excluded.price,
+        buying_price = excluded.buying_price,
+        is_bundled = excluded.is_bundled,
+        quantity = excluded.quantity,
+        brand_id = excluded.brand_id,
+        vendor = excluded.vendor,
+        image_url = excluded.image_url,
+        serial_no = excluded.serial_no;
+
+productWithRelations:
+    SELECT
+        p.*,
+        b.name AS brand_name,
+        c.name AS category_name,
+        s.name AS subcategory_name
+    FROM product_catalogue p
+    LEFT JOIN brand b ON p.brand_id = b.id
+    JOIN sub_category s ON p.sub_category_id = s.id
+    JOIN category c ON s.category_id = c.id;
 
 selectProductsByBrand:
-    SELECT * FROM product_catalogue WHERE brand = : brand;
+     SELECT
+         p.*,
+         b.name AS brand_name,
+         c.name AS category_name,
+         s.name AS subcategory_name
+     FROM product_catalogue p
+     LEFT JOIN brand b ON p.brand_id = b.id
+     JOIN sub_category s ON p.sub_category_id = s.id
+     JOIN category c ON s.category_id = c.id
+     WHERE brand_id = :brand_id;
 
 getAllProducts:
     SELECT * FROM product_catalogue;
 
 getProductById:
-    SELECT * FROM product_catalogue WHERE id = :id;
+    SELECT
+        p.*,
+        b.name AS brand_name,
+        c.name AS category_name,
+        s.name AS subcategory_name
+    FROM product_catalogue p
+    LEFT JOIN brand b ON p.brand_id = b.id
+    JOIN sub_category s ON p.sub_category_id = s.id
+    JOIN category c ON s.category_id = c.id
+    WHERE p.id = :id;
 
 deleteProduct:
     DELETE FROM product_catalogue

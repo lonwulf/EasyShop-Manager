@@ -1,7 +1,7 @@
 CREATE TABLE sub_category (
-    id TEXT NOT NULL PRIMARY KEY,
+    id INTEGER NOT NULL PRIMARY KEY,
     name TEXT NOT NULL,
-    category_id TEXT NOT NULL,
+    category_id INTEGER NOT NULL,
     FOREIGN KEY(category_id) REFERENCES category(id) ON DELETE CASCADE
 );
 

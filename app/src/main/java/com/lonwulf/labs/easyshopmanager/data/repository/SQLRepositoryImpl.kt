@@ -26,6 +26,10 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
         catalogue.subCategoryQueries
     }
 
+    private val brandQueries by lazy {
+        catalogue.brandQueries
+    }
+
     override suspend fun insertAllCategories(categories: List<Category>): CacheResult<Pair<Int, Int>> =
         safeCacheCall(Dispatchers.IO) {
             var count = 0
@@ -38,11 +42,11 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
             }
         }
 
-    override suspend fun upsertCategory(id: String, name: String): CacheResult<Long> = safeCacheCall(Dispatchers.IO) {
+    override suspend fun upsertCategory(id: Long, name: String): CacheResult<Long> = safeCacheCall(Dispatchers.IO) {
         categoryQueries.upsertCategory(id, name).await()
     }
 
-    override fun getCategoryById(id: String): Flow<CacheResult<Category?>> =
+    override fun getCategoryById(id: Long): Flow<CacheResult<Category?>> =
         safeCacheFlow(
             categoryQueries.getCategoryById(id)
                 .asFlow()
@@ -70,7 +74,7 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
             }
         }
 
-    override suspend fun upsertSubCategory(id: String, name: String, categoryId: String): CacheResult<Long> =
+    override suspend fun upsertSubCategory(id: Long, name: String, categoryId: Long): CacheResult<Long> =
         safeCacheCall(Dispatchers.IO) {
             subCategoryQueries.upsertSubCategory(id, name, categoryId).await()
         }
@@ -85,7 +89,7 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
         )
 
 
-    override fun getSubCategoriesByCategoryId(categoryId: String): Flow<CacheResult<List<SubCategory>>> =
+    override fun getSubCategoriesByCategoryId(categoryId: Long): Flow<CacheResult<List<SubCategory>>> =
         safeCacheFlow(
             subCategoryQueries.getSubCategoriesByCategoryId(categoryId)
                 .asFlow()
@@ -93,7 +97,7 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
                 .map { it.map { subCategory -> subCategory.toDomain() } }
         )
 
-    override fun getSubCategoryById(id: String): Flow<CacheResult<SubCategory?>> =
+    override fun getSubCategoryById(id: Long): Flow<CacheResult<SubCategory?>> =
         safeCacheFlow(
             subCategoryQueries.getSubCategoryById(id)
                 .asFlow()
@@ -102,74 +106,86 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
         )
 
 
-    override suspend fun upsertProduct(product: Product): CacheResult<Long> = safeCacheCall(Dispatchers.IO) {
-        productCatalogueQueries.upsertProduct(
-            product.id,
-            product.name,
-            product.description,
-            product.categoryId,
-            product.subCategoryId,
-            product.price,
-            product.buyingPrice,
-            if (product.isBundled) 1L else 0L,
-            product.quantity,
-            product.imageUrl,
-            product.serialNo,
-            product.brand
-        ).await()
-    }
+    override suspend fun upsertProduct(product: Product): CacheResult<Long> =
+        safeCacheCall(Dispatchers.IO) {
+            val brandId = resolveBrandId(product.brand)
+            productCatalogueQueries.upsertProduct(
+                name = product.name,
+                description = product.description,
+                category_id = product.categoryId,
+                sub_category_id = product.subCategoryId,
+                price = product.price,
+                buying_price = product.buyingPrice,
+                is_bundled = if (product.isBundled == true) 1L else 0L,
+                quantity = product.quantity,
+                image_url = product.imageUrl ?: "",
+                serial_no = product.serialNo,
+                brand_id = brandId,
+                vendor = product.vendor,
+                id = product.id ?: 0
 
-    override suspend fun updateProduct(
-        name: String,
-        price: Double,
-        subCategoryId: String,
-        isBundled: Boolean,
-        quantity: Long,
-        productId: String
-    ): CacheResult<Long> = safeCacheCall(Dispatchers.IO) {
-        productCatalogueQueries.updateProduct(
-            name,
-            price,
-            subCategoryId,
-            if (isBundled) 1L else 0L, quantity, productId
-        ).await()
-    }
+            ).await()
+        }
 
-    override suspend fun insertProduct(product: Product): CacheResult<Long> = safeCacheCall(Dispatchers.IO) {
-        productCatalogueQueries.insertProduct(
-            id = product.id,
-            name = product.name,
-            description = product.description,
-            category_id = product.categoryId,
-            sub_category_id = product.subCategoryId,
-            price = product.price,
-            buying_price = product.buyingPrice,
-            is_bundled = if (product.isBundled) 1L else 0L,
-            quantity = product.quantity,
-            image_url = product.imageUrl,
-            serial_no = product.serialNo,
-            brand = product.brand,
-        ).await()
-    }
+    override suspend fun updateProduct(product: Product): CacheResult<Long> =
+        safeCacheCall(Dispatchers.IO) {
+            val brandId = resolveBrandId(product.brand)
+            productCatalogueQueries.updateProduct(
+                name = product.name,
+                description = product.description,
+                category_id = product.categoryId,
+                sub_category_id = product.subCategoryId,
+                price = product.price,
+                buying_price = product.buyingPrice,
+                is_bundled = if (product.isBundled == true) 1L else 0L,
+                quantity = product.quantity,
+                image_url = product.imageUrl ?: "",
+                serial_no = product.serialNo,
+                brand_id = brandId,
+                vendor = product.vendor,
+                id = product.id ?: 0
+            ).await()
+        }
+
+    override suspend fun insertProduct(product: Product): CacheResult<Long> =
+        safeCacheCall(Dispatchers.IO) {
+            val brandId = resolveBrandId(product.brand)
+            productCatalogueQueries.insertProduct(
+                name = product.name,
+                description = product.description,
+                category_id = product.categoryId,
+                sub_category_id = product.subCategoryId,
+                price = product.price,
+                buying_price = product.buyingPrice,
+                is_bundled = if (product.isBundled == true) 1L else 0L,
+                quantity = product.quantity,
+                image_url = product.imageUrl ?: "",
+                serial_no = product.serialNo,
+                brand_id = brandId,
+                vendor = product.vendor
+            ).await()
+        }
 
     override suspend fun insertAllProducts(products: List<Product>): CacheResult<Pair<Int, Int>> =
         safeCacheCall(Dispatchers.IO) {
             productCatalogueQueries.transactionWithResult {
                 var count = 0
                 products.forEach { product ->
+                    val brandId = resolveBrandId(product.brand)
                     productCatalogueQueries.upsertProduct(
-                        id = product.id,
                         name = product.name,
                         description = product.description,
                         category_id = product.categoryId,
                         sub_category_id = product.subCategoryId,
                         price = product.price,
                         buying_price = product.buyingPrice,
-                        is_bundled = if (product.isBundled) 1L else 0L,
+                        is_bundled = if (product.isBundled == true) 1L else 0L,
                         quantity = product.quantity,
-                        image_url = product.imageUrl,
-                        seral_no = product.serialNo,
-                        brand = product.brand,
+                        image_url = product.imageUrl ?: "",
+                        serial_no = product.serialNo,
+                        brand_id = brandId,
+                        vendor = product.vendor,
+                        id = product.id
                     )
                     count++
                 }
@@ -179,13 +195,13 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
 
     override fun getAllProducts(): Flow<CacheResult<List<Product>>> =
         safeCacheFlow(
-            productCatalogueQueries.getAllProducts()
+            productCatalogueQueries.productWithRelations()
                 .asFlow()
                 .mapToList(Dispatchers.IO)
                 .map { it.map { product -> product.toDomain() } })
 
 
-    override fun getProductById(id: String): Flow<CacheResult<Product?>> =
+    override fun getProductById(id: Long): Flow<CacheResult<Product?>> =
         safeCacheFlow(
             productCatalogueQueries.getProductById(id)
                 .asFlow()
@@ -193,7 +209,7 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
                 .map { it?.toDomain() })
 
 
-    override suspend fun deleteProduct(id: String): CacheResult<Long> = safeCacheCall(Dispatchers.IO) {
+    override suspend fun deleteProduct(id: Long): CacheResult<Long> = safeCacheCall(Dispatchers.IO) {
         productCatalogueQueries.deleteProduct(id).await()
     }
 
@@ -212,11 +228,16 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
                 .map { it.toDomain() }
         }
 
-    override fun getProductsByBrand(brand: String): Flow<CacheResult<List<Product>>> =
+    override fun getProductsByBrand(brandId: Long): Flow<CacheResult<List<Product>>> =
         safeCacheFlow(
-            productCatalogueQueries.selectProductsByBrand(brand)
+            productCatalogueQueries.selectProductsByBrand(brandId)
                 .asFlow()
                 .mapToList(Dispatchers.IO)
                 .map { it.map { product -> product.toDomain() } }
         )
+
+    private fun resolveBrandId(brandName: String?): Long? {
+        if (brandName == null) return null
+        return brandQueries.selectBrandIdByName(brandName).executeAsOneOrNull()
+    }
 }

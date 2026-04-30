@@ -57,9 +57,6 @@ fun TextInputComponent(
     val keyboardOptions = when (inputType) {
         is InputType.Text -> KeyboardOptions(keyboardType = inputType.keyboardType)
         is InputType.Password -> KeyboardOptions(keyboardType = KeyboardType.Password)
-        is InputType.Email -> KeyboardOptions(keyboardType = KeyboardType.Email)
-        is InputType.NumberInput -> KeyboardOptions(keyboardType = KeyboardType.Number)
-        is InputType.PhoneInput -> KeyboardOptions(keyboardType = KeyboardType.Phone)
         is InputType.Dropdown -> KeyboardOptions.Default
     }
     val visualTransformation = when {
@@ -75,7 +72,7 @@ fun TextInputComponent(
         else -> trailingIcon
     }
 
-    val baseFieldModifier = Modifier
+    val baseFieldModifier = modifier
         .fillMaxWidth()
         .clip(RoundedCornerShape(8.dp))
 
@@ -157,6 +154,7 @@ fun PlainTextInputComponentPreview() {
             value = name,
             onValueChange = { name = it },
             label = "Full Name",
+            inputType = InputType.Text(keyboardType = KeyboardType.Text)
         )
     }
 }

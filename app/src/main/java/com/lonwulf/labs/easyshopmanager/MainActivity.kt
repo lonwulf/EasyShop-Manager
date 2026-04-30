@@ -43,6 +43,7 @@ import com.lonwulf.labs.easyshopmanager.navigation.TopLevelDestinations
 import com.lonwulf.labs.easyshopmanager.ui.components.CustomFabComponent
 import com.lonwulf.labs.easyshopmanager.ui.screens.HomeScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.LiveBarcodeScreenComposable
+import com.lonwulf.labs.easyshopmanager.ui.screens.ManualInputScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.ObjectDetectionScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.ProductsScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.SettingsScreenComposable
@@ -65,7 +66,9 @@ class MainActivity : ComponentActivity() {
                 var fabActionState by remember { mutableStateOf(false) }
 
                 val hideAppbarsInScreens = listOf(Destinations.ScannerScreen.route)
+                val hideBottomBarsInScreens = listOf(Destinations.ScannerScreen.route, Destinations.ManualInputScreen.route)
                 val showAppbars = currentDestination?.route !in hideAppbarsInScreens
+                val showBottomBars = currentDestination?.route !in hideBottomBarsInScreens
                 val screensToShowFAB = listOf(
                     Destinations.ScannerScreen.route,
                     TopLevelDestinations.ProductsScreen.route,
@@ -73,8 +76,8 @@ class MainActivity : ComponentActivity() {
                 )
                 val showFAB = currentDestination?.route in screensToShowFAB
                 Scaffold(
-                    topBar = { if (showAppbars) AppToolBar(title = currentDestination?.route ?: "") },
-                    bottomBar = { if (showAppbars) AppBottomBar(navHostController, currentDestination) },
+                    topBar = { if (showAppbars) AppToolbar(title = currentDestination?.route ?: "") },
+                    bottomBar = { if (showBottomBars) AppBottombar(navHostController, currentDestination) },
                     snackbarHost = { SnackbarHost(snackbarHostState) },
                     floatingActionButton = {
                         if (showFAB) {
@@ -100,7 +103,8 @@ class MainActivity : ComponentActivity() {
                                 mainViewModel
                             ),
                             Destinations.ScannerScreen.route to LiveBarcodeScreenComposable(),
-                            Destinations.ObjectDetectionScreen.route to ObjectDetectionScreenComposable()
+                            Destinations.ObjectDetectionScreen.route to ObjectDetectionScreenComposable(),
+                            Destinations.ManualInputScreen.route to ManualInputScreenComposable()
                         )
                         NavigationGraph(
                             navHostController = navHostController,
@@ -115,7 +119,7 @@ class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    private fun AppToolBar(title: String) {
+    private fun AppToolbar(title: String) {
         TopAppBar(
             title = { Text(text = title) },
             colors = TopAppBarDefaults.topAppBarColors(
@@ -133,7 +137,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun AppBottomBar(navHostController: NavHostController, currentDestination: NavDestination?) {
+    private fun AppBottombar(navHostController: NavHostController, currentDestination: NavDestination?) {
         val screens = listOf(
             TopLevelDestinations.HomeScreen,
             TopLevelDestinations.ProductsScreen,

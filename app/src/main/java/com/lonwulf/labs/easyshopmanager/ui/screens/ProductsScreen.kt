@@ -45,7 +45,8 @@ fun ProductsScreen(modifier: Modifier = Modifier, navHostController: NavHostCont
         else -> {
             if (state.products.isEmpty()) {
                 EmptyViewComponent(onclick = {
-                    navHostController.navigate(Destinations.ScannerScreen.route)
+                    navHostController.navigate(Destinations.ManualInputScreen.route)
+//                    navHostController.navigate(Destinations.ScannerScreen.route)
                 })
             } else {
                 Column(

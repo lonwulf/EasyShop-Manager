@@ -3,9 +3,9 @@ package com.lonwulf.labs.easyshopmanager.domain.model
 import com.lonwulf.labs.easyshopmanager.db.Sub_category
 
 data class SubCategory(
-    val id: String,
+    val id: Long,
     val name: String,
-    val categoryId: String,
+    val categoryId: Long,
 //    val createdAt: Long = System.currentTimeMillis()
 )
 
