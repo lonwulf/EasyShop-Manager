@@ -67,7 +67,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            EasyShopManagerTheme {
+            EasyShopManagerTheme(darkTheme = false) {
                 val navHostController = rememberNavController()
                 val navBackStackEntry by navHostController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
@@ -100,6 +100,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize()
                 ) { innerPadding ->
                     Surface(
+                        color = MaterialTheme.colorScheme.surfaceContainer,
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding)
@@ -150,7 +151,7 @@ class MainActivity : ComponentActivity() {
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.secondary,
+                containerColor = MaterialTheme.colorScheme.surfaceDim,
                 scrolledContainerColor = colorResource(
                     id = R.color.white
                 ),
@@ -182,8 +183,8 @@ class MainActivity : ComponentActivity() {
             TopLevelDestinations.SettingsScreen
         )
         NavigationBar(
-            containerColor = colorResource(R.color.purple_700),
-            contentColor = colorResource(R.color.white),
+            containerColor = MaterialTheme.colorScheme.surfaceDim,
+            contentColor = MaterialTheme.colorScheme.onSurface,
             tonalElevation = 5.dp
         ) {
             screens.forEach { screen ->
@@ -205,11 +206,11 @@ class MainActivity : ComponentActivity() {
         NavigationBarItem(
             label = { Text(text = screen.title) },
             colors = NavigationBarItemColors(
-                selectedIconColor = Color.White,
-                selectedTextColor = Color.White,
+                selectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                selectedTextColor = MaterialTheme.colorScheme.onPrimary,
                 unselectedIconColor = Color.Gray,
                 unselectedTextColor = Color.Gray,
-                selectedIndicatorColor = colorResource(R.color.purple_200),
+                selectedIndicatorColor = MaterialTheme.colorScheme.onSurface,
                 disabledIconColor = Color.Gray,
                 disabledTextColor = Color.Gray
             ),
