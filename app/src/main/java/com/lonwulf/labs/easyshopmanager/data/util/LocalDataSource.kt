@@ -126,10 +126,9 @@ open class LocalDataSource {
         }
     }
 
-    private fun SqliteOperationResult.isRetryable(): Boolean {
-        return this == SqliteOperationResult.LOCKED ||
-                this == SqliteOperationResult.BUSY
-    }
+    private fun SqliteOperationResult.isRetryable(): Boolean =
+        this == SqliteOperationResult.LOCKED || this == SqliteOperationResult.BUSY
+
 }
 
 enum class SqliteOperationResult {

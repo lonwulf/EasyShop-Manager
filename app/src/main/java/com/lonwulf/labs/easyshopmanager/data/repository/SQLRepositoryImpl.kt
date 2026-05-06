@@ -236,6 +236,7 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
                 .map { it.map { product -> product.toDomain() } }
         )
 
+    //TODO: fix potential hazard (db lock)
     private fun resolveBrandId(brandName: String?): Long? {
         if (brandName == null) return null
         return brandQueries.selectBrandIdByName(brandName).executeAsOneOrNull()

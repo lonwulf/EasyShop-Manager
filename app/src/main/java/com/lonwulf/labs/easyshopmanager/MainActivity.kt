@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -23,6 +24,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,6 +40,10 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.lonwulf.labs.easyshopmanager.navigation.Destinations
 import com.lonwulf.labs.easyshopmanager.navigation.NavigationGraph
 import com.lonwulf.labs.easyshopmanager.navigation.TopLevelDestinations
@@ -49,9 +56,13 @@ import com.lonwulf.labs.easyshopmanager.ui.screens.ProductsScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.SettingsScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.theme.EasyShopManagerTheme
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.MainViewModel
+import com.lonwulf.labs.easyshopmanager.util.SyncEvent
 import org.koin.androidx.compose.koinViewModel
+import org.koin.mp.KoinPlatform.getKoin
+
 
 class MainActivity : ComponentActivity() {
+    private val syncEvent: SyncEvent = getKoin().get()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -66,7 +77,8 @@ class MainActivity : ComponentActivity() {
                 var fabActionState by remember { mutableStateOf(false) }
 
                 val hideAppbarsInScreens = listOf(Destinations.ScannerScreen.route)
-                val hideBottomBarsInScreens = listOf(Destinations.ScannerScreen.route, Destinations.ManualInputScreen.route)
+                val hideBottomBarsInScreens =
+                    listOf(Destinations.ScannerScreen.route, Destinations.ManualInputScreen.route)
                 val showAppbars = currentDestination?.route !in hideAppbarsInScreens
                 val showBottomBars = currentDestination?.route !in hideBottomBarsInScreens
                 val screensToShowFAB = listOf(
@@ -76,7 +88,7 @@ class MainActivity : ComponentActivity() {
                 )
                 val showFAB = currentDestination?.route in screensToShowFAB
                 Scaffold(
-                    topBar = { if (showAppbars) AppToolbar(title = currentDestination?.route ?: "") },
+                    topBar = { if (showAppbars) AppToolbar(title = currentDestination?.route ?: "", syncEvent) },
                     bottomBar = { if (showBottomBars) AppBottombar(navHostController, currentDestination) },
                     snackbarHost = { SnackbarHost(snackbarHostState) },
                     floatingActionButton = {
@@ -119,9 +131,24 @@ class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    private fun AppToolbar(title: String) {
+    private fun AppToolbar(title: String, syncEvent: SyncEvent) {
+        val syncState by syncEvent.syncState.collectAsState()
+        var showSyncIndicator by remember { mutableStateOf(false) }
+        LaunchedEffect(syncState) {
+            showSyncIndicator = when (syncState) {
+                SyncEvent.SyncState.IDLE,
+                SyncEvent.SyncState.COMPLETED -> false
+
+                SyncEvent.SyncState.SYNCING -> true
+            }
+        }
         TopAppBar(
             title = { Text(text = title) },
+            actions = {
+                if (showSyncIndicator) {
+                    SyncIndicator()
+                }
+            },
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.secondary,
                 scrolledContainerColor = colorResource(
@@ -133,6 +160,17 @@ class MainActivity : ComponentActivity() {
                     id = R.color.white
                 )
             )
+        )
+    }
+
+    @Composable
+    private fun SyncIndicator() {
+        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.download))
+        val progress by animateLottieCompositionAsState(composition)
+        LottieAnimation(
+            composition = composition,
+            progress = { progress },
+            modifier = Modifier.size(30.dp)
         )
     }
 
