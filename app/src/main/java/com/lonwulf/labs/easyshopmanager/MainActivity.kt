@@ -5,6 +5,20 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -15,7 +29,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemColors
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -31,6 +45,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,6 +57,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.lonwulf.labs.easyshopmanager.navigation.Destinations
@@ -134,27 +150,32 @@ class MainActivity : ComponentActivity() {
     @Composable
     private fun AppToolbar(title: String, syncEvent: SyncEvent) {
         val syncState by syncEvent.syncState.collectAsState()
-        var showSyncIndicator by remember { mutableStateOf(false) }
-        LaunchedEffect(syncState) {
-            showSyncIndicator = when (syncState) {
-                SyncEvent.SyncState.IDLE,
-                SyncEvent.SyncState.COMPLETED -> false
+        val isSyncing = syncState == SyncEvent.SyncState.SYNCING
 
-                SyncEvent.SyncState.SYNCING -> true
-            }
-        }
         TopAppBar(
-            title = { Text(text = title) },
+            title = {
+                AnimatedContent(
+                    targetState = title,
+                    transitionSpec = {
+                        fadeIn(animationSpec = tween(300)) togetherWith fadeOut(animationSpec = tween(300))
+                    },
+                    label = "title_animation"
+                ) { animatedTitle ->
+                    Text(text = animatedTitle)
+                }
+            },
             actions = {
-                if (showSyncIndicator) {
+                AnimatedVisibility(
+                    visible = isSyncing,
+                    enter = fadeIn(animationSpec = tween(300)) + slideInHorizontally(initialOffsetX = { it / 2 }),
+                    exit = fadeOut(animationSpec = tween(300)) + slideOutHorizontally(targetOffsetX = { it / 2 })
+                ) {
                     SyncIndicator()
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.surfaceDim,
-                scrolledContainerColor = colorResource(
-                    id = R.color.white
-                ),
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                scrolledContainerColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 navigationIconContentColor = MaterialTheme.colorScheme.background,
                 titleContentColor = MaterialTheme.colorScheme.background,
                 actionIconContentColor = colorResource(
@@ -167,7 +188,12 @@ class MainActivity : ComponentActivity() {
     @Composable
     private fun SyncIndicator() {
         val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.download))
-        val progress by animateLottieCompositionAsState(composition)
+        val progress by animateLottieCompositionAsState(
+            composition = composition,
+            iterations = LottieConstants.IterateForever,
+            speed = 1.2f,
+            isPlaying = true
+        )
         LottieAnimation(
             composition = composition,
             progress = { progress },
@@ -183,8 +209,8 @@ class MainActivity : ComponentActivity() {
             TopLevelDestinations.SettingsScreen
         )
         NavigationBar(
-            containerColor = MaterialTheme.colorScheme.surfaceDim,
-            contentColor = MaterialTheme.colorScheme.onSurface,
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             tonalElevation = 5.dp
         ) {
             screens.forEach { screen ->
@@ -203,27 +229,59 @@ class MainActivity : ComponentActivity() {
         currentDestination: NavDestination?,
         navHostController: NavHostController
     ) {
+        val isSelected = currentDestination?.route == screen.route
+
+        val iconScale by animateFloatAsState(
+            targetValue = if (isSelected) 1.2f else 1f,
+            animationSpec = spring(
+                dampingRatio = Spring.DampingRatioMediumBouncy,
+                stiffness = Spring.StiffnessLow
+            ),
+            label = "icon_scale"
+        )
+        val animatedIconColor by animateColorAsState(
+            targetValue = if (isSelected) MaterialTheme.colorScheme.primaryContainer else Color.Gray,
+            label = "icon_color"
+        )
+        val animatedIndicatorColor by animateColorAsState(
+            targetValue = if (isSelected) MaterialTheme.colorScheme.onPrimary else Color.Transparent,
+            label = "indicator_color"
+        )
         NavigationBarItem(
-            label = { Text(text = screen.title) },
-            colors = NavigationBarItemColors(
-                selectedIconColor = MaterialTheme.colorScheme.onPrimary,
+            selected = isSelected,
+            label = {
+                AnimatedVisibility(
+                    visible = isSelected,
+                    enter = fadeIn() + slideInVertically(),
+                    exit = fadeOut() + slideOutVertically()
+                ) {
+                    Text(text = screen.title)
+                }
+            },
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = MaterialTheme.colorScheme.primaryContainer,
                 selectedTextColor = MaterialTheme.colorScheme.onPrimary,
                 unselectedIconColor = Color.Gray,
                 unselectedTextColor = Color.Gray,
-                selectedIndicatorColor = MaterialTheme.colorScheme.onSurface,
+                indicatorColor = animatedIndicatorColor,
                 disabledIconColor = Color.Gray,
                 disabledTextColor = Color.Gray
             ),
-            selected = currentDestination?.route == screen.route,
             onClick = {
                 navHostController.navigate(screen.route) {
                     popUpTo(navHostController.graph.findStartDestination().id)
                     launchSingleTop = true
+                    restoreState = true
                 }
             },
             icon = {
                 BadgedBox(badge = {}) {
-                    Icon(imageVector = screen.icon, contentDescription = "bottom bar icon")
+                    Icon(
+                        imageVector = screen.icon,
+                        contentDescription = "bottom bar icon",
+                        tint = animatedIconColor,
+                        modifier = Modifier.scale(iconScale)
+                    )
                 }
             })
     }
