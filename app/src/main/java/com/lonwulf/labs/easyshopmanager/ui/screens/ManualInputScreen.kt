@@ -135,11 +135,16 @@ fun ManualInputScreen(modifier: Modifier = Modifier, productViewModel: ProductVi
                 value = description,
                 inputType = InputType.Text(keyboardType = KeyboardType.Text),
                 onValueChange = { description = it },
+                maxLines = Int.MAX_VALUE,
+                isSingleLine = false,
+                modifier = Modifier
+                    .height(140.dp)
+                    .verticalScroll(rememberScrollState()),
                 label = "Description",
             )
         }
 
-        Spacer(Modifier.height(5.dp))
+        Spacer(Modifier.height(10.dp))
 
         ElevatedButton(
             modifier = Modifier

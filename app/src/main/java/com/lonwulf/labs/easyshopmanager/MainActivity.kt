@@ -38,7 +38,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -64,6 +63,7 @@ import com.lonwulf.labs.easyshopmanager.navigation.Destinations
 import com.lonwulf.labs.easyshopmanager.navigation.NavigationGraph
 import com.lonwulf.labs.easyshopmanager.navigation.TopLevelDestinations
 import com.lonwulf.labs.easyshopmanager.ui.components.CustomFabComponent
+import com.lonwulf.labs.easyshopmanager.ui.components.UpButtonComponent
 import com.lonwulf.labs.easyshopmanager.ui.screens.HomeScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.LiveBarcodeScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.ManualInputScreenComposable
@@ -104,7 +104,14 @@ class MainActivity : ComponentActivity() {
                 )
                 val showFAB = currentDestination?.route in screensToShowFAB
                 Scaffold(
-                    topBar = { if (showAppbars) AppToolbar(title = currentDestination?.route ?: "", syncEvent) },
+                    topBar = {
+                        if (showAppbars) AppToolbar(
+                            title = currentDestination?.route ?: "",
+                            syncEvent,
+                            currentDestination,
+                            navHostController
+                        )
+                    },
                     bottomBar = { if (showBottomBars) AppBottombar(navHostController, currentDestination) },
                     snackbarHost = { SnackbarHost(snackbarHostState) },
                     floatingActionButton = {
@@ -148,9 +155,20 @@ class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    private fun AppToolbar(title: String, syncEvent: SyncEvent) {
+    private fun AppToolbar(
+        title: String,
+        syncEvent: SyncEvent,
+        currentDestination: NavDestination?,
+        navHostController: NavHostController
+    ) {
         val syncState by syncEvent.syncState.collectAsState()
         val isSyncing = syncState == SyncEvent.SyncState.SYNCING
+        val screens = listOf(
+            TopLevelDestinations.HomeScreen.route,
+            TopLevelDestinations.ProductsScreen.route,
+            TopLevelDestinations.SettingsScreen.route
+        )
+        val showUpButton = currentDestination?.route !in screens
 
         TopAppBar(
             title = {
@@ -162,6 +180,20 @@ class MainActivity : ComponentActivity() {
                     label = "title_animation"
                 ) { animatedTitle ->
                     Text(text = animatedTitle)
+                }
+            },
+            navigationIcon = {
+                AnimatedVisibility(
+                    visible = showUpButton,
+                    enter = fadeIn() + slideInVertically(),
+                    exit = fadeOut() + slideOutVertically(
+                        targetOffsetY = { it / 2 }
+                    ),
+                    label = "uo_button_label"
+                ) {
+                    UpButtonComponent {
+                        navHostController.popBackStack()
+                    }
                 }
             },
             actions = {
@@ -211,7 +243,7 @@ class MainActivity : ComponentActivity() {
         NavigationBar(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            tonalElevation = 5.dp
+            tonalElevation = 8.dp
         ) {
             screens.forEach { screen ->
                 AddItem(
@@ -261,11 +293,9 @@ class MainActivity : ComponentActivity() {
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colorScheme.primaryContainer,
                 selectedTextColor = MaterialTheme.colorScheme.onPrimary,
-                unselectedIconColor = Color.Gray,
-                unselectedTextColor = Color.Gray,
+//                unselectedIconColor = Color.Gray,
+//                unselectedTextColor = Color.Gray,
                 indicatorColor = animatedIndicatorColor,
-                disabledIconColor = Color.Gray,
-                disabledTextColor = Color.Gray
             ),
             onClick = {
                 navHostController.navigate(screen.route) {

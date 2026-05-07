@@ -28,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -50,12 +51,14 @@ fun TextInputComponent(
     supportingText: @Composable (() -> Unit)? = null,
     colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
     enabled: Boolean = true,
+    isSingleLine: Boolean = true,
+    maxLines: Int = 1,
 ) {
 
     val isDropdown = inputType is InputType.Dropdown
     var dropdownExpanded by remember { mutableStateOf(false) }
     val keyboardOptions = when (inputType) {
-        is InputType.Text -> KeyboardOptions(keyboardType = inputType.keyboardType)
+        is InputType.Text -> KeyboardOptions(keyboardType = inputType.keyboardType, imeAction = ImeAction.Default)
         is InputType.Password -> KeyboardOptions(keyboardType = KeyboardType.Password)
         is InputType.Dropdown -> KeyboardOptions.Default
     }
@@ -74,7 +77,7 @@ fun TextInputComponent(
 
     val baseFieldModifier = modifier
         .fillMaxWidth()
-        .clip(RoundedCornerShape(8.dp))
+        .clip(RoundedCornerShape(10.dp))
 
 
     val textField: @Composable (modifier: Modifier) -> Unit = { finalModifier ->
@@ -89,11 +92,12 @@ fun TextInputComponent(
             keyboardOptions = keyboardOptions,
             visualTransformation = visualTransformation,
             readOnly = isDropdown,
-            singleLine = true,
+            singleLine = isSingleLine,
             isError = isError,
             supportingText = supportingText,
             colors = colors,
             enabled = enabled,
+            maxLines = maxLines,
         )
     }
 

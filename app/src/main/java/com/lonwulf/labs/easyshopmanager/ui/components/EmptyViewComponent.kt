@@ -51,7 +51,7 @@ fun EmptyViewComponent(onclick: () -> Unit) {
                 modifier = Modifier.size(40.dp),
                 imageVector = Icons.Rounded.Add,
                 contentDescription = "add item",
-                tint = MaterialTheme.colorScheme.onSecondaryContainer
+                tint = MaterialTheme.colorScheme.primaryContainer
             )
         }
     }
