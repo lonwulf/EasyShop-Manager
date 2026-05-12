@@ -7,6 +7,7 @@ import com.lonwulf.labs.easyshopmanager.data.source.db.DatabaseDriverFactory
 import com.lonwulf.labs.easyshopmanager.db.Catalogue
 import com.lonwulf.labs.easyshopmanager.domain.repository.IDatastoreRepository
 import com.lonwulf.labs.easyshopmanager.domain.repository.ISQLRepository
+import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchProductsUseCase
 import com.lonwulf.labs.easyshopmanager.domain.useCase.ProductsUseCase
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.MainViewModel
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.ProductViewModel
@@ -25,8 +26,9 @@ val appModule = module {
     single<IDatastoreRepository> { DatastoreRepositoryImpl(androidContext()) }
     single<ISQLRepository> { SQLRepositoryImpl(get()) }
     single { ProductsUseCase(get()) }
+    single { FetchProductsUseCase(get()) }
     worker { SyncWorker(androidContext(), get(), productsUseCase = get(), syncEvent = get()) }
     worker { CatalogConsolidateWorker(androidContext(), get()) }
     viewModel { ProductViewModel(get()) }
-    viewModel { MainViewModel() }
+    viewModel { MainViewModel(get()) }
 }

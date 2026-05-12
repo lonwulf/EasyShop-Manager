@@ -1,5 +1,6 @@
 package com.lonwulf.labs.easyshopmanager.ui.components
 
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -17,6 +18,7 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -53,6 +55,7 @@ fun TextInputComponent(
     enabled: Boolean = true,
     isSingleLine: Boolean = true,
     maxLines: Int = 1,
+    fieldRequired: Boolean = false,
 ) {
 
     val isDropdown = inputType is InputType.Dropdown
@@ -79,13 +82,23 @@ fun TextInputComponent(
         .fillMaxWidth()
         .clip(RoundedCornerShape(10.dp))
 
+    val labelField: @Composable () -> Unit = {
+        Row {
+            Text(label)
+            Text(
+                text = " *",
+                color = MaterialTheme.colorScheme.error
+            )
+        }
+    }
+
 
     val textField: @Composable (modifier: Modifier) -> Unit = { finalModifier ->
         OutlinedTextField(
             modifier = finalModifier,
             value = value,
             onValueChange = if (isDropdown) ({}) else onValueChange,
-            label = { Text(label) },
+            label = { if (fieldRequired) labelField() else Text(label) },
             placeholder = { Text(label) },
             leadingIcon = leadingIcon,
             trailingIcon = resolvedTrailingIcon,

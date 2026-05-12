@@ -105,14 +105,34 @@ class MainActivity : ComponentActivity() {
                 val showFAB = currentDestination?.route in screensToShowFAB
                 Scaffold(
                     topBar = {
-                        if (showAppbars) AppToolbar(
-                            title = currentDestination?.route ?: "",
-                            syncEvent,
-                            currentDestination,
-                            navHostController
-                        )
+                        AnimatedVisibility(
+                            visible = showAppbars,
+                            enter = fadeIn() + slideInVertically(),
+                            exit = fadeOut() + slideOutVertically(
+                                targetOffsetY = { it / 2 }
+                            ),
+                            label = "app_bar_animation"
+                        ) {
+                            AppToolbar(
+                                title = currentDestination?.route ?: "",
+                                syncEvent,
+                                currentDestination,
+                                navHostController
+                            )
+                        }
                     },
-                    bottomBar = { if (showBottomBars) AppBottombar(navHostController, currentDestination) },
+                    bottomBar = {
+                        AnimatedVisibility(
+                            visible = showBottomBars,
+                            enter = fadeIn(animationSpec = tween(300)) + slideInVertically(),
+                            exit = fadeOut(animationSpec = tween(300)) + slideOutVertically(
+                                targetOffsetY = { it / 2 }
+                            ),
+                            label = "bottom_bar_animation"
+                        ) {
+                            AppBottombar(navHostController, currentDestination)
+                        }
+                    },
                     snackbarHost = { SnackbarHost(snackbarHostState) },
                     floatingActionButton = {
                         if (showFAB) {
@@ -189,7 +209,7 @@ class MainActivity : ComponentActivity() {
                     exit = fadeOut() + slideOutVertically(
                         targetOffsetY = { it / 2 }
                     ),
-                    label = "uo_button_label"
+                    label = "up_button_label"
                 ) {
                     UpButtonComponent {
                         navHostController.popBackStack()

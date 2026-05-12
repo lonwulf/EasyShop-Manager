@@ -53,7 +53,7 @@ fun CustomAlertDialogComponent(
                 }
             } else {
                 TextButton(onClick = onDismissRequest) {
-                    Text(stringResource(android.R.string.ok), color = MaterialTheme.colorScheme.primary)
+                    Text(stringResource(android.R.string.ok), color = MaterialTheme.colorScheme.primaryContainer)
                 }
             }
 
@@ -83,10 +83,10 @@ fun SuccessAlertDialog() {
             msg = "Operation completed!",
             onDismissRequest = { /* dismiss */ },
             onConfirmation = { /* continue */ },
-            titleContentColor = Color.Green,
+            titleContentColor = MaterialTheme.colorScheme.primaryContainer,
             textContentColor = Color.Black,
             imageVector = Icons.Filled.CheckCircle,
-            iconTint = Color.Green,
+            iconTint = MaterialTheme.colorScheme.primaryContainer,
             title = stringResource(R.string.success)
         )
     }

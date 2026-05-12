@@ -5,14 +5,20 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,7 +32,7 @@ import com.lonwulf.labs.easyshopmanager.R
 import com.lonwulf.labs.easyshopmanager.domain.model.Product
 
 @Composable
-fun ProductListComponent(modifier: Modifier = Modifier, productList: List<Product> = emptyList()) {
+fun ProductListComponent(productList: List<Product> = emptyList()) {
     LazyColumn(
         contentPadding = PaddingValues(5.dp),
         verticalArrangement = Arrangement.spacedBy(5.dp)
@@ -56,25 +62,30 @@ fun ProductItemComponent(
         elevation = CardDefaults.cardElevation(5.dp),
         modifier = modifier
             .fillMaxWidth()
+            .height(70.dp)
             .padding(5.dp),
         colors = CardDefaults.cardColors(contentColor = Color.White),
         onClick = { onclick?.invoke() }
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceAround,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(text = name, style = MaterialTheme.typography.bodyMedium)
             Text(text = make, style = MaterialTheme.typography.bodyMedium)
             Text(text = "qty: $qty", style = MaterialTheme.typography.bodyMedium)
-            Image(
-                painter = painterResource(R.drawable.outline_delete_icn),
-                contentDescription = "delete icon",
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable { onDelete() }
-            )
+            IconButton(onClick = onDelete) {
+                Icon(
+                    imageVector = Icons.Filled.Delete,
+                    tint = MaterialTheme.colorScheme.errorContainer,
+//                painter = painterResource(R.drawable.outline_delete_icn),
+                    contentDescription = "delete icon",
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable { onDelete() }
+                )
+            }
         }
     }
 }

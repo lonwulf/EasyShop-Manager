@@ -40,12 +40,12 @@ fun EmptyViewComponent(onclick: () -> Unit) {
         LottieAnimation(
             composition = composition,
             progress = { progress },
-            modifier = Modifier.weight(0.8f)
+            modifier = Modifier.weight(0.9f)
         )
         IconButton(
             onClick = onclick,
             shape = CircleShape,
-            modifier = Modifier.weight(0.2f)
+            modifier = Modifier.weight(0.1f)
         ) {
             Icon(
                 modifier = Modifier.size(40.dp),

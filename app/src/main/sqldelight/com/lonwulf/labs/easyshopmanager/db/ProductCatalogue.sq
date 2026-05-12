@@ -94,8 +94,8 @@ productWithRelations:
         s.name AS subcategory_name
     FROM product_catalogue p
     LEFT JOIN brand b ON p.brand_id = b.id
-    JOIN sub_category s ON p.sub_category_id = s.id
-    JOIN category c ON s.category_id = c.id;
+    LEFT JOIN sub_category s ON p.sub_category_id = s.id
+    LEFT JOIN category c ON s.category_id = c.id;
 
 selectProductsByBrand:
      SELECT

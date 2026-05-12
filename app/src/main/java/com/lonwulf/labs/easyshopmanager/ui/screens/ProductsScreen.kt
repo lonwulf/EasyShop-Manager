@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,9 +19,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.lonwulf.labs.easyshopmanager.navigation.Destinations
 import com.lonwulf.labs.easyshopmanager.navigation.NavComposable
+import com.lonwulf.labs.easyshopmanager.ui.components.AppLoaderComponent
 import com.lonwulf.labs.easyshopmanager.ui.components.EmptyViewComponent
 import com.lonwulf.labs.easyshopmanager.ui.components.ProductListComponent
-import com.lonwulf.labs.easyshopmanager.ui.components.ProgressLoader
 import com.lonwulf.labs.easyshopmanager.ui.components.SearchFieldComponent
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.MainViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -39,8 +40,12 @@ class ProductsScreenComposable(private val mainViewModel: MainViewModel) : NavCo
 fun ProductsScreen(modifier: Modifier = Modifier, navHostController: NavHostController, mainViewModel: MainViewModel) {
     val state by mainViewModel.productsState.collectAsStateWithLifecycle()
     var searchString by remember { mutableStateOf("") }
+
+    LaunchedEffect(Unit) {
+        mainViewModel.fetchCachedProducts()
+    }
     when {
-        state.isLoading -> ProgressLoader()
+        state.isLoading -> AppLoaderComponent()
         state.error != null -> {}
         else -> {
             if (state.products.isEmpty()) {
