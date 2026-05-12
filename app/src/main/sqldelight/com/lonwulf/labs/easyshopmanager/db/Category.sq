@@ -1,0 +1,18 @@
+CREATE TABLE category (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL
+);
+
+upsertCategory:
+    INSERT INTO category(id, name)
+    VALUES (:id, :name)
+    ON CONFLICT(id) DO UPDATE SET
+        id = :id,
+        name = :name;
+
+getCategoryById:
+    SELECT * FROM category WHERE id = :id;
+
+getAllCategories:
+    SELECT * FROM category;
+

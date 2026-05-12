@@ -2,6 +2,11 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.sql.delight)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.koin.compiler)
+    alias(libs.plugins.kotzilla)
 }
 
 android {
@@ -43,21 +48,33 @@ android {
 }
 
 dependencies {
+    implementation(project(":camera-lib"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    implementation(libs.material.icons)
-    implementation(libs.ml.kit.barcode.scanner)
+
     implementation(libs.navigation.compose)
-    implementation(libs.koin.android)
+
     implementation(libs.coil)
     implementation(libs.coil.okhttp)
+    implementation(libs.lottie)
+    implementation(libs.permissions)
+    implementation(libs.cameraView)
+    implementation(libs.sql.delight)
+    implementation(libs.sql.delight.coroutines)
+    implementation(libs.sql.delight.paging)
+    implementation(libs.dataStore)
+    implementation(libs.kotlin.collections)
+    implementation(libs.kotlin.serialization)
+    implementation(libs.work.manager)
+    implementation(libs.koin.android)
+//    implementation(libs.koin.core)
+    implementation(libs.koin.compose.navigation)
+//    implementation(libs.koin.viewmodel)
+    implementation(libs.koin.workmanager)
+    implementation(libs.kotzilla.sdk.compose)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -66,4 +83,13 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+sqldelight {
+    databases {
+        create("Catalogue") {
+            packageName.set("com.lonwulf.labs.easyshopmanager.db")
+            dialect(libs.sql.delight.dialect)
+        }
+    }
 }

@@ -1,0 +1,18 @@
+CREATE TABLE brand (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    origin TEXT
+);
+
+insertOrReplace:
+    INSERT INTO brand(id, name, origin)
+    VALUES (?,?,?);
+
+selectAllBrands:
+    SELECT * FROM brand;
+
+selectBrandById:
+    SELECT * FROM brand WHERE id = :id;
+
+selectBrandIdByName:
+    SELECT id FROM brand WHERE name = :name;
