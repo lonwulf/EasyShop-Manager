@@ -14,10 +14,23 @@ import com.lonwulf.labs.easyshopmanager.ui.viewmodel.ProductViewModel
 import com.lonwulf.labs.easyshopmanager.util.SyncEvent
 import com.lonwulf.labs.easyshopmanager.worker.CatalogConsolidateWorker
 import com.lonwulf.labs.easyshopmanager.worker.SyncWorker
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.android.Android
+import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.DEFAULT
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.workmanager.dsl.worker
 import org.koin.dsl.module
-import org.koin.androidx.viewmodel.dsl.viewModel
 
 val appModule = module {
     single<SqlDriver> { DatabaseDriverFactory(androidContext()).createDriver() }
@@ -31,4 +44,37 @@ val appModule = module {
     worker { CatalogConsolidateWorker(androidContext(), get()) }
     viewModel { ProductViewModel(get()) }
     viewModel { MainViewModel(get()) }
+}
+
+
+val networkModule = module {
+    single {
+        HttpClient(Android) {
+            engine {
+                connectTimeout = 60_000
+                socketTimeout = 60_000
+            }
+            install(ContentNegotiation) {
+                json(Json {
+                    ignoreUnknownKeys = true
+                    isLenient = true
+                    prettyPrint = true
+                })
+            }
+            install(Logging) {
+                logger = Logger.DEFAULT
+                level = LogLevel.ALL
+            }
+            install(HttpTimeout) {
+                requestTimeoutMillis = 60000
+                connectTimeoutMillis = 60000
+                socketTimeoutMillis = 60000
+            }
+            defaultRequest {
+                contentType(ContentType.Application.Json)
+            }
+
+            expectSuccess = false
+        }
+    }
 }

@@ -1,11 +1,12 @@
 CREATE TABLE category (
     id INTEGER NOT NULL PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL,
+    image TEXT
 );
 
 upsertCategory:
-    INSERT INTO category(id, name)
-    VALUES (:id, :name)
+    INSERT INTO category(id, name, image)
+    VALUES (:id, :name, :image)
     ON CONFLICT(id) DO UPDATE SET
         id = :id,
         name = :name;

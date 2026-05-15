@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface ISQLRepository {
     suspend fun insertAllCategories(categories: List<Category>): CacheResult<Pair<Int, Int>>
-    suspend fun upsertCategory(id: Long, name: String): CacheResult<Long>
+    suspend fun upsertCategory(id: Long, name: String, image:String): CacheResult<Long>
     fun getCategoryById(id: Long): Flow<CacheResult<Category?>>
     fun getAllCategories(): Flow<CacheResult<List<Category>>>
 

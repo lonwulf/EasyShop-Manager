@@ -57,7 +57,7 @@ dependencies {
     implementation(libs.navigation.compose)
 
     implementation(libs.coil)
-    implementation(libs.coil.okhttp)
+    implementation(libs.coil.ktor)
     implementation(libs.lottie)
     implementation(libs.permissions)
     implementation(libs.cameraView)
@@ -74,6 +74,11 @@ dependencies {
 //    implementation(libs.koin.viewmodel)
     implementation(libs.koin.workmanager)
     implementation(libs.kotzilla.sdk.compose)
+
+    implementation(libs.ktor.client.android)
+    implementation(libs.ktor.logging)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization)
 
 
     testImplementation(libs.junit)

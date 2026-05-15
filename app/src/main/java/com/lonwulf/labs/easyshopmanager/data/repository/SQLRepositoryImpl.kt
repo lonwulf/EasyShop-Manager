@@ -35,16 +35,17 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
             var count = 0
             categoryQueries.transactionWithResult {
                 categories.forEach { category ->
-                    categoryQueries.upsertCategory(category.id, category.name)
+                    categoryQueries.upsertCategory(category.id, category.name, category.image)
                     count++
                 }
                 Pair(categories.size, count)
             }
         }
 
-    override suspend fun upsertCategory(id: Long, name: String): CacheResult<Long> = safeCacheCall(Dispatchers.IO) {
-        categoryQueries.upsertCategory(id, name).await()
-    }
+    override suspend fun upsertCategory(id: Long, name: String, image: String): CacheResult<Long> =
+        safeCacheCall(Dispatchers.IO) {
+            categoryQueries.upsertCategory(id, name, image).await()
+        }
 
     override fun getCategoryById(id: Long): Flow<CacheResult<Category?>> =
         safeCacheFlow(
