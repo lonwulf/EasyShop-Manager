@@ -1,6 +1,8 @@
 package com.lonwulf.labs.easyshopmanager
 
-import android.app.Application
+import android.content.Context
+import androidx.multidex.MultiDex
+import androidx.multidex.MultiDexApplication
 import androidx.work.Configuration
 import coil3.ImageLoader
 import coil3.PlatformContext
@@ -26,7 +28,7 @@ import java.io.File
 import java.util.concurrent.Executors
 
 
-class EasyShopApplication : Application(), Configuration.Provider, SingletonImageLoader.Factory {
+class EasyShopApplication : MultiDexApplication(), Configuration.Provider, SingletonImageLoader.Factory {
     override fun onCreate() {
         super.onCreate()
         startKoin {
@@ -36,6 +38,11 @@ class EasyShopApplication : Application(), Configuration.Provider, SingletonImag
             workManagerFactory()
             modules(networkModule, appModule, cameraDependencies)
         }
+    }
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
     }
 
     override val workManagerConfiguration: Configuration

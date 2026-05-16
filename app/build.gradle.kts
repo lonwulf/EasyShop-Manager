@@ -19,16 +19,30 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
+        multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters.add("armeabi-v7a")
+            abiFilters.add("arm64-v8a") // Keep 64 for other devices
+        }
     }
 
     buildTypes {
-        release {
+        getByName("release") {
+//            signingConfig = signingConfigs.getByName("release")
+            multiDexKeepProguard = file("multidex-config.pro")
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            )
+        }
+        getByName("debug") {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
     }
@@ -76,9 +90,11 @@ dependencies {
     implementation(libs.kotzilla.sdk.compose)
 
     implementation(libs.ktor.client.android)
+    implementation(libs.ktor.mock)
     implementation(libs.ktor.logging)
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization)
+    implementation(libs.android.multidex)
 
 
     testImplementation(libs.junit)
