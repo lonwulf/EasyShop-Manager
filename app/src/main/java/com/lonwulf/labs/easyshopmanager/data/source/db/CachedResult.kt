@@ -1,6 +1,6 @@
 package com.lonwulf.labs.easyshopmanager.data.source.db
 
-import com.lonwulf.labs.easyshopmanager.data.util.SqliteOperationResult
+import com.lonwulf.labs.easyshopmanager.data.dataStore.SqliteOperationResult
 
 sealed class CacheResult<out T> {
     data class Success<T>(val data: T) : CacheResult<T>()

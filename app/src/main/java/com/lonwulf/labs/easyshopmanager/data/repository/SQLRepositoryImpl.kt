@@ -4,7 +4,7 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.lonwulf.labs.easyshopmanager.data.source.db.CacheResult
-import com.lonwulf.labs.easyshopmanager.data.util.LocalDataSource
+import com.lonwulf.labs.easyshopmanager.data.dataStore.LocalDataSource
 import com.lonwulf.labs.easyshopmanager.db.Catalogue
 import com.lonwulf.labs.easyshopmanager.domain.model.Category
 import com.lonwulf.labs.easyshopmanager.domain.model.Product

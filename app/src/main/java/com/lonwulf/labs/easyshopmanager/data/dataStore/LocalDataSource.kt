@@ -1,4 +1,4 @@
-package com.lonwulf.labs.easyshopmanager.data.util
+package com.lonwulf.labs.easyshopmanager.data.dataStore
 
 import android.database.sqlite.SQLiteAbortException
 import android.database.sqlite.SQLiteConstraintException

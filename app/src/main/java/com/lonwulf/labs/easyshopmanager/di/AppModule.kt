@@ -1,12 +1,19 @@
 package com.lonwulf.labs.easyshopmanager.di
 
 import app.cash.sqldelight.db.SqlDriver
+import com.lonwulf.labs.easyshopmanager.data.repository.APIRepositoryImpl
 import com.lonwulf.labs.easyshopmanager.data.repository.DatastoreRepositoryImpl
 import com.lonwulf.labs.easyshopmanager.data.repository.SQLRepositoryImpl
 import com.lonwulf.labs.easyshopmanager.data.source.db.DatabaseDriverFactory
+import com.lonwulf.labs.easyshopmanager.data.source.remote.ApiServiceImpl
+import com.lonwulf.labs.easyshopmanager.data.source.remote.AppRemoteDataSource
+import com.lonwulf.labs.easyshopmanager.data.source.remote.IApiService
 import com.lonwulf.labs.easyshopmanager.db.Catalogue
+import com.lonwulf.labs.easyshopmanager.domain.repository.IAPIRepository
 import com.lonwulf.labs.easyshopmanager.domain.repository.IDatastoreRepository
 import com.lonwulf.labs.easyshopmanager.domain.repository.ISQLRepository
+import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchAndInsertCategoriesUseCase
+import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchAndInsertSubCategoriesUseCase
 import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchProductsUseCase
 import com.lonwulf.labs.easyshopmanager.domain.useCase.ProductsUseCase
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.MainViewModel
@@ -37,9 +44,14 @@ val appModule = module {
     single<Catalogue> { Catalogue(get()) }
     single { SyncEvent() }
     single<IDatastoreRepository> { DatastoreRepositoryImpl(androidContext()) }
+    single<IApiService> { ApiServiceImpl(get()) }
+    single { AppRemoteDataSource(get()) }
     single<ISQLRepository> { SQLRepositoryImpl(get()) }
+    single<IAPIRepository> { APIRepositoryImpl(get()) }
     single { ProductsUseCase(get()) }
     single { FetchProductsUseCase(get()) }
+    single { FetchAndInsertSubCategoriesUseCase(get(), get()) }
+    single { FetchAndInsertCategoriesUseCase(get(), get()) }
     worker { SyncWorker(androidContext(), get(), productsUseCase = get(), syncEvent = get()) }
     worker { CatalogConsolidateWorker(androidContext(), get()) }
     viewModel { ProductViewModel(get()) }

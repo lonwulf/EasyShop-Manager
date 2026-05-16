@@ -1,10 +1,22 @@
 package com.lonwulf.labs.easyshopmanager.ui.screens
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,9 +29,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.lonwulf.labs.easyshopmanager.domain.model.Category
 import com.lonwulf.labs.easyshopmanager.navigation.Destinations
 import com.lonwulf.labs.easyshopmanager.navigation.NavComposable
 import com.lonwulf.labs.easyshopmanager.ui.components.AppLoaderComponent
+import com.lonwulf.labs.easyshopmanager.ui.components.CategoriesListComponent
 import com.lonwulf.labs.easyshopmanager.ui.components.EmptyViewComponent
 import com.lonwulf.labs.easyshopmanager.ui.components.ProductListComponent
 import com.lonwulf.labs.easyshopmanager.ui.components.SearchFieldComponent
@@ -40,6 +54,16 @@ class HomeScreenComposable(private val mainViewModel: MainViewModel) : NavCompos
 fun HomeScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel, navHostController: NavHostController) {
     val state by mainViewModel.productsState.collectAsStateWithLifecycle()
     var searchString by remember { mutableStateOf("") }
+    val testCategories by remember {
+        mutableStateOf(
+            listOf(
+                Category(id = 0, "Electronics"),
+                Category(id = 0, "Fashion"),
+                Category(id = 0, "Food & Beverage"),
+                Category(id = 0, "Home and Kitchen"),
+            )
+        )
+    }
 
     LaunchedEffect(Unit) {
         mainViewModel.fetchCachedProducts()
@@ -56,16 +80,39 @@ fun HomeScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel, navH
             } else {
                 Column(
                     modifier = modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 5.dp, vertical = 2.dp),
-                    verticalArrangement = Arrangement.SpaceEvenly
+                        .fillMaxSize(),
                 ) {
-                    SearchFieldComponent(
-                        value = searchString,
-                        onValueChange = { searchString = it },
-                        onSearchClick = {}
-                    )
+                    AnimatedVisibility(
+                        visible = true,
+                        enter = fadeIn() + slideInVertically(initialOffsetY = { it / 2 }),
+                        exit = fadeOut() + slideOutVertically(
+                            targetOffsetY = { it / 2 }
+                        ),
+                        label = "search_bar_animation"
+                    ) {
+                        Box(
+                            Modifier
+                                .wrapContentSize()
+                                .background(color = MaterialTheme.colorScheme.primaryContainer)
+                        ) {
+                            Column {
+                                SearchFieldComponent(
+                                    value = searchString,
+                                    onValueChange = { searchString = it },
+                                    onSearchClick = {}
+                                )
+                                Spacer(Modifier.height(20.dp))
+                            }
+                        }
+                    }
 
+                    Spacer(Modifier.height(20.dp))
+                    Text("Categories", modifier = Modifier.padding(start = 10.dp))
+                    CategoriesListComponent(modifier = Modifier.fillMaxWidth(), categoriesList = testCategories)
+
+                    Spacer(Modifier.height(10.dp))
+
+                    Text("Products", modifier = Modifier.padding(start = 10.dp))
                     ProductListComponent(productList = state.products)
                 }
             }

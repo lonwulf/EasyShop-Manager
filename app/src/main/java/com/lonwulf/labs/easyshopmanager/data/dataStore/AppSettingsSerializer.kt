@@ -1,4 +1,4 @@
-package com.lonwulf.labs.easyshopmanager.data.util
+package com.lonwulf.labs.easyshopmanager.data.dataStore
 
 import androidx.datastore.core.Serializer
 import com.lonwulf.labs.easyshopmanager.domain.model.AppSettings

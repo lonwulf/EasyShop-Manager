@@ -2,7 +2,7 @@ package com.lonwulf.labs.easyshopmanager.data.repository
 
 import android.content.Context
 import androidx.datastore.dataStore
-import com.lonwulf.labs.easyshopmanager.data.util.AppSettingsSerializer
+import com.lonwulf.labs.easyshopmanager.data.dataStore.AppSettingsSerializer
 import com.lonwulf.labs.easyshopmanager.domain.model.AppSettings
 import com.lonwulf.labs.easyshopmanager.domain.repository.IDatastoreRepository
 import kotlinx.coroutines.flow.Flow
