@@ -13,6 +13,7 @@ import coil3.disk.directory
 import coil3.memory.MemoryCache
 import coil3.network.ktor3.KtorNetworkFetcherFactory
 import coil3.request.crossfade
+import coil3.util.DebugLogger
 import com.lonwulf.labs.camera.di.cameraDependencies
 import com.lonwulf.labs.easyshopmanager.di.appModule
 import com.lonwulf.labs.easyshopmanager.di.networkModule
@@ -70,6 +71,9 @@ class EasyShopApplication : MultiDexApplication(), Configuration.Provider, Singl
                     .build()
             }.crossfade(true)
 
+        if (BuildConfig.DEBUG) {
+            builder.logger(DebugLogger())
+        }
         return builder.build()
 
     }

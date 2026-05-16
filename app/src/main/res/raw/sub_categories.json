@@ -1,0 +1,1708 @@
+{
+  "sub_categories": [
+    {
+      "id": 101,
+      "name": "Smartphones",
+      "category_id": 1,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 102,
+      "name": "Feature Phones",
+      "category_id": 1,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 103,
+      "name": "Refurbished Phones",
+      "category_id": 1,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 104,
+      "name": "Phone Cases & Covers",
+      "category_id": 1,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 105,
+      "name": "Screen Protectors",
+      "category_id": 1,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 106,
+      "name": "Chargers & Cables",
+      "category_id": 1,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 107,
+      "name": "Power Banks",
+      "category_id": 1,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 108,
+      "name": "Wireless Chargers",
+      "category_id": 1,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 109,
+      "name": "Phone Holders & Stands",
+      "category_id": 1,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 110,
+      "name": "Smartwatches",
+      "category_id": 1,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 111,
+      "name": "Smart Bands",
+      "category_id": 1,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 112,
+      "name": "Mobile Phone Spares",
+      "category_id": 1,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 113,
+      "name": "Laptops & Notebooks",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 114,
+      "name": "Desktop PC Towers",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 115,
+      "name": "All-in-One PCs",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 116,
+      "name": "PC Monitors",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 117,
+      "name": "Computer Processors (CPUs)",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 118,
+      "name": "Graphics Cards (GPUs)",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 119,
+      "name": "Motherboards",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 120,
+      "name": "RAM Memory Modules",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 121,
+      "name": "Internal SSDs & HDDs",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 122,
+      "name": "External Hard Drives & SSDs",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 123,
+      "name": "Power Supply Units (PSUs)",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 124,
+      "name": "PC Cases",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 125,
+      "name": "Keyboards & Mice",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 126,
+      "name": "Webcams & Microphones",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 127,
+      "name": "Computer Speakers",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 128,
+      "name": "Printers & Scanners",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 129,
+      "name": "Ink & Toner Cartridges",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 130,
+      "name": "Wi-Fi Routers & Modems",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 131,
+      "name": "Network Switches & Cables",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 132,
+      "name": "Gaming Consoles",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 133,
+      "name": "Gaming Controllers",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 134,
+      "name": "VR Headsets",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 135,
+      "name": "Graphic Tablets",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 136,
+      "name": "Office Chairs & Desks",
+      "category_id": 2,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 137,
+      "name": "Headphones & Earphones",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 138,
+      "name": "True Wireless Stereo (TWS)",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 139,
+      "name": "Bluetooth Speakers",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 140,
+      "name": "Soundbars",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 141,
+      "name": "Home Theatre Systems",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 142,
+      "name": "Amplifiers & Receivers",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 143,
+      "name": "Microphones & Audio Mixers",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 144,
+      "name": "Smart TVs",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 145,
+      "name": "Streaming Devices & TV Boxes",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 146,
+      "name": "Projectors & Screens",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 147,
+      "name": "Digital Cameras",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 148,
+      "name": "Action Cameras",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 149,
+      "name": "Drones & Quadcopters",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 150,
+      "name": "CCTV Security Cameras",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 151,
+      "name": "Smart Door Locks",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 152,
+      "name": "Smart Lighting",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 153,
+      "name": "Smart Plugs & Switches",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 154,
+      "name": "Smart Thermostats",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 155,
+      "name": "Voice Assistants & Hubs",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 156,
+      "name": "Batteries & Power Strips",
+      "category_id": 3,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 157,
+      "name": "Refrigerators & Freezers",
+      "category_id": 4,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 158,
+      "name": "Washing Machines & Dryers",
+      "category_id": 4,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 159,
+      "name": "Air Conditioners",
+      "category_id": 4,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 160,
+      "name": "Microwave Ovens",
+      "category_id": 4,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 161,
+      "name": "Blenders & Juicers",
+      "category_id": 4,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 162,
+      "name": "Air Fryers",
+      "category_id": 4,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 163,
+      "name": "Electric Kettles",
+      "category_id": 4,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 164,
+      "name": "Coffee Machines",
+      "category_id": 4,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 165,
+      "name": "Toasters & Sandwich Makers",
+      "category_id": 4,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 166,
+      "name": "Food Processors & Mixers",
+      "category_id": 4,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 167,
+      "name": "Vacuum Cleaners",
+      "category_id": 4,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 168,
+      "name": "Robotic Vacuums",
+      "category_id": 4,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 169,
+      "name": "Garment Steamers & Irons",
+      "category_id": 4,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 170,
+      "name": "Water Purifiers & Dispensers",
+      "category_id": 4,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 171,
+      "name": "Dehumidifiers & Air Purifiers",
+      "category_id": 4,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 172,
+      "name": "Water Heaters",
+      "category_id": 4,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 173,
+      "name": "Dishwashers",
+      "category_id": 4,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 174,
+      "name": "Electric Ovens & Cooktops",
+      "category_id": 4,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 175,
+      "name": "T-Shirts & Vests",
+      "category_id": 5,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 176,
+      "name": "Shirts",
+      "category_id": 5,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 177,
+      "name": "Hoodies & Sweatshirts",
+      "category_id": 5,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 178,
+      "name": "Jackets & Coats",
+      "category_id": 5,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 179,
+      "name": "Jeans",
+      "category_id": 5,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 180,
+      "name": "Trousers & Chinos",
+      "category_id": 5,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 181,
+      "name": "Shorts",
+      "category_id": 5,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 182,
+      "name": "Suits & Blazers",
+      "category_id": 5,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 183,
+      "name": "Underwear & Socks",
+      "category_id": 5,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 184,
+      "name": "Sleepwear & Loungewear",
+      "category_id": 5,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 185,
+      "name": "Activewear & Sportswear",
+      "category_id": 5,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 186,
+      "name": "Traditional Wear",
+      "category_id": 5,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 187,
+      "name": "Dresses",
+      "category_id": 6,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 188,
+      "name": "Blouses & Shirts",
+      "category_id": 6,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 189,
+      "name": "T-Shirts & Tops",
+      "category_id": 6,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 190,
+      "name": "Hoodies & Sweatshirts",
+      "category_id": 6,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 191,
+      "name": "Jackets & Coats",
+      "category_id": 6,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 192,
+      "name": "Jeans",
+      "category_id": 6,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 193,
+      "name": "Trousers & Leggings",
+      "category_id": 6,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 194,
+      "name": "Skirts",
+      "category_id": 6,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 195,
+      "name": "Shorts",
+      "category_id": 6,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 196,
+      "name": "Lingerie & Underwear",
+      "category_id": 6,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 197,
+      "name": "Socks & Hosiery",
+      "category_id": 6,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 198,
+      "name": "Sleepwear & Loungewear",
+      "category_id": 6,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 199,
+      "name": "Activewear & Sportswear",
+      "category_id": 6,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 200,
+      "name": "Maternity Wear",
+      "category_id": 6,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 201,
+      "name": "Jumpsuits & Rompers",
+      "category_id": 6,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 202,
+      "name": "Men's Sneakers & Sports Shoes",
+      "category_id": 7,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 203,
+      "name": "Men's Formal Shoes",
+      "category_id": 7,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 204,
+      "name": "Men's Casual Shoes",
+      "category_id": 7,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 205,
+      "name": "Men's Sandals & Slippers",
+      "category_id": 7,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 206,
+      "name": "Women's Sneakers & Sports Shoes",
+      "category_id": 7,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 207,
+      "name": "Women's Heels",
+      "category_id": 7,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 208,
+      "name": "Women's Flats & Ballerinas",
+      "category_id": 7,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 209,
+      "name": "Women's Boots",
+      "category_id": 7,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 210,
+      "name": "Women's Sandals & Slippers",
+      "category_id": 7,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 211,
+      "name": "Kids' Shoes",
+      "category_id": 7,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 212,
+      "name": "Backpacks",
+      "category_id": 7,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 213,
+      "name": "Handbags & Totes",
+      "category_id": 7,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 214,
+      "name": "Clutches & Evening Bags",
+      "category_id": 7,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 215,
+      "name": "Wallets & Card Holders",
+      "category_id": 7,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 216,
+      "name": "Luggage & Travel Bags",
+      "category_id": 7,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 217,
+      "name": "Briefcases & Laptop Bags",
+      "category_id": 7,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 218,
+      "name": "Men's Watches",
+      "category_id": 8,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 219,
+      "name": "Women's Watches",
+      "category_id": 8,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 220,
+      "name": "Kids' Watches",
+      "category_id": 8,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 221,
+      "name": "Pocket & Vintage Watches",
+      "category_id": 8,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 222,
+      "name": "Fine Jewelry (Gold/Plated)",
+      "category_id": 8,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 223,
+      "name": "Fashion & Costume Jewelry",
+      "category_id": 8,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 224,
+      "name": "Rings",
+      "category_id": 8,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 225,
+      "name": "Necklaces & Pendants",
+      "category_id": 8,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 226,
+      "name": "Earrings",
+      "category_id": 8,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 227,
+      "name": "Bracelets & Bangles",
+      "category_id": 8,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 228,
+      "name": "Sunglasses",
+      "category_id": 8,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 229,
+      "name": "Belts",
+      "category_id": 8,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 230,
+      "name": "Hats & Caps",
+      "category_id": 8,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 231,
+      "name": "Scarves & Shawls",
+      "category_id": 8,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 232,
+      "name": "Gloves & Mittens",
+      "category_id": 8,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 233,
+      "name": "Ties & Cufflinks",
+      "category_id": 8,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 234,
+      "name": "Living Room Furniture",
+      "category_id": 9,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 235,
+      "name": "Bedroom Furniture",
+      "category_id": 9,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 236,
+      "name": "Office & Study Furniture",
+      "category_id": 9,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 237,
+      "name": "Kitchen & Dining Furniture",
+      "category_id": 9,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 238,
+      "name": "Mattresses & Bed Bases",
+      "category_id": 9,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 239,
+      "name": "Bedsheets & Pillowcases",
+      "category_id": 9,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 240,
+      "name": "Duvets & Comforters",
+      "category_id": 9,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 241,
+      "name": "Blankets & Throws",
+      "category_id": 9,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 242,
+      "name": "Curtains & Blinds",
+      "category_id": 9,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 243,
+      "name": "Carpets, Rugs & Mats",
+      "category_id": 9,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 244,
+      "name": "Wall Art & Paintings",
+      "category_id": 9,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 245,
+      "name": "Vases & Decorative Ornaments",
+      "category_id": 9,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 246,
+      "name": "Mirrors",
+      "category_id": 9,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 247,
+      "name": "Clocks",
+      "category_id": 9,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 248,
+      "name": "Scented Candles & Diffusers",
+      "category_id": 9,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 249,
+      "name": "Storage Boxes & Organizers",
+      "category_id": 9,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 250,
+      "name": "Cookware Sets (Pots & Pans)",
+      "category_id": 10,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 251,
+      "name": "Frying Pans & Skilets",
+      "category_id": 10,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 252,
+      "name": "Bakeware",
+      "category_id": 10,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 253,
+      "name": "Chef Knives & Cutting Boards",
+      "category_id": 10,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 254,
+      "name": "Dinnerware Sets (Plates & Bowls)",
+      "category_id": 10,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 255,
+      "name": "Drinking Glasses & Tumblers",
+      "category_id": 10,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 256,
+      "name": "Cutlery (Forks, Knives, Spoons)",
+      "category_id": 10,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 257,
+      "name": "Food Storage Containers",
+      "category_id": 10,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 258,
+      "name": "Thermoses & Water Bottles",
+      "category_id": 10,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 259,
+      "name": "Kitchen Racks & Holders",
+      "category_id": 10,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 260,
+      "name": "Trash Cans & Bins",
+      "category_id": 10,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 261,
+      "name": "Skin Serums & Creams",
+      "category_id": 11,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 262,
+      "name": "Face Cleansers & Toners",
+      "category_id": 11,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 263,
+      "name": "Sunscreen & Sun Protection",
+      "category_id": 11,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 264,
+      "name": "Face Masks & Scrubs",
+      "category_id": 11,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 265,
+      "name": "Shampoos & Conditioners",
+      "category_id": 11,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 266,
+      "name": "Hair Styling Products & Dyes",
+      "category_id": 11,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 267,
+      "name": "Hair Dryers & Straighteners",
+      "category_id": 11,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 268,
+      "name": "Shavers & Trimmers",
+      "category_id": 11,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 269,
+      "name": "Electric Toothbrushes",
+      "category_id": 11,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 270,
+      "name": "Perfumes & Colognes",
+      "category_id": 11,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 271,
+      "name": "Body Lotions & Oils",
+      "category_id": 11,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 272,
+      "name": "Shower Gels & Soaps",
+      "category_id": 11,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 273,
+      "name": "Deodorants & Antiperspirants",
+      "category_id": 11,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 274,
+      "name": "Foundations & Concealers",
+      "category_id": 11,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 275,
+      "name": "Lipsticks & Lip Gloss",
+      "category_id": 11,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 276,
+      "name": "Eye Makeup",
+      "category_id": 11,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 277,
+      "name": "Nail Polish & Manicure Tools",
+      "category_id": 11,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 278,
+      "name": "Makeup Brushes & Sponges",
+      "category_id": 11,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 279,
+      "name": "Vitamins & Dietary Supplements",
+      "category_id": 12,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 280,
+      "name": "Protein Powders & Gym Shakes",
+      "category_id": 12,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 281,
+      "name": "First Aid Kits & Bandages",
+      "category_id": 12,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 282,
+      "name": "Blood Pressure Monitors",
+      "category_id": 12,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 283,
+      "name": "Digital Thermometers",
+      "category_id": 12,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 284,
+      "name": "Blood Glucose Meters",
+      "category_id": 12,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 285,
+      "name": "Massagers & Relaxation Tools",
+      "category_id": 12,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 286,
+      "name": "Face Masks & Sanitizers",
+      "category_id": 12,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 287,
+      "name": "Sexual Wellness Products",
+      "category_id": 12,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 288,
+      "name": "Contact Lenses & Solutions",
+      "category_id": 12,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 289,
+      "name": "Adult Diapers & Care",
+      "category_id": 12,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 290,
+      "name": "Gym & Fitness Equipment",
+      "category_id": 13,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 291,
+      "name": "Dumbbells & Barbells",
+      "category_id": 13,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 292,
+      "name": "Yoga Mats & Blocks",
+      "category_id": 13,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 293,
+      "name": "Treadmills & Exercise Bikes",
+      "category_id": 13,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 294,
+      "name": "Bicycles & Cycling Gear",
+      "category_id": 13,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 295,
+      "name": "Camping Tents & Sleeping Bags",
+      "category_id": 13,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 296,
+      "name": "Hiking Backpacks & Boots",
+      "category_id": 13,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 297,
+      "name": "Fishing Rods & Lures",
+      "category_id": 13,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 298,
+      "name": "Running Gear",
+      "category_id": 13,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 299,
+      "name": "Swimming Goggles & Suits",
+      "category_id": 13,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 300,
+      "name": "Football & Soccer Gear",
+      "category_id": 13,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 301,
+      "name": "Basketball Equipment",
+      "category_id": 13,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 302,
+      "name": "Tennis & Badminton Rackets",
+      "category_id": 13,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 303,
+      "name": "Sports Water Bottles",
+      "category_id": 13,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 304,
+      "name": "Car Tyres & Wheels",
+      "category_id": 14,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 305,
+      "name": "Car Engine Oils & Fluids",
+      "category_id": 14,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 306,
+      "name": "Car Batteries",
+      "category_id": 14,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 307,
+      "name": "Car Brake Pads & Discs",
+      "category_id": 14,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 308,
+      "name": "Car Spark Plugs",
+      "category_id": 14,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 309,
+      "name": "Car Air Fresheners",
+      "category_id": 14,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 310,
+      "name": "Car Seat Covers & Mats",
+      "category_id": 14,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 311,
+      "name": "GPS Trackers & Dashcams",
+      "category_id": 14,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 312,
+      "name": "Car Stereos & Speakers",
+      "category_id": 14,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 313,
+      "name": "Car Wash Shampoos & Waxes",
+      "category_id": 14,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 314,
+      "name": "Motorcycle Helmets",
+      "category_id": 14,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 315,
+      "name": "Motorcycle Riding Jackets",
+      "category_id": 14,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 316,
+      "name": "Cereals",
+      "category_id": 15,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 317,
+      "name": "Grains, Rice & Pasta",
+      "category_id": 15,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 318,
+      "name": "Cooking Oils & Ghee",
+      "category_id": 15,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 319,
+      "name": "Spices, Salt & Seasonings",
+      "category_id": 15,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 320,
+      "name": "Baking Supplies & Flour",
+      "category_id": 15,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 321,
+      "name": "Canned & Packaged Foods",
+      "category_id": 15,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 322,
+      "name": "Snacks & Chips",
+      "category_id": 15,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 323,
+      "name": "Chocolates & Sweets",
+      "category_id": 15,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 324,
+      "name": "Biscuits & Cookies",
+      "category_id": 15,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 325,
+      "name": "Coffee, Tea & Cocoa",
+      "category_id": 15,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 326,
+      "name": "Juices & Soft Drinks",
+      "category_id": 15,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 327,
+      "name": "Bottled Water",
+      "category_id": 15,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 328,
+      "name": "Milk & Dairy Products",
+      "category_id": 15,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 329,
+      "name": "Fresh Fruits & Vegetables",
+      "category_id": 15,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 330,
+      "name": "Fresh Meat & Seafood",
+      "category_id": 15,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 331,
+      "name": "Action Figures & Dolls",
+      "category_id": 16,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 332,
+      "name": "Building Blocks & Lego",
+      "category_id": 16,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 333,
+      "name": "Board Games & Puzzles",
+      "category_id": 16,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 334,
+      "name": "RC Cars & Drones",
+      "category_id": 16,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 335,
+      "name": "Stuffed Animals & Plushies",
+      "category_id": 16,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 336,
+      "name": "Educational & STEM Toys",
+      "category_id": 16,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 337,
+      "name": "Baby Toys",
+      "category_id": 16,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 338,
+      "name": "Musical Instruments",
+      "category_id": 16,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 339,
+      "name": "Art & Craft Supplies",
+      "category_id": 16,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 340,
+      "name": "Collectible Card Games",
+      "category_id": 16,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 341,
+      "name": "Model Kits & Diecast Vehicles",
+      "category_id": 16,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 342,
+      "name": "Dog Food & Treats",
+      "category_id": 17,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 343,
+      "name": "Cat Food & Treats",
+      "category_id": 17,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 344,
+      "name": "Pet Bowls & Feeders",
+      "category_id": 17,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 345,
+      "name": "Pet Collars, Leashes & Harnesses",
+      "category_id": 17,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 346,
+      "name": "Pet Beds & Blankets",
+      "category_id": 17,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 347,
+      "name": "Cat Litter & Trays",
+      "category_id": 17,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 348,
+      "name": "Pet Grooming Shampoos & Brushes",
+      "category_id": 17,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 349,
+      "name": "Pet Toys",
+      "category_id": 17,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 350,
+      "name": "Aquariums & Fish Food",
+      "category_id": 17,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 351,
+      "name": "Bird Cages & Seed",
+      "category_id": 17,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 352,
+      "name": "Pet Vitamins & Supplements",
+      "category_id": 17,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 353,
+      "name": "Baby Diapers & Wipes",
+      "category_id": 18,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 354,
+      "name": "Baby Formula & Milk",
+      "category_id": 18,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 355,
+      "name": "Baby Food & Purees",
+      "category_id": 18,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 356,
+      "name": "Baby Bottles & Teats",
+      "category_id": 18,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 357,
+      "name": "Baby Strollers & Prams",
+      "category_id": 18,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 358,
+      "name": "Car Seats",
+      "category_id": 18,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 359,
+      "name": "Baby Cribs & Bassinets",
+      "category_id": 18,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 360,
+      "name": "Baby Clothing & Rompers",
+      "category_id": 18,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 361,
+      "name": "Baby Bath Tubs & Washes",
+      "category_id": 18,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 362,
+      "name": "Pacifiers & Teethers",
+      "category_id": 18,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 363,
+      "name": "Baby Monitors",
+      "category_id": 18,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 364,
+      "name": "Power Drills & Drivers",
+      "category_id": 19,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 365,
+      "name": "Hand Tool Sets (Wrenches/Screwdrivers)",
+      "category_id": 19,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 366,
+      "name": "Measuring Tapes & Levels",
+      "category_id": 19,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 367,
+      "name": "Ladders",
+      "category_id": 19,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 368,
+      "name": "Padlocks & Safes",
+      "category_id": 19,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 369,
+      "name": "Wallpapers & Paint",
+      "category_id": 19,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 370,
+      "name": "Bathroom Faucets & Showers",
+      "category_id": 19,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 371,
+      "name": "Kitchen Sinks & Taps",
+      "category_id": 19,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 372,
+      "name": "Electrical Wires & Cables",
+      "category_id": 19,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 373,
+      "name": "Solar Panels & Inverters",
+      "category_id": 19,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 374,
+      "name": "Flashlights & Torches",
+      "category_id": 19,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 375,
+      "name": "Notebooks & Diaries",
+      "category_id": 20,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 376,
+      "name": "Pens, Pencils & Markers",
+      "category_id": 20,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 377,
+      "name": "Printer Paper",
+      "category_id": 20,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 378,
+      "name": "Files & Folders",
+      "category_id": 20,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 379,
+      "name": "Staplers & Punching Machines",
+      "category_id": 20,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 380,
+      "name": "Calculators",
+      "category_id": 20,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 381,
+      "name": "Scissors & Paper Cutters",
+      "category_id": 20,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 382,
+      "name": "Adhesive Tapes & Glues",
+      "category_id": 20,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 383,
+      "name": "Desk Organizers",
+      "category_id": 20,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 384,
+      "name": "Whiteboards & Markers",
+      "category_id": 20,
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    }
+  ]
+}

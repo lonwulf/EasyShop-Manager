@@ -1,6 +1,9 @@
 package com.lonwulf.labs.easyshopmanager.di
 
+import android.content.Context
 import app.cash.sqldelight.db.SqlDriver
+import com.lonwulf.labs.easyshopmanager.BuildConfig
+import com.lonwulf.labs.easyshopmanager.R
 import com.lonwulf.labs.easyshopmanager.data.repository.APIRepositoryImpl
 import com.lonwulf.labs.easyshopmanager.data.repository.DatastoreRepositoryImpl
 import com.lonwulf.labs.easyshopmanager.data.repository.SQLRepositoryImpl
@@ -23,6 +26,8 @@ import com.lonwulf.labs.easyshopmanager.worker.CatalogConsolidateWorker
 import com.lonwulf.labs.easyshopmanager.worker.SyncWorker
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
+import io.ktor.client.engine.mock.MockEngine
+import io.ktor.client.engine.mock.respond
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
@@ -31,7 +36,10 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
+import io.ktor.http.headersOf
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidContext
@@ -61,32 +69,87 @@ val appModule = module {
 
 val networkModule = module {
     single {
-        HttpClient(Android) {
-            engine {
-                connectTimeout = 60_000
-                socketTimeout = 60_000
-            }
-            install(ContentNegotiation) {
-                json(Json {
-                    ignoreUnknownKeys = true
-                    isLenient = true
-                    prettyPrint = true
-                })
-            }
-            install(Logging) {
-                logger = Logger.DEFAULT
-                level = LogLevel.ALL
-            }
-            install(HttpTimeout) {
-                requestTimeoutMillis = 60000
-                connectTimeoutMillis = 60000
-                socketTimeoutMillis = 60000
-            }
-            defaultRequest {
-                contentType(ContentType.Application.Json)
-            }
+        if (BuildConfig.DEBUG) {
+            provideMockHttpClient(androidContext())
+        } else {
+            HttpClient(Android) {
+                engine {
+                    connectTimeout = 60_000
+                    socketTimeout = 60_000
+                }
+                install(ContentNegotiation) {
+                    json(Json {
+                        ignoreUnknownKeys = true
+                        isLenient = true
+                        prettyPrint = true
+                    })
+                }
+                install(Logging) {
+                    logger = Logger.DEFAULT
+                    level = LogLevel.ALL
+                }
+                install(HttpTimeout) {
+                    requestTimeoutMillis = 60000
+                    connectTimeoutMillis = 60000
+                    socketTimeoutMillis = 60000
+                }
+                defaultRequest {
+                    contentType(ContentType.Application.Json)
+                }
 
-            expectSuccess = false
+                expectSuccess = false
+            }
         }
+
+    }
+}
+
+fun provideMockHttpClient(context: Context): HttpClient {
+    return HttpClient(MockEngine) {
+        engine {
+            addHandler { request ->
+                val path = request.url.encodedPath
+                val responseJson = when {
+                    path.endsWith("/categories") -> context.resources.openRawResource(R.raw.categories)
+                        .bufferedReader().use { it.readText() }
+
+                    path.endsWith("/sub_categories") -> context.resources.openRawResource(R.raw.sub_categories)
+                        .bufferedReader().use { it.readText() }
+
+                    path.endsWith("/brands") -> context.resources.openRawResource(R.raw.brands_sanitized_updated)
+                        .bufferedReader().use { it.readText() }
+
+                    else -> {
+                        return@addHandler respond(
+                            content = """{"error": "Not Found"}""",
+                            status = HttpStatusCode.NotFound,
+                            headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                        )
+                    }
+                }
+                respond(
+                    content = responseJson,
+                    status = HttpStatusCode.OK,
+                    headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                )
+            }
+        }
+        install(ContentNegotiation) {
+            json(Json {
+                ignoreUnknownKeys = true
+                isLenient = true
+                prettyPrint = true
+            })
+        }
+
+        install(Logging) {
+            logger = Logger.DEFAULT
+            level = LogLevel.ALL
+        }
+        defaultRequest {
+            contentType(ContentType.Application.Json)
+        }
+
+        expectSuccess = false
     }
 }

@@ -1,0 +1,104 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Phones & Telecommunications",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 2,
+      "name": "Computers, Office & Gaming",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 3,
+      "name": "Consumer Electronics & Smart Home",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 4,
+      "name": "Home Appliances",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 5,
+      "name": "Men's Clothing & Fashion",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 6,
+      "name": "Women's Clothing & Fashion",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 7,
+      "name": "Footwear & Bags",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 8,
+      "name": "Watches, Jewelry & Accessories",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 9,
+      "name": "Home, Furniture & Decor",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 10,
+      "name": "Kitchen & Dining",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 11,
+      "name": "Beauty & Personal Care",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 12,
+      "name": "Health, Medical & Wellness",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 13,
+      "name": "Sports & Outdoors",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 14,
+      "name": "Automotive & Motorcycle",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 15,
+      "name": "Food & Beverage",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 16,
+      "name": "Toys, Hobbies & Games",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 17,
+      "name": "Pet Supplies",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 18,
+      "name": "Baby & Toddler",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 19,
+      "name": "Tools & Home Improvement",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    },
+    {
+      "id": 20,
+      "name": "Office Supplies & Stationery",
+      "image_url": "https://i.imgur.com/sykUgnW.jpeg"
+    }
+  ]
+}
