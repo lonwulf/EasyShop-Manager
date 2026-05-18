@@ -29,7 +29,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.lonwulf.labs.easyshopmanager.domain.model.Category
 import com.lonwulf.labs.easyshopmanager.navigation.Destinations
 import com.lonwulf.labs.easyshopmanager.navigation.NavComposable
 import com.lonwulf.labs.easyshopmanager.ui.components.AppLoaderComponent
@@ -53,20 +52,16 @@ class HomeScreenComposable(private val mainViewModel: MainViewModel) : NavCompos
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel, navHostController: NavHostController) {
     val productsState by mainViewModel.productsState.collectAsStateWithLifecycle()
-    var searchString by remember { mutableStateOf("") }
-    val testCategories by remember {
-        mutableStateOf(
-            listOf(
-                Category(id = 0, "Electronics"),
-                Category(id = 0, "Fashion"),
-                Category(id = 0, "Food & Beverage"),
-                Category(id = 0, "Home and Kitchen"),
-            )
-        )
+    val categoriesState by mainViewModel.categoriesState.collectAsStateWithLifecycle()
+    val categories = remember(categoriesState) {
+        categoriesState.categories.take(7)
     }
+    var searchString by remember { mutableStateOf("") }
+
 
     LaunchedEffect(Unit) {
         mainViewModel.fetchCachedProducts()
+        mainViewModel.fetchCachedCategories()
     }
     when {
         productsState.isLoading -> AppLoaderComponent()
@@ -108,7 +103,7 @@ fun HomeScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel, navH
 
                     Spacer(Modifier.height(20.dp))
                     Text("Categories", modifier = Modifier.padding(start = 10.dp))
-                    CategoriesListComponent(modifier = Modifier.fillMaxWidth(), categoriesList = testCategories)
+                    CategoriesListComponent(modifier = Modifier.fillMaxWidth(), categoriesList = categories)
 
                     Spacer(Modifier.height(10.dp))
 

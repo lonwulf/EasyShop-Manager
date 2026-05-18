@@ -188,8 +188,8 @@ fun ManualInputScreen(
             if (selectedCategory.isNotEmpty()) {
                 AnimatedVisibility(
                     visible = selectedCategory.isNotEmpty(),
-                    enter = fadeIn() + slideInVertically(),
-                    exit = fadeOut() + slideOutVertically()
+                    enter = fadeIn() + slideInVertically(initialOffsetY = { it / 2 }),
+                    exit = fadeOut() + slideOutVertically(targetOffsetY = { it / 2 })
                 ) {
                     TextInputComponent(
                         value = selectedSubCategory,

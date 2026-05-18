@@ -65,7 +65,7 @@ fun CoilImageLoader(
             contentDescription = "default_img",
         )
 
-        if (!isLoaded && url != null) {
+        if (!isLoaded && url.isNullOrEmpty().not()) {
             CircularProgressIndicator(
                 modifier = Modifier
                     .matchParentSize(),

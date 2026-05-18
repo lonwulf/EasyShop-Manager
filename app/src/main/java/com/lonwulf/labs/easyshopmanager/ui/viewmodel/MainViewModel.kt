@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lonwulf.labs.easyshopmanager.domain.model.Resource
+import com.lonwulf.labs.easyshopmanager.domain.model.fold
 import com.lonwulf.labs.easyshopmanager.domain.uiState.BrandsState
+import com.lonwulf.labs.easyshopmanager.domain.uiState.CategoriesState
 import com.lonwulf.labs.easyshopmanager.domain.uiState.ProductState
 import com.lonwulf.labs.easyshopmanager.domain.useCase.BrandsUseCase
 import com.lonwulf.labs.easyshopmanager.domain.useCase.CategoriesSubCategoriesUseCase
@@ -24,6 +26,10 @@ class MainViewModel(
     val productsState
         get() = _productsState.asStateFlow()
 
+    private val _categoriesState = MutableStateFlow(CategoriesState())
+    val categoriesState
+        get() = _categoriesState.asStateFlow()
+
     fun fetchCachedProducts() = viewModelScope.launch(Dispatchers.IO) {
         fetchProductsUseCase()
             .onStart { }
@@ -34,4 +40,16 @@ class MainViewModel(
             }
     }
 
+    fun fetchCachedCategories() = viewModelScope.launch {
+        fetchCategoriesUseCase.getCategories()
+            .onStart { }
+            .flowOn(Dispatchers.IO)
+            .collect { resource ->
+                resource.fold(
+                    onLoading = { _categoriesState.value = CategoriesState(isLoading = true) },
+                    onSuccess = { _categoriesState.value = CategoriesState(categories = it) },
+                    onFailure = { message, _ -> _categoriesState.value = CategoriesState(error = message) })
+                Log.e("MainVm: ", "${categoriesState.value.categories}")
+            }
+    }
 }
