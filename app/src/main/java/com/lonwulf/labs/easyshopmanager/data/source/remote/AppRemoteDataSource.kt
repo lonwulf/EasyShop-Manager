@@ -1,6 +1,7 @@
 package com.lonwulf.labs.easyshopmanager.data.source.remote
 
 import com.lonwulf.labs.easyshopmanager.data.dto.APIResponse
+import com.lonwulf.labs.easyshopmanager.data.dto.BrandDTO
 import com.lonwulf.labs.easyshopmanager.data.dto.CategoryDTO
 import com.lonwulf.labs.easyshopmanager.data.dto.SubCategoryDTO
 import com.lonwulf.labs.easyshopmanager.data.network.APIResult
@@ -17,5 +18,10 @@ class AppRemoteDataSource(private val apiService: IApiService) : RemoteDataSourc
     suspend fun fetchSubCategories(dispatcher: CoroutineDispatcher): APIResult<APIResponse<List<SubCategoryDTO>>> =
         safeApiCall(dispatcher) {
             apiService.fetchSubCategories()
+        }
+
+    suspend fun fetchBrands(dispatcher: CoroutineDispatcher): APIResult<APIResponse<List<BrandDTO>>> =
+        safeApiCall(dispatcher){
+            apiService.fetchBrands()
         }
 }

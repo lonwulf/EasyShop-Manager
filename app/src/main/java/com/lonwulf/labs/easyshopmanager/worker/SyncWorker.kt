@@ -3,6 +3,9 @@ package com.lonwulf.labs.easyshopmanager.worker
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchAndInsertBrandsUseCase
+import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchAndInsertCategoriesUseCase
+import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchAndInsertSubCategoriesUseCase
 import com.lonwulf.labs.easyshopmanager.domain.useCase.ProductsUseCase
 import com.lonwulf.labs.easyshopmanager.util.SyncEvent
 import kotlinx.coroutines.async
@@ -13,6 +16,9 @@ class SyncWorker(
     context: Context,
     params: WorkerParameters,
     private val productsUseCase: ProductsUseCase,
+    private val fetchAndInsertCategoriesUseCase: FetchAndInsertCategoriesUseCase,
+    private val fetchAndInsertSubCategoriesUseCase: FetchAndInsertSubCategoriesUseCase,
+    private val fetchAndInsertBrandsUseCase: FetchAndInsertBrandsUseCase,
     private val syncEvent: SyncEvent
 ) :
     CoroutineWorker(context, params) {
@@ -20,7 +26,9 @@ class SyncWorker(
         try {
             syncEvent.startSync()
             val fullSyncJobs = listOf(
-                async {  }
+                async { fetchAndInsertCategoriesUseCase().collect {  } },
+                async { fetchAndInsertSubCategoriesUseCase().collect {  } },
+                async { fetchAndInsertBrandsUseCase().collect {  } },
             )
 
             fullSyncJobs.awaitAll()

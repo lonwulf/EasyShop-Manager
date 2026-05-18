@@ -6,6 +6,7 @@ data class SubCategory(
     val id: Long,
     val name: String,
     val categoryId: Long,
+    val imageUrl:String? = null,
 //    val createdAt: Long = System.currentTimeMillis()
 )
 

@@ -1,5 +1,7 @@
 {
-  "sub_categories": [
+  "message": "success",
+  "status": 200,
+  "data": [
     {
       "id": 101,
       "name": "Smartphones",

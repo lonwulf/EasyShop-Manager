@@ -1,6 +1,8 @@
 package com.lonwulf.labs.easyshopmanager
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
@@ -54,6 +56,9 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -73,12 +78,19 @@ import com.lonwulf.labs.easyshopmanager.ui.screens.SettingsScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.theme.EasyShopManagerTheme
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.MainViewModel
 import com.lonwulf.labs.easyshopmanager.util.SyncEvent
+import com.lonwulf.labs.easyshopmanager.worker.SyncWorker
 import org.koin.androidx.compose.koinViewModel
 import org.koin.mp.KoinPlatform.getKoin
 
 
 class MainActivity : ComponentActivity() {
     private val syncEvent: SyncEvent = getKoin().get()
+
+    override fun onStart() {
+        super.onStart()
+        setupSyncWorker(this )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -334,6 +346,15 @@ class MainActivity : ComponentActivity() {
                     )
                 }
             })
+    }
+
+    private fun setupSyncWorker(context: Context) {
+        Log.e("MainAct: ", "setupSyncWorker")
+
+        val syncWorker = OneTimeWorkRequestBuilder<SyncWorker>().build()
+        WorkManager.getInstance(context)
+            .beginUniqueWork("full_sync", ExistingWorkPolicy.REPLACE, syncWorker)
+            .enqueue()
     }
 }
 

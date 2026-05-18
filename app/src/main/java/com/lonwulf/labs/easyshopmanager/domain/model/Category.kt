@@ -11,12 +11,12 @@ data class Category(
 //    val createdAt: Long = System.currentTimeMillis()
 )
 
-fun Category.toDomain(): com.lonwulf.labs.easyshopmanager.domain.model.Category =
-    com.lonwulf.labs.easyshopmanager.domain.model.Category(id, name, image)
+fun Category.toEntity(): com.lonwulf.labs.easyshopmanager.domain.model.Category =
+    com.lonwulf.labs.easyshopmanager.domain.model.Category(id, name, image_url)
 
-fun List<Category>.toDomainList(): List<com.lonwulf.labs.easyshopmanager.domain.model.Category> =
+fun List<Category>.toEntityList(): List<com.lonwulf.labs.easyshopmanager.domain.model.Category> =
     mutableListOf<com.lonwulf.labs.easyshopmanager.domain.model.Category>().apply {
-        this@toDomainList.forEach {
-            add(it.toDomain())
+        this@toEntityList.forEach {
+            add(it.toEntity())
         }
     }

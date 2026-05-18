@@ -3,13 +3,15 @@ package com.lonwulf.labs.easyshopmanager.data.repository
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOneOrNull
-import com.lonwulf.labs.easyshopmanager.data.source.db.CacheResult
 import com.lonwulf.labs.easyshopmanager.data.dataStore.LocalDataSource
+import com.lonwulf.labs.easyshopmanager.data.source.db.CacheResult
 import com.lonwulf.labs.easyshopmanager.db.Catalogue
+import com.lonwulf.labs.easyshopmanager.domain.model.Brand
 import com.lonwulf.labs.easyshopmanager.domain.model.Category
 import com.lonwulf.labs.easyshopmanager.domain.model.Product
 import com.lonwulf.labs.easyshopmanager.domain.model.SubCategory
 import com.lonwulf.labs.easyshopmanager.domain.model.toDomain
+import com.lonwulf.labs.easyshopmanager.domain.model.toEntity
 import com.lonwulf.labs.easyshopmanager.domain.repository.ISQLRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -35,7 +37,7 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
             var count = 0
             categoryQueries.transactionWithResult {
                 categories.forEach { category ->
-                    categoryQueries.upsertCategory(category.id, category.name, category.image)
+                    categoryQueries.insertCategory(category.id, category.name, category.image)
                     count++
                 }
                 Pair(categories.size, count)
@@ -52,7 +54,7 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
             categoryQueries.getCategoryById(id)
                 .asFlow()
                 .mapToOneOrNull(Dispatchers.IO)
-                .map { it?.toDomain() })
+                .map { it?.toEntity() })
 
 
     override fun getAllCategories(): Flow<CacheResult<List<Category>>> =
@@ -60,7 +62,7 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
             categoryQueries.getAllCategories()
                 .asFlow()
                 .mapToList(Dispatchers.IO)
-                .map { it.map { category -> category.toDomain() } }
+                .map { it.map { category -> category.toEntity() } }
         )
 
     override suspend fun insertAllSubCategories(subCategories: List<SubCategory>): CacheResult<Pair<Int, Int>> =
@@ -68,16 +70,26 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
             var count = 0
             subCategoryQueries.transactionWithResult {
                 subCategories.forEach { subCategory ->
-                    subCategoryQueries.upsertSubCategory(subCategory.id, subCategory.name, subCategory.categoryId)
+                    subCategoryQueries.insertSubCategory(
+                        subCategory.id,
+                        subCategory.name,
+                        subCategory.categoryId,
+                        image_url = subCategory.imageUrl
+                    )
                     count++
                 }
                 Pair(subCategories.size, count)
             }
         }
 
-    override suspend fun upsertSubCategory(id: Long, name: String, categoryId: Long): CacheResult<Long> =
+    override suspend fun upsertSubCategory(
+        id: Long,
+        name: String,
+        categoryId: Long,
+        imageUrl: String
+    ): CacheResult<Long> =
         safeCacheCall(Dispatchers.IO) {
-            subCategoryQueries.upsertSubCategory(id, name, categoryId).await()
+            subCategoryQueries.upsertSubCategory(id, name, categoryId, image_url = imageUrl).await()
         }
 
 
@@ -236,6 +248,18 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
                 .mapToList(Dispatchers.IO)
                 .map { it.map { product -> product.toDomain() } }
         )
+
+    override suspend fun insertBrands(brands: List<Brand>): CacheResult<Pair<Int, Int>> =
+        safeCacheCall(Dispatchers.IO) {
+            var count = 0
+            brandQueries.transactionWithResult {
+                brands.forEach { brand ->
+                    brandQueries.insertBrand(brand.id, brand.name, brand.origin)
+                    count++
+                }
+                Pair(brands.size, count)
+            }
+        }
 
     //TODO: fix potential hazard (db lock)
     private fun resolveBrandId(brandName: String?): Long? {

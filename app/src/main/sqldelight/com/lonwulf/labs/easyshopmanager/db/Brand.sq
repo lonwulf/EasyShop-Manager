@@ -4,7 +4,7 @@ CREATE TABLE brand (
     origin TEXT
 );
 
-insertOrReplace:
+insertBrand:
     INSERT INTO brand(id, name, origin)
     VALUES (?,?,?);
 

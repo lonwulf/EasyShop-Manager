@@ -2,17 +2,23 @@ CREATE TABLE sub_category (
     id INTEGER NOT NULL PRIMARY KEY,
     name TEXT NOT NULL,
     category_id INTEGER NOT NULL,
-    FOREIGN KEY(category_id) REFERENCES category(id) ON DELETE CASCADE
+    image_url TEXT ,
+    FOREIGN KEY(category_id) REFERENCES category(id)
+--     FOREIGN KEY(category_id) REFERENCES category(id) ON DELETE CASCADE
 );
 
+insertSubCategory:
+    INSERT INTO sub_category(id, name, category_id, image_url)
+    VALUES (?,?,?,?);
 
 upsertSubCategory:
-    INSERT INTO sub_category(id, name, category_id)
-    VALUES (:id, :name, :category_id)
+    INSERT INTO sub_category(id, name, category_id, image_url)
+    VALUES (:id, :name, :category_id, :image_url)
     ON CONFLICT(id) DO UPDATE SET
         id = :id,
         name = :name,
-        category_id = :category_id;
+        category_id = :category_id,
+        image_url = image_url;
 
 getAllSubCategories:
     SELECT * FROM sub_category;

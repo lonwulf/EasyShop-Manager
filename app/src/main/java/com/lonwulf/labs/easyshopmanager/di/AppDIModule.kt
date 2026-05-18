@@ -15,6 +15,7 @@ import com.lonwulf.labs.easyshopmanager.db.Catalogue
 import com.lonwulf.labs.easyshopmanager.domain.repository.IAPIRepository
 import com.lonwulf.labs.easyshopmanager.domain.repository.IDatastoreRepository
 import com.lonwulf.labs.easyshopmanager.domain.repository.ISQLRepository
+import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchAndInsertBrandsUseCase
 import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchAndInsertCategoriesUseCase
 import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchAndInsertSubCategoriesUseCase
 import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchProductsUseCase
@@ -59,8 +60,19 @@ val appModule = module {
     single { ProductsUseCase(get()) }
     single { FetchProductsUseCase(get()) }
     single { FetchAndInsertSubCategoriesUseCase(get(), get()) }
+    single { FetchAndInsertBrandsUseCase(get(), get()) }
     single { FetchAndInsertCategoriesUseCase(get(), get()) }
-    worker { SyncWorker(androidContext(), get(), productsUseCase = get(), syncEvent = get()) }
+    worker {
+        SyncWorker(
+            androidContext(),
+            get(),
+            productsUseCase = get(),
+            syncEvent = get(),
+            fetchAndInsertCategoriesUseCase = get(),
+            fetchAndInsertSubCategoriesUseCase = get(),
+            fetchAndInsertBrandsUseCase = get()
+        )
+    }
     worker { CatalogConsolidateWorker(androidContext(), get()) }
     viewModel { ProductViewModel(get()) }
     viewModel { MainViewModel(get()) }
@@ -94,6 +106,7 @@ val networkModule = module {
                     socketTimeoutMillis = 60000
                 }
                 defaultRequest {
+                    url()
                     contentType(ContentType.Application.Json)
                 }
 
@@ -113,7 +126,7 @@ fun provideMockHttpClient(context: Context): HttpClient {
                     path.endsWith("/categories") -> context.resources.openRawResource(R.raw.categories)
                         .bufferedReader().use { it.readText() }
 
-                    path.endsWith("/sub_categories") -> context.resources.openRawResource(R.raw.sub_categories)
+                    path.endsWith("/subcategories") -> context.resources.openRawResource(R.raw.sub_categories)
                         .bufferedReader().use { it.readText() }
 
                     path.endsWith("/brands") -> context.resources.openRawResource(R.raw.brands_sanitized_updated)

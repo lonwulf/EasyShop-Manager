@@ -1,15 +1,20 @@
 CREATE TABLE category (
     id INTEGER NOT NULL PRIMARY KEY,
     name TEXT NOT NULL,
-    image TEXT
+    image_url TEXT
 );
 
+insertCategory:
+    INSERT INTO category(id,name,image_url)
+    VALUES (?,?,?);
+
 upsertCategory:
-    INSERT INTO category(id, name, image)
-    VALUES (:id, :name, :image)
+    INSERT INTO category(id, name, image_url)
+    VALUES (:id, :name, :image_url)
     ON CONFLICT(id) DO UPDATE SET
         id = :id,
-        name = :name;
+        name = :name,
+        image_url = :image_url;
 
 getCategoryById:
     SELECT * FROM category WHERE id = :id;

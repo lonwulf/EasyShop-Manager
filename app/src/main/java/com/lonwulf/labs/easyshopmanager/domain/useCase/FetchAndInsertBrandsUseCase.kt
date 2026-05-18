@@ -1,6 +1,5 @@
 package com.lonwulf.labs.easyshopmanager.domain.useCase
 
-import android.util.Log
 import com.lonwulf.labs.easyshopmanager.data.network.APIResult
 import com.lonwulf.labs.easyshopmanager.data.source.db.CacheResult
 import com.lonwulf.labs.easyshopmanager.domain.model.Resource
@@ -9,13 +8,14 @@ import com.lonwulf.labs.easyshopmanager.domain.repository.ISQLRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class FetchAndInsertSubCategoriesUseCase(
-    private val sqlRepository: ISQLRepository,
-    private val apiRepository: IAPIRepository
+class FetchAndInsertBrandsUseCase(
+    private val apiRepository: IAPIRepository,
+    private val sqlRepository: ISQLRepository
 ) {
+
     operator fun invoke(): Flow<Resource<Pair<Int, Int>>> = flow {
         emit(Resource.Loading)
-        when (val response = apiRepository.fetchSubCategories()) {
+        when (val response = apiRepository.fetchBrands()) {
             is APIResult.Loading -> {}
             is APIResult.Failure -> emit(
                 Resource.Failure(
@@ -26,14 +26,13 @@ class FetchAndInsertSubCategoriesUseCase(
 
             is APIResult.Success -> {
                 val subCategories = response.value
-                Log.e("SubCat success UseCase: ", "$subCategories")
                 if (subCategories.isNullOrEmpty().not()) {
-                    when (val insertOp = sqlRepository.insertAllSubCategories(subCategories)) {
+                    when (val insertOp = sqlRepository.insertBrands(subCategories)) {
                         is CacheResult.Success -> emit(Resource.Success(insertOp.data))
                         is CacheResult.Error -> emit(Resource.Failure(insertOp.msg, insertOp.cause))
                     }
                 } else {
-                    emit(Resource.Failure("SubCategories data empty or null from API"))
+                    emit(Resource.Failure("Brands data empty or null from API"))
                 }
             }
         }
