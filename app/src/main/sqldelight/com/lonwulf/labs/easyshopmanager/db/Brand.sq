@@ -9,7 +9,7 @@ insertBrand:
     VALUES (?,?,?);
 
 selectAllBrands:
-    SELECT * FROM brand;
+    SELECT * FROM brand ORDER BY name ASC ;
 
 selectBrandById:
     SELECT * FROM brand WHERE id = :id;

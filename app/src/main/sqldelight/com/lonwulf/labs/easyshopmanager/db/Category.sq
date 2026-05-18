@@ -20,5 +20,5 @@ getCategoryById:
     SELECT * FROM category WHERE id = :id;
 
 getAllCategories:
-    SELECT * FROM category;
+    SELECT * FROM category ORDER BY name ASC ;
 

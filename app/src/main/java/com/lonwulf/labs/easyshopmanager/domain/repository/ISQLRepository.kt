@@ -14,7 +14,7 @@ interface ISQLRepository {
     fun getAllCategories(): Flow<CacheResult<List<Category>>>
 
     suspend fun insertAllSubCategories(subCategories: List<SubCategory>): CacheResult<Pair<Int, Int>>
-    suspend fun upsertSubCategory(id: Long, name: String, categoryId: Long, imageUrl:String): CacheResult<Long>
+    suspend fun upsertSubCategory(id: Long, name: String, categoryId: Long, imageUrl: String): CacheResult<Long>
     fun getAllSubCategories(): Flow<CacheResult<List<SubCategory>>>
     fun getSubCategoriesByCategoryId(categoryId: Long): Flow<CacheResult<List<SubCategory>>>
     fun getSubCategoryById(id: Long): Flow<CacheResult<SubCategory?>>
@@ -32,4 +32,5 @@ interface ISQLRepository {
     fun getProductsByBrand(brandId: Long): Flow<CacheResult<List<Product>>>
 
     suspend fun insertBrands(brands: List<Brand>): CacheResult<Pair<Int, Int>>
+    fun getAllBrands(): Flow<CacheResult<List<Brand>>>
 }

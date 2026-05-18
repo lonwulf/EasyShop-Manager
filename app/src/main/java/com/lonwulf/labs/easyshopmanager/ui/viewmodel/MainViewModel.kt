@@ -3,7 +3,11 @@ package com.lonwulf.labs.easyshopmanager.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lonwulf.labs.easyshopmanager.domain.model.Resource
+import com.lonwulf.labs.easyshopmanager.domain.uiState.BrandsState
 import com.lonwulf.labs.easyshopmanager.domain.uiState.ProductState
+import com.lonwulf.labs.easyshopmanager.domain.useCase.BrandsUseCase
+import com.lonwulf.labs.easyshopmanager.domain.useCase.CategoriesSubCategoriesUseCase
 import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchProductsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +16,10 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val fetchProductsUseCase: FetchProductsUseCase) : ViewModel() {
+class MainViewModel(
+    private val fetchProductsUseCase: FetchProductsUseCase,
+    private val fetchCategoriesUseCase: CategoriesSubCategoriesUseCase,
+) : ViewModel() {
     private val _productsState = MutableStateFlow(ProductState())
     val productsState
         get() = _productsState.asStateFlow()
@@ -26,4 +33,5 @@ class MainViewModel(private val fetchProductsUseCase: FetchProductsUseCase) : Vi
                 Log.e("MainVm: ", "${it.products}")
             }
     }
+
 }

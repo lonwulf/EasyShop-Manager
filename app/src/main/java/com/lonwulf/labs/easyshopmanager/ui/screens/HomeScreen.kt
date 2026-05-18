@@ -52,7 +52,7 @@ class HomeScreenComposable(private val mainViewModel: MainViewModel) : NavCompos
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel, navHostController: NavHostController) {
-    val state by mainViewModel.productsState.collectAsStateWithLifecycle()
+    val productsState by mainViewModel.productsState.collectAsStateWithLifecycle()
     var searchString by remember { mutableStateOf("") }
     val testCategories by remember {
         mutableStateOf(
@@ -69,10 +69,10 @@ fun HomeScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel, navH
         mainViewModel.fetchCachedProducts()
     }
     when {
-        state.isLoading -> AppLoaderComponent()
-        state.error != null -> {}
+        productsState.isLoading -> AppLoaderComponent()
+        productsState.error != null -> {}
         else -> {
-            if (state.products.isEmpty()) {
+            if (productsState.products.isEmpty()) {
                 EmptyViewComponent(onclick = {
                     navHostController.navigate(Destinations.ManualInputScreen.route)
 //                    navHostController.navigate(Destinations.ScannerScreen.route)
@@ -113,7 +113,7 @@ fun HomeScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel, navH
                     Spacer(Modifier.height(10.dp))
 
                     Text("Products", modifier = Modifier.padding(start = 10.dp))
-                    ProductListComponent(productList = state.products)
+                    ProductListComponent(productList = productsState.products)
                 }
             }
         }

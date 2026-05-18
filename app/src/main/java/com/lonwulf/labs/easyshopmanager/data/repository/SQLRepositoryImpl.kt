@@ -261,6 +261,14 @@ class SQLRepositoryImpl(private val catalogue: Catalogue) : ISQLRepository, Loca
             }
         }
 
+    override fun getAllBrands(): Flow<CacheResult<List<Brand>>> =
+        safeCacheFlow(
+            brandQueries.selectAllBrands()
+                .asFlow()
+                .mapToList(Dispatchers.IO)
+                .map { it.map { brand -> brand.toDomain() } }
+        )
+
     //TODO: fix potential hazard (db lock)
     private fun resolveBrandId(brandName: String?): Long? {
         if (brandName == null) return null
