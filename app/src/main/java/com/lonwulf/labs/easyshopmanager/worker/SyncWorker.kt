@@ -8,6 +8,8 @@ import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchAndInsertCategoriesU
 import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchAndInsertSubCategoriesUseCase
 import com.lonwulf.labs.easyshopmanager.domain.useCase.ProductsUseCase
 import com.lonwulf.labs.easyshopmanager.util.SyncEvent
+import com.lonwulf.labs.easyshopmanager.util.SyncException
+import com.lonwulf.labs.easyshopmanager.util.lastResourceOrThrow
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -26,18 +28,26 @@ class SyncWorker(
         try {
             syncEvent.startSync()
             val fullSyncJobs = listOf(
-                async { fetchAndInsertCategoriesUseCase().collect {  } },
-                async { fetchAndInsertSubCategoriesUseCase().collect {  } },
-                async { fetchAndInsertBrandsUseCase().collect {  } },
+                async { fetchAndInsertCategoriesUseCase().lastResourceOrThrow() },
+                async { fetchAndInsertSubCategoriesUseCase().lastResourceOrThrow() },
+                async { fetchAndInsertBrandsUseCase().lastResourceOrThrow() },
             )
 
             fullSyncJobs.awaitAll()
             syncEvent.endSync()
             Result.success()
+        } catch (se: SyncException) {
+            se.printStackTrace()
+            syncEvent.endSync()
+            if (runAttemptCount < MAX_RETRIES) Result.retry() else Result.failure()
         } catch (ex: Exception) {
             ex.printStackTrace()
             syncEvent.endSync()
             Result.failure()
         }
+    }
+
+    companion object {
+        private const val MAX_RETRIES = 3
     }
 }

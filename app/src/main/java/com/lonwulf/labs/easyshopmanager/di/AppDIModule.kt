@@ -97,12 +97,12 @@ val networkModule = module {
                     json(Json {
                         ignoreUnknownKeys = true
                         isLenient = true
-                        prettyPrint = true
+                        prettyPrint = false
                     })
                 }
                 install(Logging) {
                     logger = Logger.DEFAULT
-                    level = LogLevel.ALL
+                    level = LogLevel.NONE
                 }
                 install(HttpTimeout) {
                     requestTimeoutMillis = 60000
@@ -122,27 +122,23 @@ val networkModule = module {
 }
 
 fun provideMockHttpClient(context: Context): HttpClient {
+    val categoriesJson = resourceString(context, R.raw.categories)
+    val subCategoriesJson = resourceString(context, R.raw.sub_categories)
+    val brandsJson = resourceString(context, R.raw.brands_sanitized_updated)
+
     return HttpClient(MockEngine) {
         engine {
             addHandler { request ->
                 val path = request.url.encodedPath
                 val responseJson = when {
-                    path.endsWith("/categories") -> context.resources.openRawResource(R.raw.categories)
-                        .bufferedReader().use { it.readText() }
-
-                    path.endsWith("/subcategories") -> context.resources.openRawResource(R.raw.sub_categories)
-                        .bufferedReader().use { it.readText() }
-
-                    path.endsWith("/brands") -> context.resources.openRawResource(R.raw.brands_sanitized_updated)
-                        .bufferedReader().use { it.readText() }
-
-                    else -> {
-                        return@addHandler respond(
-                            content = """{"error": "Not Found"}""",
-                            status = HttpStatusCode.NotFound,
-                            headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                        )
-                    }
+                    path.endsWith("/categories") -> categoriesJson
+                    path.endsWith("/subcategories") -> subCategoriesJson
+                    path.endsWith("/brands") -> brandsJson
+                    else -> return@addHandler respond(
+                        content = """{"error": "Not Found"}""",
+                        status = HttpStatusCode.NotFound,
+                        headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                    )
                 }
                 respond(
                     content = responseJson,
@@ -155,7 +151,7 @@ fun provideMockHttpClient(context: Context): HttpClient {
             json(Json {
                 ignoreUnknownKeys = true
                 isLenient = true
-                prettyPrint = true
+                prettyPrint = false
             })
         }
 
@@ -170,3 +166,7 @@ fun provideMockHttpClient(context: Context): HttpClient {
         expectSuccess = false
     }
 }
+
+private fun resourceString(context: Context, resId: Int): String =
+    context.resources.openRawResource(resId)
+        .bufferedReader().use { it.readText() }

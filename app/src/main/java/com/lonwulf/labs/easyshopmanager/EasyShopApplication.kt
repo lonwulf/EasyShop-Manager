@@ -22,6 +22,7 @@ import io.ktor.client.HttpClient
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.androidx.workmanager.factory.KoinWorkerFactory
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
@@ -48,6 +49,7 @@ class EasyShopApplication : MultiDexApplication(), Configuration.Provider, Singl
 
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
+            .setWorkerFactory(KoinWorkerFactory())
             .setExecutor(Executors.newFixedThreadPool(8))
             .setMinimumLoggingLevel(if (BuildConfig.DEBUG) android.util.Log.DEBUG else android.util.Log.ERROR)
             .build()

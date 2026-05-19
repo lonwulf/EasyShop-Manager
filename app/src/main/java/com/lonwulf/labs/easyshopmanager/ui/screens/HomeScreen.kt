@@ -58,11 +58,6 @@ fun HomeScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel, navH
     }
     var searchString by remember { mutableStateOf("") }
 
-
-    LaunchedEffect(Unit) {
-        mainViewModel.fetchCachedProducts()
-        mainViewModel.fetchCachedCategories()
-    }
     when {
         productsState.isLoading -> AppLoaderComponent()
         productsState.error != null -> {}
