@@ -69,7 +69,6 @@ class ObjectDetectionScreenComposable : NavComposable {
     @Composable
     override fun Composable(
         navHostController: NavHostController,
-        snackbarHostState: SnackbarHostState
     ) {
         ObjectDetectionScreen()
     }

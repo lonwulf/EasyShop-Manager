@@ -20,4 +20,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Easy Shop Manager"
-include(":app", "camera-lib")
+include(":app", "camera-lib", ":auth", ":presentation", ":navigation")

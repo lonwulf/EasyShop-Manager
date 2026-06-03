@@ -41,9 +41,6 @@ android {
         }
         getByName("debug") {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
-            )
         }
     }
     compileOptions {
@@ -63,6 +60,9 @@ android {
 
 dependencies {
     implementation(project(":camera-lib"))
+    implementation(project(":auth"))
+    implementation(project(":presentation"))
+    implementation(project(":navigation"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -70,9 +70,6 @@ dependencies {
 
     implementation(libs.navigation.compose)
 
-    implementation(libs.coil)
-    implementation(libs.coil.ktor)
-    implementation(libs.lottie)
     implementation(libs.permissions)
     implementation(libs.cameraView)
     implementation(libs.sql.delight)

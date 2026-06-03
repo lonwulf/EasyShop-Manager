@@ -43,15 +43,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.lonwulf.labs.easyshopmanager.R
-import com.lonwulf.labs.easyshopmanager.domain.model.InputType
+import com.lonwulf.labs.easyshopmanager.presentation.domain.model.InputType
 import com.lonwulf.labs.easyshopmanager.domain.uiState.CreateProductState
 import com.lonwulf.labs.easyshopmanager.navigation.NavComposable
-import com.lonwulf.labs.easyshopmanager.ui.components.AlertDialogType
-import com.lonwulf.labs.easyshopmanager.ui.components.AppLoaderComponent
-import com.lonwulf.labs.easyshopmanager.ui.components.ButtonComponent
-import com.lonwulf.labs.easyshopmanager.ui.components.CardWithTitleComponent
-import com.lonwulf.labs.easyshopmanager.ui.components.CustomAlertDialogComponent
-import com.lonwulf.labs.easyshopmanager.ui.components.TextInputComponent
+import com.lonwulf.labs.easyshopmanager.presentation.ui.components.AlertDialogType
+import com.lonwulf.labs.easyshopmanager.presentation.ui.components.AppLoaderComponent
+import com.lonwulf.labs.easyshopmanager.presentation.ui.components.ButtonComponent
+import com.lonwulf.labs.easyshopmanager.presentation.ui.components.CardWithTitleComponent
+import com.lonwulf.labs.easyshopmanager.presentation.ui.components.CustomAlertDialogComponent
+import com.lonwulf.labs.easyshopmanager.presentation.ui.components.TextInputComponent
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.ProductViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -60,9 +60,8 @@ class ManualInputScreenComposable : NavComposable {
     @Composable
     override fun Composable(
         navHostController: NavHostController,
-        snackbarHostState: SnackbarHostState
     ) {
-        ManualInputScreen(snackbarHostState = snackbarHostState)
+        ManualInputScreen()
     }
 }
 
@@ -70,7 +69,6 @@ class ManualInputScreenComposable : NavComposable {
 fun ManualInputScreen(
     modifier: Modifier = Modifier,
     productViewModel: ProductViewModel = koinViewModel(),
-    snackbarHostState: SnackbarHostState
 ) {
     var productName by rememberSaveable { mutableStateOf("") }
     var selectedBrand by rememberSaveable { mutableStateOf("") }
@@ -141,11 +139,12 @@ fun ManualInputScreen(
                 showSuccessDialog = true
             }
 
-            is CreateProductState.Error ->
-                snackbarHostState.showSnackbar(
-                    message = state.message,
-                    duration = SnackbarDuration.Long
-                )
+            is CreateProductState.Error -> {
+//                snackbarHostState.showSnackbar(
+//                    message = state.message,
+//                    duration = SnackbarDuration.Long
+//                )
+            }
 
             else -> Unit
         }
@@ -301,12 +300,12 @@ fun ManualInputScreen(
                     categoryId = 0
                 )
             } else {
-                scope.launch {
-                    snackbarHostState.showSnackbar(
-                        errorMessage ?: "Unknown error",
-                        duration = SnackbarDuration.Long
-                    )
-                }
+//                scope.launch {
+//                    snackbarHostState.showSnackbar(
+//                        errorMessage ?: "Unknown error",
+//                        duration = SnackbarDuration.Long
+//                    )
+//                }
             }
         }
     }
@@ -317,5 +316,5 @@ fun ManualInputScreen(
 @Composable
 fun ManualInputScreenPreview() =
     ManualInputScreen(
-        modifier = Modifier.padding(10.dp), snackbarHostState = SnackbarHostState()
+        modifier = Modifier.padding(10.dp),
     )

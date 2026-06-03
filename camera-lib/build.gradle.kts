@@ -29,17 +29,31 @@ android {
         compose = true
         buildConfig = true
     }
+//todo: fix this when doing release
+//    buildTypes {
+//        getByName("release") {
+//            multiDexKeepProguard = file("multidex-config.pro")
+//            isMinifyEnabled = true
+//            proguardFiles(
+//                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+//            )
+//        }
+//        getByName("debug") {
+//            isMinifyEnabled = false
+//        }
+//    }
 }
 
 dependencies{
+    implementation(project(":presentation"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(platform(libs.androidx.compose.bom))
-    api(libs.androidx.ui)
-    api(libs.androidx.ui.graphics)
-    api(libs.androidx.ui.tooling.preview)
-    api(libs.androidx.material3)
-    api(libs.material.icons)
+//    implementation(platform(libs.androidx.compose.bom))
+//    api(libs.androidx.ui)
+//    api(libs.androidx.ui.graphics)
+//    api(libs.androidx.ui.tooling.preview)
+//    api(libs.androidx.material3)
+//    api(libs.material.icons)
     api(libs.navigation.compose)
     implementation(libs.koin.android)
 //    implementation(libs.koin.viewmodel)

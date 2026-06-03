@@ -14,7 +14,6 @@ class ProductsScreenComposable(private val mainViewModel: MainViewModel) : NavCo
     @Composable
     override fun Composable(
         navHostController: NavHostController,
-        snackbarHostState: SnackbarHostState
     ) {
         ProductsScreen(navHostController = navHostController, mainViewModel = mainViewModel)
     }

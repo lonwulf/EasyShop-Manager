@@ -67,15 +67,15 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.lonwulf.labs.easyshopmanager.navigation.Destinations
 import com.lonwulf.labs.easyshopmanager.navigation.NavigationGraph
 import com.lonwulf.labs.easyshopmanager.navigation.TopLevelDestinations
-import com.lonwulf.labs.easyshopmanager.ui.components.CustomFabComponent
-import com.lonwulf.labs.easyshopmanager.ui.components.UpButtonComponent
+import com.lonwulf.labs.easyshopmanager.presentation.ui.components.CustomFabComponent
+import com.lonwulf.labs.easyshopmanager.presentation.ui.components.UpButtonComponent
 import com.lonwulf.labs.easyshopmanager.ui.screens.HomeScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.LiveBarcodeScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.ManualInputScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.ObjectDetectionScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.ProductsScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.SettingsScreenComposable
-import com.lonwulf.labs.easyshopmanager.ui.theme.EasyShopManagerTheme
+import com.lonwulf.labs.easyshopmanager.presentation.ui.theme.EasyShopManagerTheme
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.MainViewModel
 import com.lonwulf.labs.easyshopmanager.util.SyncEvent
 import com.lonwulf.labs.easyshopmanager.worker.SyncWorker
@@ -176,7 +176,6 @@ class MainActivity : ComponentActivity() {
                         )
                         NavigationGraph(
                             navHostController = navHostController,
-                            snackbarHostState = snackbarHostState,
                             composable = composables
                         )
                     }
@@ -251,7 +250,7 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     private fun SyncIndicator() {
-        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.download))
+        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(com.lonwulf.labs.easyshopmanager.presentation.R.raw.download))
         val progress by animateLottieCompositionAsState(
             composition = composition,
             iterations = LottieConstants.IterateForever,

@@ -15,10 +15,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,19 +29,18 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.lonwulf.labs.easyshopmanager.navigation.Destinations
 import com.lonwulf.labs.easyshopmanager.navigation.NavComposable
-import com.lonwulf.labs.easyshopmanager.ui.components.AppLoaderComponent
+import com.lonwulf.labs.easyshopmanager.presentation.ui.components.AppLoaderComponent
+import com.lonwulf.labs.easyshopmanager.presentation.ui.components.EmptyViewComponent
+import com.lonwulf.labs.easyshopmanager.presentation.ui.components.SearchFieldComponent
 import com.lonwulf.labs.easyshopmanager.ui.components.CategoriesListComponent
-import com.lonwulf.labs.easyshopmanager.ui.components.EmptyViewComponent
 import com.lonwulf.labs.easyshopmanager.ui.components.ProductListComponent
-import com.lonwulf.labs.easyshopmanager.ui.components.SearchFieldComponent
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.MainViewModel
 import org.koin.androidx.compose.koinViewModel
 
 class HomeScreenComposable(private val mainViewModel: MainViewModel) : NavComposable {
     @Composable
     override fun Composable(
-        navHostController: NavHostController,
-        snackbarHostState: SnackbarHostState
+        navHostController: NavHostController
     ) {
         HomeScreen(mainViewModel = mainViewModel, navHostController = navHostController)
     }
