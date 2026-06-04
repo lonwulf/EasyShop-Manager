@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -56,6 +57,7 @@ fun TextInputComponent(
     isSingleLine: Boolean = true,
     maxLines: Int = 1,
     fieldRequired: Boolean = false,
+    isOutlined: Boolean = true
 ) {
 
     val isDropdown = inputType is InputType.Dropdown
@@ -80,7 +82,7 @@ fun TextInputComponent(
 
     val baseFieldModifier = modifier
         .fillMaxWidth()
-        .clip(RoundedCornerShape(10.dp))
+        .clip(RoundedCornerShape(12.dp))
 
     val labelField: @Composable () -> Unit = {
         Row {
@@ -91,27 +93,49 @@ fun TextInputComponent(
             )
         }
     }
-
+    val labelComposable: @Composable () -> Unit = {
+        if (fieldRequired) labelField() else Text(label)
+    }
 
     val textField: @Composable (modifier: Modifier) -> Unit = { finalModifier ->
-        OutlinedTextField(
-            modifier = finalModifier,
-            value = value,
-            onValueChange = if (isDropdown) ({}) else onValueChange,
-            label = { if (fieldRequired) labelField() else Text(label) },
-            placeholder = { Text(label) },
-            leadingIcon = leadingIcon,
-            trailingIcon = resolvedTrailingIcon,
-            keyboardOptions = keyboardOptions,
-            visualTransformation = visualTransformation,
-            readOnly = isDropdown,
-            singleLine = isSingleLine,
-            isError = isError,
-            supportingText = supportingText,
-            colors = colors,
-            enabled = enabled,
-            maxLines = maxLines,
-        )
+        if (isOutlined)
+            OutlinedTextField(
+                modifier = finalModifier,
+                value = value,
+                onValueChange = if (isDropdown) ({}) else onValueChange,
+                label = labelComposable,
+                placeholder = { Text(label) },
+                leadingIcon = leadingIcon,
+                trailingIcon = resolvedTrailingIcon,
+                keyboardOptions = keyboardOptions,
+                visualTransformation = visualTransformation,
+                readOnly = isDropdown,
+                singleLine = isSingleLine,
+                isError = isError,
+                supportingText = supportingText,
+                colors = colors,
+                enabled = enabled,
+                maxLines = maxLines,
+            )
+        else {
+            TextField(
+                modifier = finalModifier,
+                value = value,
+                onValueChange = if (isDropdown) ({}) else onValueChange,
+                placeholder = { Text(label) },
+                leadingIcon = leadingIcon,
+                trailingIcon = resolvedTrailingIcon,
+                keyboardOptions = keyboardOptions,
+                visualTransformation = visualTransformation,
+                readOnly = isDropdown,
+                singleLine = isSingleLine,
+                isError = isError,
+                supportingText = supportingText,
+                colors = colors,
+                enabled = enabled,
+                maxLines = maxLines,
+            )
+        }
     }
 
     if (inputType is InputType.Dropdown) {

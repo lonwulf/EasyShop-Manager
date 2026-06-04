@@ -41,9 +41,11 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -64,18 +66,20 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.lonwulf.labs.easyshopmanager.auth.ui.screens.SignUpScreenComposable
+import com.lonwulf.labs.easyshopmanager.auth.ui.screens.SignInScreenComposable
 import com.lonwulf.labs.easyshopmanager.navigation.Destinations
 import com.lonwulf.labs.easyshopmanager.navigation.NavigationGraph
 import com.lonwulf.labs.easyshopmanager.navigation.TopLevelDestinations
 import com.lonwulf.labs.easyshopmanager.presentation.ui.components.CustomFabComponent
 import com.lonwulf.labs.easyshopmanager.presentation.ui.components.UpButtonComponent
+import com.lonwulf.labs.easyshopmanager.presentation.ui.theme.EasyShopManagerTheme
 import com.lonwulf.labs.easyshopmanager.ui.screens.HomeScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.LiveBarcodeScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.ManualInputScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.ObjectDetectionScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.ProductsScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.SettingsScreenComposable
-import com.lonwulf.labs.easyshopmanager.presentation.ui.theme.EasyShopManagerTheme
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.MainViewModel
 import com.lonwulf.labs.easyshopmanager.util.SyncEvent
 import com.lonwulf.labs.easyshopmanager.worker.SyncWorker
@@ -88,7 +92,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
-        setupSyncWorker(this )
+        setupSyncWorker(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,17 +108,47 @@ class MainActivity : ComponentActivity() {
                     koinViewModel(viewModelStoreOwner = LocalActivity.current as ComponentActivity)
                 var fabActionState by remember { mutableStateOf(false) }
 
-                val hideAppbarsInScreens = listOf(Destinations.ScannerScreen.route)
-                val hideBottomBarsInScreens =
-                    listOf(Destinations.ScannerScreen.route, Destinations.ManualInputScreen.route)
-                val showAppbars = currentDestination?.route !in hideAppbarsInScreens
-                val showBottomBars = currentDestination?.route !in hideBottomBarsInScreens
-                val screensToShowFAB = listOf(
-                    Destinations.ScannerScreen.route,
-                    TopLevelDestinations.ProductsScreen.route,
-                    TopLevelDestinations.HomeScreen.route
-                )
-                val showFAB = currentDestination?.route in screensToShowFAB
+                val hideAppbarsInScreens by rememberSaveable {
+                    mutableStateOf(
+                        listOf(
+                            Destinations.ScannerScreen.route,
+                            Destinations.SignUpScreen.route, Destinations.SignUpScreen.route
+                        )
+                    )
+                }
+                val hideBottomBarsInScreens by rememberSaveable {
+                    mutableStateOf(
+                        listOf(
+                            Destinations.ScannerScreen.route, Destinations.ManualInputScreen.route,
+                            Destinations.SignUpScreen.route,  Destinations.SignInScreen.route
+                        )
+                    )
+                }
+
+                val showAppbars by remember {
+                    derivedStateOf {
+                        currentDestination?.route?.let { it !in hideAppbarsInScreens } ?: false
+                    }
+                }
+                val showBottomBars by remember {
+                    derivedStateOf {
+                        currentDestination?.route?.let { it !in hideBottomBarsInScreens } ?: false
+                    }
+                }
+                val screensToShowFAB by rememberSaveable {
+                    mutableStateOf(
+                        listOf(
+                            Destinations.ScannerScreen.route,
+                            TopLevelDestinations.ProductsScreen.route,
+                            TopLevelDestinations.HomeScreen.route
+                        )
+                    )
+                }
+                val showFAB by remember {
+                    derivedStateOf {
+                        currentDestination?.route?.let { it in screensToShowFAB } ?: false
+                    }
+                }
                 Scaffold(
                     topBar = {
                         AnimatedVisibility(
@@ -172,7 +206,9 @@ class MainActivity : ComponentActivity() {
                             ),
                             Destinations.ScannerScreen.route to LiveBarcodeScreenComposable(),
                             Destinations.ObjectDetectionScreen.route to ObjectDetectionScreenComposable(),
-                            Destinations.ManualInputScreen.route to ManualInputScreenComposable()
+                            Destinations.ManualInputScreen.route to ManualInputScreenComposable(),
+                            Destinations.SignUpScreen.route to SignUpScreenComposable(),
+                            Destinations.SignInScreen.route to SignInScreenComposable(),
                         )
                         NavigationGraph(
                             navHostController = navHostController,
@@ -199,7 +235,11 @@ class MainActivity : ComponentActivity() {
             TopLevelDestinations.ProductsScreen.route,
             TopLevelDestinations.SettingsScreen.route
         )
-        val showUpButton = currentDestination?.route !in screens
+        val showUpButton by remember {
+            derivedStateOf {
+                currentDestination?.route?.let { it !in screens } ?: false
+            }
+        }
 
         TopAppBar(
             title = {
@@ -292,7 +332,11 @@ class MainActivity : ComponentActivity() {
         currentDestination: NavDestination?,
         navHostController: NavHostController
     ) {
-        val isSelected = currentDestination?.route == screen.route
+        val isSelected by remember {
+            derivedStateOf {
+                currentDestination?.route == screen.route
+            }
+        }
 
         val iconScale by animateFloatAsState(
             targetValue = if (isSelected) 1.2f else 1f,

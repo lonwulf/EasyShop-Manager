@@ -44,6 +44,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":navigation"))
     implementation(project(":presentation"))
     implementation(libs.androidx.core.ktx)
 //    implementation(platform(libs.androidx.compose.bom))

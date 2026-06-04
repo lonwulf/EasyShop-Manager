@@ -15,7 +15,8 @@ fun NavigationGraph(
     navHostController: NavHostController,
     composable: Map<String, NavComposable>,
 ) {
-    val destination = TopLevelDestinations.HomeScreen.route
+    val destination = Destinations.SignInScreen.route
+//    val destination = TopLevelDestinations.HomeScreen.route
     NavHost(navController = navHostController, startDestination = destination) {
         composable.forEach { (route, composable) ->
             composable(route = route) { backStackEntry ->
