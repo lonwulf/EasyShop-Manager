@@ -3,9 +3,9 @@ package com.lonwulf.labs.easyshopmanager.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lonwulf.labs.easyshopmanager.data.source.db.CacheResult
-import com.lonwulf.labs.easyshopmanager.domain.model.Product
-import com.lonwulf.labs.easyshopmanager.domain.model.fold
+import com.lonwulf.labs.easyshopmanager.core.data.source.db.CacheResult
+import com.lonwulf.labs.easyshopmanager.core.domain.model.Product
+import com.lonwulf.labs.easyshopmanager.core.domain.model.fold
 import com.lonwulf.labs.easyshopmanager.domain.uiState.BrandsState
 import com.lonwulf.labs.easyshopmanager.domain.uiState.CategoriesState
 import com.lonwulf.labs.easyshopmanager.domain.uiState.CreateProductState

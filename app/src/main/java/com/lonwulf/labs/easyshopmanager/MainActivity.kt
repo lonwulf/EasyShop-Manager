@@ -81,7 +81,7 @@ import com.lonwulf.labs.easyshopmanager.ui.screens.ObjectDetectionScreenComposab
 import com.lonwulf.labs.easyshopmanager.ui.screens.ProductsScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.SettingsScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.MainViewModel
-import com.lonwulf.labs.easyshopmanager.util.SyncEvent
+import com.lonwulf.labs.easyshopmanager.core.util.SyncEvent
 import com.lonwulf.labs.easyshopmanager.worker.SyncWorker
 import org.koin.androidx.compose.koinViewModel
 import org.koin.mp.KoinPlatform.getKoin
@@ -403,7 +403,7 @@ class MainActivity : ComponentActivity() {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun MainActivityPreview() {
     EasyShopManagerTheme {
     }
 }

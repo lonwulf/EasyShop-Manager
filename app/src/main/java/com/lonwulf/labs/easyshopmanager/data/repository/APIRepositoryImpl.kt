@@ -1,11 +1,11 @@
 package com.lonwulf.labs.easyshopmanager.data.repository
 
 import com.lonwulf.labs.easyshopmanager.data.dto.toDomain
-import com.lonwulf.labs.easyshopmanager.data.network.APIResult
+import com.lonwulf.labs.easyshopmanager.core.network.APIResult
 import com.lonwulf.labs.easyshopmanager.data.source.remote.AppRemoteDataSource
-import com.lonwulf.labs.easyshopmanager.domain.model.Brand
-import com.lonwulf.labs.easyshopmanager.domain.model.Category
-import com.lonwulf.labs.easyshopmanager.domain.model.SubCategory
+import com.lonwulf.labs.easyshopmanager.core.domain.model.Brand
+import com.lonwulf.labs.easyshopmanager.core.domain.model.Category
+import com.lonwulf.labs.easyshopmanager.core.domain.model.SubCategory
 import com.lonwulf.labs.easyshopmanager.domain.repository.IAPIRepository
 import kotlinx.coroutines.Dispatchers
 

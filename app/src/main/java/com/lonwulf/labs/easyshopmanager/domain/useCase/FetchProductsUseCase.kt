@@ -1,7 +1,7 @@
 package com.lonwulf.labs.easyshopmanager.domain.useCase
 
-import com.lonwulf.labs.easyshopmanager.data.source.db.CacheResult
-import com.lonwulf.labs.easyshopmanager.domain.repository.ISQLRepository
+import com.lonwulf.labs.easyshopmanager.core.data.source.db.CacheResult
+import com.lonwulf.labs.easyshopmanager.core.domain.repository.ISQLRepository
 import com.lonwulf.labs.easyshopmanager.domain.uiState.ProductState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

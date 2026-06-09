@@ -1,6 +1,6 @@
 package com.lonwulf.labs.easyshopmanager.data.dto
 
-import com.lonwulf.labs.easyshopmanager.domain.model.Brand
+import com.lonwulf.labs.easyshopmanager.core.domain.model.Brand
 import kotlinx.serialization.Serializable
 
 @Serializable

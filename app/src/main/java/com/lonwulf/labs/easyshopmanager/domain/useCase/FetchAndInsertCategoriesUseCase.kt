@@ -1,10 +1,10 @@
 package com.lonwulf.labs.easyshopmanager.domain.useCase
 
-import com.lonwulf.labs.easyshopmanager.data.network.APIResult
-import com.lonwulf.labs.easyshopmanager.data.source.db.CacheResult
-import com.lonwulf.labs.easyshopmanager.domain.model.Resource
+import com.lonwulf.labs.easyshopmanager.core.network.APIResult
+import com.lonwulf.labs.easyshopmanager.core.data.source.db.CacheResult
+import com.lonwulf.labs.easyshopmanager.core.domain.model.Resource
 import com.lonwulf.labs.easyshopmanager.domain.repository.IAPIRepository
-import com.lonwulf.labs.easyshopmanager.domain.repository.ISQLRepository
+import com.lonwulf.labs.easyshopmanager.core.domain.repository.ISQLRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 

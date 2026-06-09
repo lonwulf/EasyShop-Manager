@@ -3,15 +3,11 @@ package com.lonwulf.labs.easyshopmanager.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lonwulf.labs.easyshopmanager.domain.model.Resource
-import com.lonwulf.labs.easyshopmanager.domain.model.fold
-import com.lonwulf.labs.easyshopmanager.domain.uiState.BrandsState
+import com.lonwulf.labs.easyshopmanager.core.domain.model.fold
 import com.lonwulf.labs.easyshopmanager.domain.uiState.CategoriesState
 import com.lonwulf.labs.easyshopmanager.domain.uiState.ProductState
-import com.lonwulf.labs.easyshopmanager.domain.useCase.BrandsUseCase
 import com.lonwulf.labs.easyshopmanager.domain.useCase.CategoriesSubCategoriesUseCase
 import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchProductsUseCase
-import com.lonwulf.labs.easyshopmanager.util.lastResourceOrThrow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

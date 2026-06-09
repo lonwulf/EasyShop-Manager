@@ -15,8 +15,9 @@ import coil3.network.ktor3.KtorNetworkFetcherFactory
 import coil3.request.crossfade
 import coil3.util.DebugLogger
 import com.lonwulf.labs.camera.di.cameraDependencies
+import com.lonwulf.labs.easyshopmanager.core.di.coreModule
+import com.lonwulf.labs.easyshopmanager.core.di.networkModule
 import com.lonwulf.labs.easyshopmanager.di.appModule
-import com.lonwulf.labs.easyshopmanager.di.networkModule
 import io.kotzilla.generated.monitoring
 import io.ktor.client.HttpClient
 import org.koin.android.ext.android.getKoin
@@ -38,7 +39,7 @@ class EasyShopApplication : MultiDexApplication(), Configuration.Provider, Singl
             monitoring()
             androidLogger(Level.DEBUG)
             workManagerFactory()
-            modules(networkModule, appModule, cameraDependencies)
+            modules(coreModule, networkModule, appModule, cameraDependencies)
         }
     }
 

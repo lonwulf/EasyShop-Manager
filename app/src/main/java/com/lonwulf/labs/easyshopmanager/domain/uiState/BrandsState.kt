@@ -1,6 +1,6 @@
 package com.lonwulf.labs.easyshopmanager.domain.uiState
 
-import com.lonwulf.labs.easyshopmanager.domain.model.Brand
+import com.lonwulf.labs.easyshopmanager.core.domain.model.Brand
 
 data class BrandsState(
     val brands: List<Brand> = emptyList(),

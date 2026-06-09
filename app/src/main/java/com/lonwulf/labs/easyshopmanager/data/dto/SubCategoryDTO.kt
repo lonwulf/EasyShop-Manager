@@ -1,6 +1,6 @@
 package com.lonwulf.labs.easyshopmanager.data.dto
 
-import com.lonwulf.labs.easyshopmanager.domain.model.SubCategory
+import com.lonwulf.labs.easyshopmanager.core.domain.model.SubCategory
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
