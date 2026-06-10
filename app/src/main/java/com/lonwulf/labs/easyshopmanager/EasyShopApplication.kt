@@ -17,6 +17,7 @@ import coil3.util.DebugLogger
 import com.lonwulf.labs.camera.di.cameraDependencies
 import com.lonwulf.labs.camera.domain.usecase.CameraPrefsUseCase
 import com.lonwulf.labs.camera.util.PreferenceUtils
+import com.lonwulf.labs.easyshopmanager.auth.di.authModule
 import com.lonwulf.labs.easyshopmanager.core.di.coreModule
 import com.lonwulf.labs.easyshopmanager.core.di.networkModule
 import com.lonwulf.labs.easyshopmanager.di.appModule
@@ -45,7 +46,7 @@ class EasyShopApplication : MultiDexApplication(), Configuration.Provider, Singl
             monitoring()
             androidLogger(Level.DEBUG)
             workManagerFactory()
-            modules(coreModule, networkModule, appModule, cameraDependencies)
+            modules(coreModule, networkModule, appModule, cameraDependencies, authModule)
         }
 
         PreferenceUtils.init(

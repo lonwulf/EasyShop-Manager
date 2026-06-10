@@ -1,4 +1,4 @@
-package com.lonwulf.labs.easyshopmanager.data.dto
+package com.lonwulf.labs.easyshopmanager.core.data.dto
 
 import kotlinx.serialization.Serializable
 

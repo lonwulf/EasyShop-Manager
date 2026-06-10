@@ -44,16 +44,11 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
     implementation(project(":navigation"))
     implementation(project(":presentation"))
     implementation(libs.androidx.core.ktx)
-//    implementation(platform(libs.androidx.compose.bom))
-//
-//    implementation(libs.androidx.ui)
-//    implementation(libs.androidx.ui.graphics)
-//    implementation(libs.androidx.ui.tooling.preview)
-//    implementation(libs.androidx.material3)
-//    implementation(libs.material.icons)
+
     implementation(libs.navigation.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

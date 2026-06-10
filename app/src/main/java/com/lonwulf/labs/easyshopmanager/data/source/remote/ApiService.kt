@@ -1,6 +1,6 @@
 package com.lonwulf.labs.easyshopmanager.data.source.remote
 
-import com.lonwulf.labs.easyshopmanager.data.dto.APIResponse
+import com.lonwulf.labs.easyshopmanager.core.data.dto.APIResponse
 import com.lonwulf.labs.easyshopmanager.data.dto.BrandDTO
 import com.lonwulf.labs.easyshopmanager.data.dto.CategoryDTO
 import com.lonwulf.labs.easyshopmanager.data.dto.SubCategoryDTO

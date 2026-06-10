@@ -8,5 +8,6 @@ data class UserPrefs(
     val lName:String = "",
     val email:String = "",
     val userId:String = "",
-    val sessionToken:String = ""
+    val token:String = "",
+    val expiresIn:Int = 0
 )

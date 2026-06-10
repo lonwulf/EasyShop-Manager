@@ -42,8 +42,8 @@ object PreferenceUtils {
     fun getBarcodeReticleBox(overlay: GraphicOverlay): RectF {
         val overlayWidth = overlay.width.toFloat()
         val overlayHeight = overlay.height.toFloat()
-        val boxWidth = overlayWidth * ((settings?.barcodeReticleWidth ?: 80) / 100)
-        val boxHeight = overlayHeight * ((settings?.barcodeReticleHeight ?: 35) / 100)
+        val boxWidth = overlayWidth * ((settings?.barcodeReticleWidth ?: 80) / 100f)
+        val boxHeight = overlayHeight * ((settings?.barcodeReticleHeight ?: 35) / 100f)
         val cx = overlayWidth / 2
         val cy = overlayHeight / 2
         return RectF(cx - boxWidth / 2, cy - boxHeight / 2, cx + boxWidth / 2, cy + boxHeight / 2)
@@ -54,7 +54,7 @@ object PreferenceUtils {
             val reticleBoxWidth = getBarcodeReticleBox(overlay).width()
             val barcodeBoundingBox = barcode.boundingBox ?: return 0f
             val barcodeWidth = overlay.translateX(barcodeBoundingBox.width().toFloat())
-            val requiredWidth = reticleBoxWidth * ((settings?.minimumBarcodeWidth ?: 50) / 100)
+            val requiredWidth = reticleBoxWidth * ((settings?.minimumBarcodeWidth ?: 50) / 100f)
             (barcodeWidth / requiredWidth).coerceAtMost(1f)
         } else {
             1f

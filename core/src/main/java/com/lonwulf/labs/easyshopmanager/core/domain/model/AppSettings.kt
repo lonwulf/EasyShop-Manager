@@ -4,9 +4,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AppSettings(
-    val userPrefs: UserPrefs? = null,
+    val userPrefs: UserPrefs = UserPrefs(),
     /**
      * camera prefs
      */
-   val cameraSettings: CameraSettings? = null,
+   val cameraSettings: CameraSettings = CameraSettings(),
 )
