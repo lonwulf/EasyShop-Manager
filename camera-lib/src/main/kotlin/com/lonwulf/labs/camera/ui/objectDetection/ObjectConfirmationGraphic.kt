@@ -67,7 +67,7 @@ class ObjectConfirmationGraphic internal constructor(
         }
 
         innerRingPaint = Paint()
-        if (PreferenceUtils.isMultipleObjectsMode(overlay.context)) {
+        if (PreferenceUtils.isMultipleObjectsMode()) {
             innerRingPaint.style = Style.FILL
             innerRingPaint.color = ContextCompat.getColor(context, R.color.object_reticle_inner_ring)
         } else {

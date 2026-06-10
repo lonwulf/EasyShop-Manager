@@ -67,7 +67,7 @@ class CameraXViewModel(application: Application) : AndroidViewModel(application)
         val isConfirmed = progress.compareTo(1f) == 0
         if (isConfirmed) {
             confirmedObject = confirmingObject
-            if (PreferenceUtils.isAutoSearchEnabled(context)) {
+            if (PreferenceUtils.isAutoSearchEnabled()) {
                 setWorkflowState(WorkflowState.SEARCHING)
                 triggerSearch(confirmingObject)
             } else {

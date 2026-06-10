@@ -46,17 +46,12 @@ android {
 
 dependencies{
     implementation(project(":presentation"))
+    implementation(project(":core"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-//    implementation(platform(libs.androidx.compose.bom))
-//    api(libs.androidx.ui)
-//    api(libs.androidx.ui.graphics)
-//    api(libs.androidx.ui.tooling.preview)
-//    api(libs.androidx.material3)
-//    api(libs.material.icons)
+
     api(libs.navigation.compose)
     implementation(libs.koin.android)
-//    implementation(libs.koin.viewmodel)
 
     api(libs.ml.kit.barcode.scanner)
     implementation(libs.ml.kit.obj.detection)

@@ -45,6 +45,8 @@ android {
 
 dependencies {
     implementation(libs.navigation.compose)
+    api(libs.koin.compose.navigation)
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.material.icons)

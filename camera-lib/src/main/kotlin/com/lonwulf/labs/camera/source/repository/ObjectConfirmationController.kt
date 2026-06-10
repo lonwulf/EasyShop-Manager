@@ -17,8 +17,19 @@
 package com.lonwulf.labs.camera.source.repository
 
 import android.os.CountDownTimer
+import com.lonwulf.labs.camera.domain.usecase.CameraPrefsUseCase
 import com.lonwulf.labs.camera.ui.camera.GraphicOverlay
 import com.lonwulf.labs.camera.util.PreferenceUtils
+import com.lonwulf.labs.easyshopmanager.core.domain.model.CameraSettings
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import org.koin.mp.KoinPlatform.getKoin
 
 /**
  * Controls the progress of object confirmation before performing additional operation on the
@@ -42,7 +53,7 @@ internal class ObjectConfirmationController
         get() = progress.compareTo(1f) == 0
 
     init {
-        val confirmationTimeMs = PreferenceUtils.getConfirmationTimeMs(graphicOverlay.context).toLong()
+        val confirmationTimeMs = PreferenceUtils.getConfirmationTimeMs().toLong()
         countDownTimer = object : CountDownTimer(confirmationTimeMs, /* countDownInterval= */ 20) {
             override fun onTick(millisUntilFinished: Long) {
                 progress = (confirmationTimeMs - millisUntilFinished).toFloat() / confirmationTimeMs

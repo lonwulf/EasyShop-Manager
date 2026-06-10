@@ -1,15 +1,15 @@
-package com.lonwulf.labs.easyshopmanager.domain.useCase
+package com.lonwulf.labs.camera.domain.usecase
 
 import com.lonwulf.labs.easyshopmanager.core.domain.model.AppSettings
-import com.lonwulf.labs.easyshopmanager.core.domain.model.UserPrefs
+import com.lonwulf.labs.easyshopmanager.core.domain.model.CameraSettings
 import com.lonwulf.labs.easyshopmanager.core.domain.repository.IDatastoreRepository
 import kotlinx.coroutines.flow.Flow
 
-class UserPrefsUseCase(private val dataStoreRepository: IDatastoreRepository) {
-
+class CameraPrefsUseCase(private val dataStoreRepository: IDatastoreRepository) {
     operator fun invoke(): Flow<AppSettings> = dataStoreRepository.appSettings
-    suspend fun saveAppSettings(userPrefs: UserPrefs) {
-        dataStoreRepository.saveUserPrefsSettings(userPrefs)
+
+    suspend fun saveCameraSettings(cameraSettings: CameraSettings) {
+        dataStoreRepository.saveCameraSettings(cameraSettings)
     }
 
     suspend fun clearAppHistory() = dataStoreRepository.clearAppSettings()

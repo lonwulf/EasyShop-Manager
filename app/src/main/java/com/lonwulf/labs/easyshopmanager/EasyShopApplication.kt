@@ -15,11 +15,16 @@ import coil3.network.ktor3.KtorNetworkFetcherFactory
 import coil3.request.crossfade
 import coil3.util.DebugLogger
 import com.lonwulf.labs.camera.di.cameraDependencies
+import com.lonwulf.labs.camera.domain.usecase.CameraPrefsUseCase
+import com.lonwulf.labs.camera.util.PreferenceUtils
 import com.lonwulf.labs.easyshopmanager.core.di.coreModule
 import com.lonwulf.labs.easyshopmanager.core.di.networkModule
 import com.lonwulf.labs.easyshopmanager.di.appModule
 import io.kotzilla.generated.monitoring
 import io.ktor.client.HttpClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -27,6 +32,7 @@ import org.koin.androidx.workmanager.factory.KoinWorkerFactory
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
+import org.koin.java.KoinJavaComponent
 import java.io.File
 import java.util.concurrent.Executors
 
@@ -41,6 +47,11 @@ class EasyShopApplication : MultiDexApplication(), Configuration.Provider, Singl
             workManagerFactory()
             modules(coreModule, networkModule, appModule, cameraDependencies)
         }
+
+        PreferenceUtils.init(
+            cameraPrefsUseCase = KoinJavaComponent.get(CameraPrefsUseCase::class.java),
+            scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+        )
     }
 
     override fun attachBaseContext(base: Context) {

@@ -49,14 +49,15 @@ dependencies {
     implementation(libs.sql.delight.paging)
     implementation(libs.dataStore)
     implementation(libs.kotlin.collections)
-    implementation(libs.kotlin.serialization)
+    api(libs.kotlin.serialization)
     implementation(libs.ktor.client.android)
     implementation(libs.ktor.mock)
     implementation(libs.ktor.logging)
     implementation(libs.ktor.client.content.negotiation)
     api(libs.ktor.serialization)
 
-    implementation(libs.koin.android)
+
+    api(libs.koin.android)
 //    implementation(libs.koin.core)
     implementation(libs.koin.compose.navigation)
 

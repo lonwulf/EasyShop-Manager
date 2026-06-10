@@ -107,7 +107,7 @@ fun ObjectDetectionScreen(cameraXViewModel: CameraXViewModel = koinViewModel()) 
 
     LaunchedEffect(cameraXViewModel) {
         cameraSourceInstance.setFrameProcessor(
-            if (PreferenceUtils.isMultipleObjectsMode(context)) {
+            if (PreferenceUtils.isMultipleObjectsMode()) {
                 MultiObjectProcessor(graphicOverlayView, cameraXViewModel)
             } else {
                 ProminentObjectProcessor(graphicOverlayView, cameraXViewModel)
@@ -209,9 +209,7 @@ fun ObjectDetectionScreen(cameraXViewModel: CameraXViewModel = koinViewModel()) 
 
         // Manual Search Button
         AnimatedVisibility(
-            visible = workflowState == CameraXViewModel.WorkflowState.CONFIRMED && !PreferenceUtils.isAutoSearchEnabled(
-                context
-            ),
+            visible = workflowState == CameraXViewModel.WorkflowState.CONFIRMED && !PreferenceUtils.isAutoSearchEnabled(),
             enter = fadeIn() + expandIn(),
             exit = fadeOut() + shrinkOut(),
             modifier = Modifier

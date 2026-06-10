@@ -76,7 +76,7 @@ class BarcodeProcessor(graphicOverlay: GraphicOverlay, private val cameraXViewMo
                 cameraXViewModel.setWorkflowState(CameraXViewModel.WorkflowState.CONFIRMING)
             } else {
                 // Barcode size in the camera view is sufficient.
-                if (PreferenceUtils.shouldDelayLoadingBarcodeResult(graphicOverlay.context)) {
+                if (PreferenceUtils.shouldDelayLoadingBarcodeResult()) {
                     val loadingAnimator = createLoadingAnimator(graphicOverlay, barcodeInCenter)
                     loadingAnimator.start()
                     graphicOverlay.add(BarcodeLoadingGraphic(graphicOverlay, loadingAnimator))
