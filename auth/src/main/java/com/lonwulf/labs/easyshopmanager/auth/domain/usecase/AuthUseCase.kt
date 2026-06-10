@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class AuthUseCase(private val repository: IAuthRepository, private val dataStore: IDatastoreRepository) {
+
     fun signIn(email: String, password: String): Flow<Resource<Boolean>> = flow {
         when (val response = repository.signInUser(email, password)) {
             is APIResult.Loading -> emit(Resource.Loading)
@@ -26,12 +27,21 @@ class AuthUseCase(private val repository: IAuthRepository, private val dataStore
                 emit(Resource.Success(true))
             }
 
-            is APIResult.Failure -> emit(Resource.Failure(response.errorMessage ?: "failed sign in", response.cause))
+            is APIResult.Failure -> emit(Resource.Failure(response.errorMessage ?: "failed sign in"))
         }
     }
 
-    suspend fun signUp(email: String, password: String, fName: String, lName: String) =
-        repository.signUpUser(email, password, fName, lName)
+    fun signUp(email: String, password: String, fName: String, lName: String): Flow<Resource<Boolean>> = flow {
+        when (val response = repository.signUpUser(email, password, fName, lName)) {
+            is APIResult.Loading -> emit(Resource.Loading)
+            is APIResult.Success -> {
+
+                emit(Resource.Success(true))
+            }
+
+            is APIResult.Failure -> emit(Resource.Failure(response.errorMessage ?: "failed sign up"))
+        }
+    }
 
 
 }
