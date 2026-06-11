@@ -60,7 +60,6 @@ class LiveBarcodeScreenComposable : NavComposable {
     @Composable
     override fun Composable(
         navHostController: NavHostController,
-        snackbarHostState: SnackbarHostState
     ) {
         LiveBarcodeScreen(
             onClose = { navHostController.popBackStack() }

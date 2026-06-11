@@ -1,6 +1,5 @@
 package com.lonwulf.labs.easyshopmanager.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,12 +23,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.lonwulf.labs.easyshopmanager.R
-import com.lonwulf.labs.easyshopmanager.domain.model.Product
+import com.lonwulf.labs.easyshopmanager.core.domain.model.Product
 
 @Composable
 fun ProductListComponent(productList: List<Product> = emptyList()) {
@@ -63,8 +59,11 @@ fun ProductItemComponent(
         modifier = modifier
             .fillMaxWidth()
             .height(70.dp)
-            .padding(5.dp),
-        colors = CardDefaults.cardColors(contentColor = Color.White),
+            .padding(vertical = 5.dp, horizontal = 10.dp),
+        colors = CardDefaults.cardColors(
+            contentColor = MaterialTheme.colorScheme.onSurface,
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
         onClick = { onclick?.invoke() }
     ) {
         Row(
@@ -74,7 +73,7 @@ fun ProductItemComponent(
         ) {
             Text(text = name, style = MaterialTheme.typography.bodyMedium)
             Text(text = make, style = MaterialTheme.typography.bodyMedium)
-            Text(text = "qty: $qty", style = MaterialTheme.typography.bodyMedium)
+            Text(text = "Qty: $qty", style = MaterialTheme.typography.bodyMedium)
             IconButton(onClick = onDelete) {
                 Icon(
                     imageVector = Icons.Filled.Delete,

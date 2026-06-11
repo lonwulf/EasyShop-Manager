@@ -57,7 +57,7 @@ class ProminentObjectProcessor(
 
     init {
         val options: ObjectDetectorOptionsBase
-        val isClassificationEnabled = PreferenceUtils.isClassificationEnabled(graphicOverlay.context)
+        val isClassificationEnabled = PreferenceUtils.isClassificationEnabled()
         if (customModelPath != null) {
             val localModel = LocalModel.Builder()
                 .setAssetFilePath(customModelPath)
@@ -102,7 +102,7 @@ class ProminentObjectProcessor(
             return
         }
 
-        if (PreferenceUtils.isClassificationEnabled(graphicOverlay.context)) {
+        if (PreferenceUtils.isClassificationEnabled()) {
             val qualifiedObjects = ArrayList<DetectedObject>()
             qualifiedObjects.addAll(objects)
             objects = qualifiedObjects
@@ -143,7 +143,7 @@ class ProminentObjectProcessor(
                     )
                 )
                 if (!confirmationController.isConfirmed &&
-                    PreferenceUtils.isAutoSearchEnabled(graphicOverlay.context)
+                    PreferenceUtils.isAutoSearchEnabled()
                 ) {
                     // Shows a loading indicator to visualize the confirming progress if in auto search mode.
                     graphicOverlay.add(ObjectConfirmationGraphic(graphicOverlay, confirmationController))

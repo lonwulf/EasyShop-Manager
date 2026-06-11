@@ -1,6 +1,11 @@
 package com.lonwulf.labs.easyshopmanager.ui.screens
 
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,17 +40,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.lonwulf.labs.easyshopmanager.R
-import com.lonwulf.labs.easyshopmanager.domain.model.InputType
+import com.lonwulf.labs.easyshopmanager.presentation.domain.model.InputType
 import com.lonwulf.labs.easyshopmanager.domain.uiState.CreateProductState
 import com.lonwulf.labs.easyshopmanager.navigation.NavComposable
-import com.lonwulf.labs.easyshopmanager.ui.components.AlertDialogType
-import com.lonwulf.labs.easyshopmanager.ui.components.AppLoaderComponent
-import com.lonwulf.labs.easyshopmanager.ui.components.ButtonComponent
-import com.lonwulf.labs.easyshopmanager.ui.components.CardWithTitleComponent
-import com.lonwulf.labs.easyshopmanager.ui.components.CustomAlertDialogComponent
-import com.lonwulf.labs.easyshopmanager.ui.components.TextInputComponent
+import com.lonwulf.labs.easyshopmanager.presentation.ui.components.AlertDialogType
+import com.lonwulf.labs.easyshopmanager.presentation.ui.components.AppLoaderComponent
+import com.lonwulf.labs.easyshopmanager.presentation.ui.components.ButtonComponent
+import com.lonwulf.labs.easyshopmanager.presentation.ui.components.CardWithTitleComponent
+import com.lonwulf.labs.easyshopmanager.presentation.ui.components.CustomAlertDialogComponent
+import com.lonwulf.labs.easyshopmanager.presentation.ui.components.TextInputComponent
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.ProductViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -54,9 +60,8 @@ class ManualInputScreenComposable : NavComposable {
     @Composable
     override fun Composable(
         navHostController: NavHostController,
-        snackbarHostState: SnackbarHostState
     ) {
-        ManualInputScreen(snackbarHostState = snackbarHostState)
+        ManualInputScreen()
     }
 }
 
@@ -64,12 +69,12 @@ class ManualInputScreenComposable : NavComposable {
 fun ManualInputScreen(
     modifier: Modifier = Modifier,
     productViewModel: ProductViewModel = koinViewModel(),
-    snackbarHostState: SnackbarHostState
 ) {
     var productName by rememberSaveable { mutableStateOf("") }
     var selectedBrand by rememberSaveable { mutableStateOf("") }
     var productQty by rememberSaveable { mutableIntStateOf(0) }
     var selectedCategory by rememberSaveable { mutableStateOf("") }
+    var selectedSubCategory by rememberSaveable { mutableStateOf("") }
     var sellingPrice by rememberSaveable { mutableDoubleStateOf(0.0) }
     var buyingPrice by rememberSaveable { mutableDoubleStateOf(0.0) }
     var description by rememberSaveable { mutableStateOf("") }
@@ -77,18 +82,35 @@ fun ManualInputScreen(
     val scope = rememberCoroutineScope()
     val createProductState by productViewModel.createProductState.collectAsState()
     var showSuccessDialog by remember { mutableStateOf(false) }
+    val brandsState by productViewModel.brandsState.collectAsStateWithLifecycle()
+    val brands = remember(brandsState.brands) {
+        brandsState.brands.map { it.name }
+    }
+    val categoriesState by productViewModel.categoriesState.collectAsStateWithLifecycle()
+    val categories = remember(categoriesState) {
+        categoriesState.categories.map { it.name }
+    }
+    val subCategoriesState by productViewModel.subCategoriesState.collectAsStateWithLifecycle()
+    val subCategories = remember(subCategoriesState) {
+        subCategoriesState.subCategories.map { it.name }
+    }
 
-    fun resetFields(){
+    LaunchedEffect(Unit) {
+        productViewModel.fetchCachedBrands()
+        productViewModel.fetchCachedCategories()
+    }
+
+    fun resetFields() {
         productName = ""
         selectedBrand = ""
         productQty = 0
         selectedCategory = ""
+        selectedSubCategory = ""
         sellingPrice = 0.0
         buyingPrice = 0.0
         description = ""
         vendor = ""
     }
-
 
     when (createProductState) {
         is CreateProductState.Loading -> AppLoaderComponent()
@@ -117,11 +139,12 @@ fun ManualInputScreen(
                 showSuccessDialog = true
             }
 
-            is CreateProductState.Error ->
-                snackbarHostState.showSnackbar(
-                    message = state.message,
-                    duration = SnackbarDuration.Long
-                )
+            is CreateProductState.Error -> {
+//                snackbarHostState.showSnackbar(
+//                    message = state.message,
+//                    duration = SnackbarDuration.Long
+//                )
+            }
 
             else -> Unit
         }
@@ -141,17 +164,45 @@ fun ManualInputScreen(
                 isError = productName.isEmpty(),
                 fieldRequired = true,
             )
+
             TextInputComponent(
                 value = selectedCategory,
                 onValueChange = { selectedCategory = it },
                 label = "Category",
                 inputType = InputType.Dropdown(
-                    options = listOf("Kenya", "Uganda", "Tanzania", "Ethiopia", "Rwanda"),
-                    onOptionSelected = { selectedCategory = it },
+                    options = categories,
+                    onOptionSelected = { selectedCat ->
+                        selectedCategory = selectedCat
+                        selectedSubCategory = ""
+                        val catId = categoriesState.categories.find { it.name == selectedCat }?.id
+                        catId?.let {
+                            productViewModel.fetchSubCategoriesByCategoryId(it)
+                        }
+                    },
                 ),
                 isError = selectedCategory.isEmpty(),
                 fieldRequired = true,
             )
+
+            if (selectedCategory.isNotEmpty()) {
+                AnimatedVisibility(
+                    visible = selectedCategory.isNotEmpty(),
+                    enter = fadeIn() + slideInVertically(initialOffsetY = { it / 2 }),
+                    exit = fadeOut() + slideOutVertically(targetOffsetY = { it / 2 })
+                ) {
+                    TextInputComponent(
+                        value = selectedSubCategory,
+                        onValueChange = { selectedSubCategory = it },
+                        label = "Sub category",
+                        inputType = InputType.Dropdown(
+                            options = subCategories,
+                            onOptionSelected = { selectedSubCategory = it },
+                        ),
+                        isError = selectedSubCategory.isEmpty(),
+                        fieldRequired = true,
+                    )
+                }
+            }
 
             Row(
                 modifier = Modifier
@@ -164,7 +215,7 @@ fun ManualInputScreen(
                     onValueChange = { selectedBrand = it },
                     label = "Brand",
                     inputType = InputType.Dropdown(
-                        options = listOf("Kenya", "Uganda", "Tanzania", "Ethiopia", "Rwanda"),
+                        options = brands,
                         onOptionSelected = { selectedBrand = it },
                     ),
                     isError = selectedBrand.isEmpty(),
@@ -249,12 +300,12 @@ fun ManualInputScreen(
                     categoryId = 0
                 )
             } else {
-                scope.launch {
-                    snackbarHostState.showSnackbar(
-                        errorMessage ?: "Unknown error",
-                        duration = SnackbarDuration.Long
-                    )
-                }
+//                scope.launch {
+//                    snackbarHostState.showSnackbar(
+//                        errorMessage ?: "Unknown error",
+//                        duration = SnackbarDuration.Long
+//                    )
+//                }
             }
         }
     }
@@ -265,5 +316,5 @@ fun ManualInputScreen(
 @Composable
 fun ManualInputScreenPreview() =
     ManualInputScreen(
-        modifier = Modifier.padding(10.dp), snackbarHostState = SnackbarHostState()
+        modifier = Modifier.padding(10.dp),
     )

@@ -1,6 +1,5 @@
 package com.lonwulf.labs.easyshopmanager.ui.screens
 
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -11,7 +10,6 @@ class SettingsScreenComposable(private val mainViewModel: MainViewModel) : NavCo
     @Composable
     override fun Composable(
         navHostController: NavHostController,
-        snackbarHostState: SnackbarHostState
     ) {
         SettingsScreen(navHostController = navHostController, mainViewModel = mainViewModel)
     }

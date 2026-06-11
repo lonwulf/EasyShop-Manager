@@ -3,8 +3,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.sql.delight)
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.koin.compiler)
     alias(libs.plugins.kotzilla)
 }
@@ -19,17 +17,28 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
+        multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters.add("armeabi-v7a")
+            abiFilters.add("arm64-v8a") // Keep 64 for other devices
+        }
     }
 
     buildTypes {
-        release {
-            isMinifyEnabled = false
+        getByName("release") {
+//            signingConfig = signingConfigs.getByName("release")
+            multiDexKeepProguard = file("multidex-config.pro")
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
+        }
+        getByName("debug") {
+            isMinifyEnabled = false
         }
     }
     compileOptions {
@@ -48,7 +57,11 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
     implementation(project(":camera-lib"))
+    implementation(project(":auth"))
+    implementation(project(":presentation"))
+    implementation(project(":navigation"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -56,24 +69,16 @@ dependencies {
 
     implementation(libs.navigation.compose)
 
-    implementation(libs.coil)
-    implementation(libs.coil.okhttp)
-    implementation(libs.lottie)
     implementation(libs.permissions)
     implementation(libs.cameraView)
-    implementation(libs.sql.delight)
-    implementation(libs.sql.delight.coroutines)
-    implementation(libs.sql.delight.paging)
-    implementation(libs.dataStore)
     implementation(libs.kotlin.collections)
-    implementation(libs.kotlin.serialization)
     implementation(libs.work.manager)
-    implementation(libs.koin.android)
-//    implementation(libs.koin.core)
-    implementation(libs.koin.compose.navigation)
-//    implementation(libs.koin.viewmodel)
+//    implementation(libs.koin.android)
     implementation(libs.koin.workmanager)
     implementation(libs.kotzilla.sdk.compose)
+
+    implementation(libs.android.multidex)
+    implementation(libs.splashscreen)
 
 
     testImplementation(libs.junit)
@@ -83,13 +88,4 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-}
-
-sqldelight {
-    databases {
-        create("Catalogue") {
-            packageName.set("com.lonwulf.labs.easyshopmanager.db")
-            dialect(libs.sql.delight.dialect)
-        }
-    }
 }

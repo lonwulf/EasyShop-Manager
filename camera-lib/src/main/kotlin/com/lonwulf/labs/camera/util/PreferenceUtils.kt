@@ -1,106 +1,73 @@
 package com.lonwulf.labs.camera.util
 
-import android.content.Context
 import android.graphics.RectF
-import android.preference.PreferenceManager
-import androidx.annotation.StringRes
 import com.google.mlkit.vision.barcode.common.Barcode
+import com.lonwulf.labs.camera.domain.usecase.CameraPrefsUseCase
 import com.lonwulf.labs.camera.ui.camera.GraphicOverlay
-import com.lonwulf.labs.camera_lib.R
+import com.lonwulf.labs.easyshopmanager.core.domain.model.CameraSettings
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 object PreferenceUtils {
+    private lateinit var cameraPrefsUseCase: CameraPrefsUseCase
+    private lateinit var scope: CoroutineScope
+    private lateinit var cameraSettings: StateFlow<CameraSettings?>
 
-    private fun getBooleanPref(
-        context: Context,
-        @StringRes prefKeyId: Int,
-        defaultValue: Boolean
-    ): Boolean =
-        PreferenceManager.getDefaultSharedPreferences(context)
-            .getBoolean(context.getString(prefKeyId), defaultValue)
-
-    private fun getIntPref(context: Context, @StringRes prefKeyId: Int, defaultValue: Int): Int {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val prefKey = context.getString(prefKeyId)
-        return try {
-            sharedPreferences.getString(prefKey, null)?.toInt() ?: defaultValue
-        } catch (e: Exception) {
-            defaultValue
-        }
+    fun init(cameraPrefsUseCase: CameraPrefsUseCase, scope: CoroutineScope) {
+        this.cameraPrefsUseCase = cameraPrefsUseCase
+        this.scope = scope
+        cameraSettings = cameraPrefsUseCase()
+            .map { it.cameraSettings }
+            .flowOn(Dispatchers.IO)
+            .stateIn(
+                scope = scope,
+                started = SharingStarted.Eagerly,
+                initialValue = null
+            )
     }
 
-    fun isAutoSearchEnabled(context: Context): Boolean =
-        getBooleanPref(context, R.string.pref_key_enable_auto_search, true)
+    private val settings get() = cameraSettings.value
 
-    fun isMultipleObjectsMode(context: Context): Boolean =
-        getBooleanPref(
-            context,
-            R.string.pref_key_object_detector_enable_multiple_objects,
-            false
-        )
+    fun isAutoSearchEnabled(): Boolean = settings?.isAutoSearchEnabled == true
 
-    fun isClassificationEnabled(context: Context): Boolean =
-        getBooleanPref(
-            context,
-            R.string.pref_key_object_detector_enable_classification,
-            false
-        )
+    fun isMultipleObjectsMode(): Boolean = settings?.isMultipleObjectsMode == true
+
+    fun isClassificationEnabled(): Boolean = settings?.isClassificationEnabled == true
 
     fun getBarcodeReticleBox(overlay: GraphicOverlay): RectF {
-        val context = overlay.context
         val overlayWidth = overlay.width.toFloat()
         val overlayHeight = overlay.height.toFloat()
-        val boxWidth =
-            overlayWidth * getIntPref(context, R.string.pref_key_barcode_reticle_width, 80) / 100
-        val boxHeight =
-            overlayHeight * getIntPref(context, R.string.pref_key_barcode_reticle_height, 35) / 100
+        val boxWidth = overlayWidth * ((settings?.barcodeReticleWidth ?: 80) / 100f)
+        val boxHeight = overlayHeight * ((settings?.barcodeReticleHeight ?: 35) / 100f)
         val cx = overlayWidth / 2
         val cy = overlayHeight / 2
         return RectF(cx - boxWidth / 2, cy - boxHeight / 2, cx + boxWidth / 2, cy + boxHeight / 2)
     }
 
     fun getProgressToMeetBarcodeSizeRequirement(overlay: GraphicOverlay, barcode: Barcode): Float {
-        val context = overlay.context
-        return if (getBooleanPref(
-                context,
-                R.string.pref_key_enable_barcode_size_check,
-                false
-            )
-        ) {
+        return if (settings?.isEnabledBarcodeSizeCheck == true) {
             val reticleBoxWidth = getBarcodeReticleBox(overlay).width()
             val barcodeBoundingBox = barcode.boundingBox ?: return 0f
             val barcodeWidth = overlay.translateX(barcodeBoundingBox.width().toFloat())
-            val requiredWidth =
-                reticleBoxWidth * getIntPref(
-                    context,
-                    R.string.pref_key_minimum_barcode_width,
-                    50
-                ) / 100
+            val requiredWidth = reticleBoxWidth * ((settings?.minimumBarcodeWidth ?: 50) / 100f)
             (barcodeWidth / requiredWidth).coerceAtMost(1f)
         } else {
             1f
         }
     }
 
-    fun shouldDelayLoadingBarcodeResult(context: Context): Boolean =
-        getBooleanPref(
-            context,
-            R.string.pref_key_delay_loading_barcode_result,
-            true
-        )
+    fun shouldDelayLoadingBarcodeResult(): Boolean = settings?.shouldDelayLoadingBarcodeResult == true
 
-    fun getConfirmationTimeMs(context: Context): Int =
+    fun getConfirmationTimeMs(): Int =
         when {
-            isMultipleObjectsMode(context) -> 300
-            isAutoSearchEnabled(context) -> getIntPref(
-                context,
-                R.string.pref_key_confirmation_time_in_auto_search,
-                1500
-            )
+            isMultipleObjectsMode() -> 300
+            isAutoSearchEnabled() -> settings?.confirmationTimeInAutoSearch ?: 1500
 
-            else -> getIntPref(
-                context,
-                R.string.pref_key_confirmation_time_in_manual_search,
-                500
-            )
+            else -> settings?.confirmationTimeInManualSearch ?: 500
         }
 }

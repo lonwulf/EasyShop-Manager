@@ -61,7 +61,7 @@ class MultiObjectProcessor(
 
     init {
         val options: ObjectDetectorOptionsBase
-        val isClassificationEnabled = PreferenceUtils.isClassificationEnabled(graphicOverlay.context)
+        val isClassificationEnabled = PreferenceUtils.isClassificationEnabled()
 
         if (customModelPath != null) {
             val localModel = LocalModel.Builder()
@@ -109,7 +109,7 @@ class MultiObjectProcessor(
 
         if (customModelPath != null) {
             objects = results.filter { result -> DetectedObjectInfo.hasValidLabels(result) }
-        } else if (PreferenceUtils.isClassificationEnabled(graphicOverlay.context)) {
+        } else if (PreferenceUtils.isClassificationEnabled()) {
             val qualifiedObjects = ArrayList<DetectedObject>()
             for (result in objects) {
                 qualifiedObjects.add(result)
