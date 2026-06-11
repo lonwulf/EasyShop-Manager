@@ -53,6 +53,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -83,6 +84,7 @@ import com.lonwulf.labs.easyshopmanager.ui.screens.SettingsScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.MainViewModel
 import com.lonwulf.labs.easyshopmanager.core.util.SyncEvent
 import com.lonwulf.labs.easyshopmanager.worker.SyncWorker
+import io.ktor.util.collections.getValue
 import org.koin.androidx.compose.koinViewModel
 import org.koin.mp.KoinPlatform.getKoin
 
@@ -149,6 +151,7 @@ class MainActivity : ComponentActivity() {
                         currentDestination?.route?.let { it in screensToShowFAB } ?: false
                     }
                 }
+                val startDestination by mainViewModel.startDestination.collectAsStateWithLifecycle()
                 Scaffold(
                     topBar = {
                         AnimatedVisibility(
@@ -212,7 +215,8 @@ class MainActivity : ComponentActivity() {
                         )
                         NavigationGraph(
                             navHostController = navHostController,
-                            composable = composables
+                            composable = composables,
+                            startDestination = startDestination
                         )
                     }
                 }

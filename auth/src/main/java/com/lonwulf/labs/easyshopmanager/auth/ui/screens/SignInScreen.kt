@@ -44,11 +44,14 @@ import com.lonwulf.labs.easyshopmanager.auth.ui.components.ContinueWithEmailComp
 import com.lonwulf.labs.easyshopmanager.auth.ui.components.LabelTextFieldComponent
 import com.lonwulf.labs.easyshopmanager.auth.ui.components.SocialButtonComponent
 import com.lonwulf.labs.easyshopmanager.auth.ui.components.TermsAndPrivacyText
+import com.lonwulf.labs.easyshopmanager.auth.ui.viewmodel.AuthViewModel
+import com.lonwulf.labs.easyshopmanager.auth.ui.viewmodel.ValidationResult
 import com.lonwulf.labs.easyshopmanager.navigation.Destinations
 import com.lonwulf.labs.easyshopmanager.navigation.NavComposable
 import com.lonwulf.labs.easyshopmanager.presentation.domain.model.InputType
 import com.lonwulf.labs.easyshopmanager.presentation.ui.components.ButtonComponent
 import com.lonwulf.labs.easyshopmanager.presentation.ui.components.SpannableClickableText
+import org.koin.compose.viewmodel.koinActivityViewModel
 
 class SignInScreenComposable : NavComposable {
     @Composable
@@ -58,7 +61,11 @@ class SignInScreenComposable : NavComposable {
 }
 
 @Composable
-fun SignInScreen(modifier: Modifier = Modifier, navHostController: NavHostController) {
+fun SignInScreen(
+    modifier: Modifier = Modifier,
+    navHostController: NavHostController,
+    viewModel: AuthViewModel = koinActivityViewModel()
+) {
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var isChecked by rememberSaveable { mutableStateOf(false) }
@@ -178,6 +185,10 @@ fun SignInScreen(modifier: Modifier = Modifier, navHostController: NavHostContro
         }
 
         ButtonComponent(text = "Sign In") {
+            when (viewModel.isSignInCredentialsValid(email, password)) {
+                is ValidationResult.Success -> viewModel.signIn(email, password)
+                is ValidationResult.Failure -> {}
+            }
 
         }
 

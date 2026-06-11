@@ -12,6 +12,7 @@ import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchAndInsertCategoriesU
 import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchAndInsertSubCategoriesUseCase
 import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchProductsUseCase
 import com.lonwulf.labs.easyshopmanager.domain.useCase.ProductsUseCase
+import com.lonwulf.labs.easyshopmanager.domain.useCase.UserPrefsUseCase
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.MainViewModel
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.ProductViewModel
 import com.lonwulf.labs.easyshopmanager.worker.CatalogConsolidateWorker
@@ -33,6 +34,7 @@ val appModule = module {
     single { FetchAndInsertCategoriesUseCase(get(), get()) }
     single { BrandsUseCase(get()) }
     single { CategoriesSubCategoriesUseCase(get()) }
+    single { UserPrefsUseCase(get()) }
     worker {
         SyncWorker(
             androidContext(),
@@ -46,5 +48,5 @@ val appModule = module {
     }
     worker { CatalogConsolidateWorker(androidContext(), get()) }
     viewModel { ProductViewModel(get(), get(), get()) }
-    viewModel { MainViewModel(get(), get()) }
+    viewModel { MainViewModel(get(), get(), get()) }
 }

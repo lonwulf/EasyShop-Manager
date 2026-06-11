@@ -7,17 +7,17 @@ import androidx.navigation.compose.composable
 
 interface NavComposable {
     @Composable
-    fun Composable(navHostController: NavHostController,)
+    fun Composable(navHostController: NavHostController)
 }
 
 @Composable
 fun NavigationGraph(
     navHostController: NavHostController,
     composable: Map<String, NavComposable>,
+    startDestination: String,
 ) {
-    val destination = Destinations.SignInScreen.route
 //    val destination = TopLevelDestinations.HomeScreen.route
-    NavHost(navController = navHostController, startDestination = destination) {
+    NavHost(navController = navHostController, startDestination = startDestination) {
         composable.forEach { (route, composable) ->
             composable(route = route) { backStackEntry ->
                 composable.Composable(

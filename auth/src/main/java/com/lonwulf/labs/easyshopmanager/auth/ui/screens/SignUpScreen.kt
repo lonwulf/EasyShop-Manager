@@ -38,11 +38,14 @@ import com.lonwulf.labs.easyshopmanager.auth.ui.components.ContinueWithEmailComp
 import com.lonwulf.labs.easyshopmanager.auth.ui.components.LabelTextFieldComponent
 import com.lonwulf.labs.easyshopmanager.auth.ui.components.SocialButtonComponent
 import com.lonwulf.labs.easyshopmanager.auth.ui.components.TermsAndPrivacyText
+import com.lonwulf.labs.easyshopmanager.auth.ui.viewmodel.AuthViewModel
+import com.lonwulf.labs.easyshopmanager.auth.ui.viewmodel.ValidationResult
 import com.lonwulf.labs.easyshopmanager.navigation.Destinations
 import com.lonwulf.labs.easyshopmanager.navigation.NavComposable
 import com.lonwulf.labs.easyshopmanager.presentation.domain.model.InputType
 import com.lonwulf.labs.easyshopmanager.presentation.ui.components.ButtonComponent
 import com.lonwulf.labs.easyshopmanager.presentation.ui.components.SpannableClickableText
+import org.koin.compose.viewmodel.koinActivityViewModel
 
 class SignUpScreenComposable : NavComposable {
     @Composable
@@ -52,7 +55,11 @@ class SignUpScreenComposable : NavComposable {
 }
 
 @Composable
-fun SignUpScreen(modifier: Modifier = Modifier, navHostController: NavHostController) {
+fun SignUpScreen(
+    modifier: Modifier = Modifier,
+    navHostController: NavHostController,
+    viewModel: AuthViewModel = koinActivityViewModel()
+) {
     var name by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
@@ -158,7 +165,11 @@ fun SignUpScreen(modifier: Modifier = Modifier, navHostController: NavHostContro
         Spacer(Modifier.height(7.dp))
 
         ButtonComponent(text = "Sign Up") {
-
+            val (fName, lName) = viewModel.extractNamesFromFullName(name)
+            when (viewModel.isSignUpCredentialsValid(email, password, fName, lName)) {
+                is ValidationResult.Failure -> {}
+                is ValidationResult.Success -> viewModel.signUp(email, password, fName, lName)
+            }
         }
 
         SpannableClickableText(
