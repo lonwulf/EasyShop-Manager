@@ -389,20 +389,17 @@ class MainActivity : ComponentActivity() {
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colorScheme.primaryContainer,
                 selectedTextColor = MaterialTheme.colorScheme.onPrimary,
-//                unselectedIconColor = Color.Gray,
-//                unselectedTextColor = Color.Gray,
+                unselectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 indicatorColor = animatedIndicatorColor,
             ),
             onClick = {
                 if (!isSelected) {
                     navHostController.navigate(screen.route) {
-                        // Pop up to the start destination of the graph to
-                        // avoid building up a huge stack of destinations
+                        // Pop up to the start destination of the graph to avoid building up a huge stack of destinations
                         popUpTo(navHostController.graph.findStartDestination().id) {
                             saveState = true // CRITICAL: Save state when popping off the stack
                         }
-                        // Avoid multiple copies of the same destination when
-                        // reselecting the same item
+                        // Avoid multiple copies of the same destination when reselecting the same item
                         launchSingleTop = true
                         // Restore state when reselecting a previously selected item
                         restoreState = true
