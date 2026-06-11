@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.kotzilla.sdk.compose)
 
     implementation(libs.android.multidex)
+    implementation(libs.splashscreen)
 
 
     testImplementation(libs.junit)

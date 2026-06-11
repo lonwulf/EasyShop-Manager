@@ -3,14 +3,13 @@ package com.lonwulf.labs.easyshopmanager.ui.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lonwulf.labs.easyshopmanager.auth.domain.state.AuthState
 import com.lonwulf.labs.easyshopmanager.core.domain.model.fold
 import com.lonwulf.labs.easyshopmanager.domain.uiState.CategoriesState
 import com.lonwulf.labs.easyshopmanager.domain.uiState.ProductState
 import com.lonwulf.labs.easyshopmanager.domain.useCase.CategoriesSubCategoriesUseCase
 import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchProductsUseCase
 import com.lonwulf.labs.easyshopmanager.domain.useCase.UserPrefsUseCase
-import com.lonwulf.labs.easyshopmanager.navigation.Destinations
-import com.lonwulf.labs.easyshopmanager.navigation.TopLevelDestinations
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -34,17 +33,17 @@ class MainViewModel(
     val categoriesState
         get() = _categoriesState.asStateFlow()
 
-    val startDestination = userPrefsUseCase()
+    val authState = userPrefsUseCase()
         .map {
             if (it.token.isNotBlank()) {
-                TopLevelDestinations.HomeScreen.route
+                AuthState.Authenticated
             } else {
-                Destinations.SignInScreen.route
+                AuthState.Unauthenticated
             }
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = TopLevelDestinations.HomeScreen.route
+            initialValue = AuthState.Loading
         )
 
     init {

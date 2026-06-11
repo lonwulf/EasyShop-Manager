@@ -29,6 +29,7 @@ ktor = "3.5.0"
 multidex = "2.0.1"
 appcompat = "1.7.1"
 material = "1.14.0"
+splashscreen = "1.2.0"
 
 
 [libraries]
@@ -80,6 +81,7 @@ ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", versi
 android-multidex = { group = "androidx.multidex", name = "multidex", version.ref = "multidex" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
 
 
 [plugins]

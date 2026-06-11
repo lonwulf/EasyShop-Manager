@@ -51,8 +51,8 @@ class DatastoreRepositoryImpl(private val context: Context) : IDatastoreReposito
     override suspend fun clearAppSettings() {
         context.appSettingsStore.updateData { prefs ->
             prefs.copy(
-                userPrefs = null,
-                cameraSettings = null
+                userPrefs = UserPrefs(),
+                cameraSettings = CameraSettings()
             )
         }
     }
@@ -60,7 +60,7 @@ class DatastoreRepositoryImpl(private val context: Context) : IDatastoreReposito
     override suspend fun clearUserPrefsSettings() {
         context.appSettingsStore.updateData { prefs ->
             prefs.copy(
-                userPrefs = null
+                userPrefs = UserPrefs()
             )
         }
     }
@@ -68,7 +68,7 @@ class DatastoreRepositoryImpl(private val context: Context) : IDatastoreReposito
     override suspend fun clearCameraPrefsSettings() {
         context.appSettingsStore.updateData { prefs ->
             prefs.copy(
-                cameraSettings = null
+                cameraSettings = CameraSettings()
             )
         }
     }
