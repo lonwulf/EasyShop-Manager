@@ -1,39 +1,46 @@
 package com.lonwulf.labs.easyshopmanager.ui.screens
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.ShoppingCartCheckout
+import androidx.compose.material.icons.filled.WarningAmber
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.lonwulf.labs.easyshopmanager.domain.uiState.ActivityAction
+import com.lonwulf.labs.easyshopmanager.domain.uiState.editedHowLongAgo
 import com.lonwulf.labs.easyshopmanager.navigation.Destinations
 import com.lonwulf.labs.easyshopmanager.navigation.NavComposable
-import com.lonwulf.labs.easyshopmanager.presentation.ui.components.AppLoaderComponent
-import com.lonwulf.labs.easyshopmanager.presentation.ui.components.EmptyViewComponent
-import com.lonwulf.labs.easyshopmanager.presentation.ui.components.SearchFieldComponent
-import com.lonwulf.labs.easyshopmanager.ui.components.CategoriesListComponent
-import com.lonwulf.labs.easyshopmanager.ui.components.ProductListComponent
+import com.lonwulf.labs.easyshopmanager.presentation.ui.components.ButtonComponent
+import com.lonwulf.labs.easyshopmanager.presentation.ui.components.CardWithTitleComponent
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.MainViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -48,62 +55,218 @@ class HomeScreenComposable(private val mainViewModel: MainViewModel) : NavCompos
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel, navHostController: NavHostController) {
-    val productsState by mainViewModel.productsState.collectAsStateWithLifecycle()
-    val categoriesState by mainViewModel.categoriesState.collectAsStateWithLifecycle()
-    val categories = remember(categoriesState) {
-        categoriesState.categories.take(7)
-    }
-    var searchString by remember { mutableStateOf("") }
+    val dashboardState by mainViewModel.dashboardState.collectAsStateWithLifecycle()
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 10.dp, vertical = 5.dp)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(5.dp),
+    ) {
 
-    when {
-        productsState.isLoading -> AppLoaderComponent()
-        productsState.error != null -> {}
-        else -> {
-            if (productsState.products.isEmpty()) {
-                EmptyViewComponent(onclick = {
-                    navHostController.navigate(Destinations.ManualInputScreen.route)
-//                    navHostController.navigate(Destinations.ScannerScreen.route)
-                })
-            } else {
-                Column(
-                    modifier = modifier
-                        .fillMaxSize(),
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            CardWithTitleComponent(modifier = Modifier.weight(1f), title = "Total Products") {
+                Text(
+                    text = dashboardState.productsTotal.toString(),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Spacer(Modifier.width(10.dp))
+
+            CardWithTitleComponent(modifier = Modifier.weight(1f), title = "Low Stock") {
+                Text(
+                    text = dashboardState.lowStockTotal.toString(),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.errorContainer,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+
+        CardWithTitleComponent(modifier = Modifier.fillMaxWidth(), title = "Inventory Value") {
+            Text(
+                text = dashboardState.inventoryValue.toString(),
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+        Spacer(Modifier.height(5.dp))
+
+        Text(
+            text = "Quick Actions",
+            style = MaterialTheme.typography.titleMedium,
+        )
+
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            ButtonComponent(
+                modifier = Modifier.weight(1f),
+                text = "Stock In",
+                leadingIcon = {
+                    Icon(
+                        Icons.Default.Add,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                        contentDescription = null
+                    )
+                },
+            ) {
+                navHostController.navigate(Destinations.ManualInputScreen.route)
+            }
+            Spacer(Modifier.width(10.dp))
+            ButtonComponent(
+                modifier = Modifier.weight(1f),
+                text = "Stock Out",
+                leadingIcon = {
+                    Icon(
+                        Icons.Default.Remove,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                        contentDescription = null
+                    )
+                },
+            ) {
+
+            }
+        }
+        //sell or put up stock up for sale to other shops
+        ButtonComponent(
+            text = "Quick Sale",
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.tertiary,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+            ),
+            leadingIcon = {
+                Icon(
+                    Icons.Default.ShoppingCartCheckout,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                    contentDescription = null
+                )
+            },
+        ) {
+
+        }
+        Spacer(Modifier.height(5.dp))
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Icon(
+                imageVector = Icons.Default.WarningAmber,
+                tint = MaterialTheme.colorScheme.errorContainer,
+                contentDescription = null
+            )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+            Text(
+                text = "Low Stock Alert",
+                style = MaterialTheme.typography.titleMedium,
+            )
+        }
+
+        dashboardState.lowStock.forEach { product ->
+            val msg = buildString {
+                append(product.name)
+                append(" quantity ")
+                append("(")
+                append(product.quantity)
+                append(")")
+                append(" is getting low")
+            }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        MaterialTheme.colorScheme.onError.copy(alpha = 0.2f),
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                    .border(1.dp, color = MaterialTheme.colorScheme.errorContainer, shape = RoundedCornerShape(8.dp))
+                    .padding(vertical = 12.dp, horizontal = 6.dp)
+            ) {
+                Text(
+                    text = msg,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            }
+        }
+        Spacer(Modifier.height(5.dp))
+
+        Text(
+            text = "Recent Activity",
+            style = MaterialTheme.typography.titleMedium,
+        )
+
+        dashboardState.recentActivity.forEach { activity ->
+            CardWithTitleComponent(modifier = Modifier.fillMaxWidth(), title = activity.productName) {
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Absolute.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    AnimatedVisibility(
-                        visible = true,
-                        enter = fadeIn() + slideInVertically(initialOffsetY = { it / 2 }),
-                        exit = fadeOut() + slideOutVertically(
-                            targetOffsetY = { it / 2 }
-                        ),
-                        label = "search_bar_animation"
-                    ) {
-                        Box(
-                            Modifier
-                                .wrapContentSize()
-                                .background(color = MaterialTheme.colorScheme.primaryContainer)
-                        ) {
-                            Column {
-                                SearchFieldComponent(
-                                    value = searchString,
-                                    onValueChange = { searchString = it },
-                                    onSearchClick = {}
-                                )
-                                Spacer(Modifier.height(20.dp))
-                            }
-                        }
-                    }
-
-                    Spacer(Modifier.height(20.dp))
-                    Text("Categories", modifier = Modifier.padding(start = 10.dp))
-                    CategoriesListComponent(modifier = Modifier.fillMaxWidth(), categoriesList = categories)
-
-                    Spacer(Modifier.height(10.dp))
-
-                    Text("Products", modifier = Modifier.padding(start = 10.dp))
-                    ProductListComponent(productList = productsState.products)
+                    Text(text = activity.dateTime.editedHowLongAgo())
+                    ActivityActionView(action = activity.action, activity.qty)
                 }
             }
         }
+
+    }
+}
+
+@Composable
+fun ActivityActionView(
+    action: ActivityAction,
+    qty: Int,
+    modifier: Modifier = Modifier
+) {
+    when (action) {
+        ActivityAction.QTY_INCREASE,
+        ActivityAction.QTY_DECREASE -> QuantityAlertComponent(action = action, modifier = modifier, qty = qty)
+
+        ActivityAction.DESCRIPTION,
+        ActivityAction.IMAGE_INPUT,
+        ActivityAction.PRICE_CHANGE -> {
+            Text(
+                text = action.actionName,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = modifier
+            )
+        }
+    }
+}
+
+@Composable
+private fun QuantityAlertComponent(
+    action: ActivityAction,
+    qty: Int,
+    modifier: Modifier = Modifier
+) {
+    val isIncrease = action == ActivityAction.QTY_INCREASE
+    val qtyIcon = if (isIncrease) Icons.Default.Add else Icons.Default.Remove
+    val color = if (isIncrease) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(0.1.dp),
+        modifier = modifier
+    ) {
+        Icon(
+            imageVector = qtyIcon,
+            tint = color,
+            contentDescription = action.actionName
+        )
+        Text(
+            text = qty.toString(),
+            style = MaterialTheme.typography.bodyLarge,
+            color = color
+        )
     }
 }
 

@@ -79,6 +79,7 @@ dependencies {
 
     implementation(libs.android.multidex)
     implementation(libs.splashscreen)
+    implementation(libs.kt.datetime)
 
 
     testImplementation(libs.junit)

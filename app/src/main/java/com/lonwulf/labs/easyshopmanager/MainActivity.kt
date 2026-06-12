@@ -80,10 +80,10 @@ import com.lonwulf.labs.easyshopmanager.presentation.ui.components.CustomFabComp
 import com.lonwulf.labs.easyshopmanager.presentation.ui.components.UpButtonComponent
 import com.lonwulf.labs.easyshopmanager.presentation.ui.theme.EasyShopManagerTheme
 import com.lonwulf.labs.easyshopmanager.ui.screens.HomeScreenComposable
+import com.lonwulf.labs.easyshopmanager.ui.screens.InventoryScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.LiveBarcodeScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.ManualInputScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.ObjectDetectionScreenComposable
-import com.lonwulf.labs.easyshopmanager.ui.screens.ProductsScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.screens.SettingsScreenComposable
 import com.lonwulf.labs.easyshopmanager.ui.viewmodel.MainViewModel
 import com.lonwulf.labs.easyshopmanager.worker.SyncWorker
@@ -107,19 +107,19 @@ class MainActivity : ComponentActivity() {
 
     private val SHOW_FAB_ROUTES = setOf(
         Destinations.ScannerScreen.route,
-        TopLevelDestinations.ProductsScreen.route,
+        TopLevelDestinations.InventoryScreen.route,
         TopLevelDestinations.HomeScreen.route
     )
 
     private val BOTTOM_NAV_SCREENS = setOf(
         TopLevelDestinations.HomeScreen,
-        TopLevelDestinations.ProductsScreen,
+        TopLevelDestinations.InventoryScreen,
         TopLevelDestinations.SettingsScreen
     )
 
     private val TOP_LEVEL_SCREEN_ROUTES = setOf(
         TopLevelDestinations.HomeScreen.route,
-        TopLevelDestinations.ProductsScreen.route,
+        TopLevelDestinations.InventoryScreen.route,
         TopLevelDestinations.SettingsScreen.route
     )
     private val syncEvent: SyncEvent = getKoin().get()
@@ -161,10 +161,10 @@ class MainActivity : ComponentActivity() {
                 }
                 val authState by mainViewModel.authState.collectAsStateWithLifecycle()
 
-                val composables = remember(mainViewModel) {
+                val composables = remember(mainViewModel) {//tied to the mainViewModel, so it's allocated exactly once
                     mapOf(
                         TopLevelDestinations.HomeScreen.route to HomeScreenComposable(mainViewModel),
-                        TopLevelDestinations.ProductsScreen.route to ProductsScreenComposable(mainViewModel),
+                        TopLevelDestinations.InventoryScreen.route to InventoryScreenComposable(mainViewModel),
                         TopLevelDestinations.SettingsScreen.route to SettingsScreenComposable(mainViewModel),
                         Destinations.ScannerScreen.route to LiveBarcodeScreenComposable(),
                         Destinations.ObjectDetectionScreen.route to ObjectDetectionScreenComposable(),
@@ -222,7 +222,7 @@ class MainActivity : ComponentActivity() {
                             is AuthState.Loading -> {
                                 // This box acts as a secondary fallback, but
                                 // the user won't see it because the native splash
-                                // screen covers this state completely now!
+                                // screen covers this state completely
                                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                                     CircularProgressIndicator()
                                 }

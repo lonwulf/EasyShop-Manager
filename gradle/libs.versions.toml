@@ -30,6 +30,7 @@ multidex = "2.0.1"
 appcompat = "1.7.1"
 material = "1.14.0"
 splashscreen = "1.2.0"
+dateTime = "0.8.0"
 
 
 [libraries]
@@ -82,7 +83,7 @@ android-multidex = { group = "androidx.multidex", name = "multidex", version.ref
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
-
+kt-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "dateTime" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
