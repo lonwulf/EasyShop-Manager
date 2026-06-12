@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.lonwulf.labs.easyshopmanager.auth.domain.state.AuthState
 import com.lonwulf.labs.easyshopmanager.core.domain.model.fold
 import com.lonwulf.labs.easyshopmanager.domain.uiState.CategoriesState
+import com.lonwulf.labs.easyshopmanager.domain.uiState.DashboardState
 import com.lonwulf.labs.easyshopmanager.domain.uiState.ProductState
 import com.lonwulf.labs.easyshopmanager.domain.useCase.CategoriesSubCategoriesUseCase
 import com.lonwulf.labs.easyshopmanager.domain.useCase.FetchProductsUseCase
@@ -45,6 +46,10 @@ class MainViewModel(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = AuthState.Loading
         )
+
+    private val _dashboardState = MutableStateFlow(DashboardState())
+    val dashboardState
+        get() = _dashboardState.asStateFlow()
 
     init {
         fetchCachedProducts()

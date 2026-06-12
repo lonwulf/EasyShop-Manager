@@ -7,9 +7,10 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 
 object DestinationsConstants {
-    const val HOME_SCREEN = "Easy Shop"
+    const val HOME_SCREEN = "Dashboard"
+//    const val HOME_SCREEN = "Easy Shop"
     const val SETTINGS_SCREEN = "Settings"
-    const val PRODUCTS_SCREEN = "Products"
+    const val INVENTORY_SCREEN = "Inventory"
     const val FORGOT_PASS_REQUEST_SCREEN = "_FORGOT_PASS_REQUEST_SCREEN"
     const val SCANNER_SCREEN = "_SCANNER_SCREEN"
     const val OBJECT_DETECTION_SCREEN = "_OBJECT_DETECTION_SCREEN"
@@ -40,10 +41,10 @@ sealed class TopLevelDestinations(val route: String, val icon: ImageVector, val 
     object HomeScreen :
         TopLevelDestinations(DestinationsConstants.HOME_SCREEN, Icons.Outlined.Home, "Home")
 
-    object ProductsScreen : TopLevelDestinations(
-        DestinationsConstants.PRODUCTS_SCREEN,
+    object InventoryScreen : TopLevelDestinations(
+        DestinationsConstants.INVENTORY_SCREEN,
         Icons.Outlined.Backpack,
-        "Products"
+        "Inventory"
     )
 
     object SettingsScreen : TopLevelDestinations(
