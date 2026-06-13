@@ -4,6 +4,9 @@ import com.lonwulf.labs.easyshopmanager.core.domain.model.Product
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.Locale
 import kotlin.time.Clock
 
 data class DashboardState(
@@ -66,6 +69,20 @@ data class RecentActivity(
     val action: ActivityAction
 )
 
+fun Number.thousandFormatter(decimalPlaces: Int = 2): String {
+    val pattern = if (decimalPlaces <= 0) {
+        "#,###"
+    } else {
+        "#,###." + "0".repeat(decimalPlaces)
+    }
+
+    val formatter = DecimalFormat(
+        pattern,
+        DecimalFormatSymbols(Locale.getDefault())
+    )
+
+    return formatter.format(this)
+}
 fun String.editedHowLongAgo(): String {
     try {
         // 1. Convert your custom "yyyy-MM-dd HH:mm:ss" space format to ISO-8601 (replace space with 'T')

@@ -37,6 +37,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.lonwulf.labs.easyshopmanager.domain.uiState.ActivityAction
 import com.lonwulf.labs.easyshopmanager.domain.uiState.editedHowLongAgo
+import com.lonwulf.labs.easyshopmanager.domain.uiState.thousandFormatter
 import com.lonwulf.labs.easyshopmanager.navigation.Destinations
 import com.lonwulf.labs.easyshopmanager.navigation.NavComposable
 import com.lonwulf.labs.easyshopmanager.presentation.ui.components.ButtonComponent
@@ -71,7 +72,7 @@ fun HomeScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel, navH
         ) {
             CardWithTitleComponent(modifier = Modifier.weight(1f), title = "Total Products") {
                 Text(
-                    text = dashboardState.productsTotal.toString(),
+                    text = dashboardState.productsTotal.thousandFormatter(0),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
@@ -80,7 +81,7 @@ fun HomeScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel, navH
 
             CardWithTitleComponent(modifier = Modifier.weight(1f), title = "Low Stock") {
                 Text(
-                    text = dashboardState.lowStockTotal.toString(),
+                    text = dashboardState.lowStockTotal.thousandFormatter(0),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.errorContainer,
                     fontWeight = FontWeight.Bold
@@ -90,7 +91,7 @@ fun HomeScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel, navH
 
         CardWithTitleComponent(modifier = Modifier.fillMaxWidth(), title = "Inventory Value") {
             Text(
-                text = dashboardState.inventoryValue.toString(),
+                text = "KES ${dashboardState.inventoryValue.thousandFormatter()}",
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.SemiBold
             )
@@ -188,7 +189,7 @@ fun HomeScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel, navH
                         shape = RoundedCornerShape(8.dp)
                     )
                     .border(1.dp, color = MaterialTheme.colorScheme.errorContainer, shape = RoundedCornerShape(8.dp))
-                    .padding(vertical = 12.dp, horizontal = 6.dp)
+                    .padding(vertical = 12.dp, horizontal = 10.dp)
             ) {
                 Text(
                     text = msg,
